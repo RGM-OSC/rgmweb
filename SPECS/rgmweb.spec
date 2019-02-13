@@ -58,7 +58,7 @@ rm -rf %{buildroot}
 %config(noreplace) %{_sysconfdir}/httpd/conf.d/%{name}.conf
 
 %changelog
-* Web Feb 13 2019 Michael Aubertin <michael.aubertin@gmail.com> - 1.0-0.rgm
+* Wed Feb 13 2019 Michael Aubertin <michael.aubertin@gmail.com> - 1.0-0.rgm
 - Fork from EyesOfNetwork.
 
 * Wed Jan 11 2017 Jean-Philippe Levy <jeanphilippe.levy@gmail.com> - 5.1-0.eon
