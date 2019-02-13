@@ -1,10 +1,10 @@
 {
-  "name": "eonweb-5.1",
-  "description": "EyesOfNetwork web interface 5.1",
+  "name": "rgmweb-1.0",
+  "description": "RGM web interface 1.0",
   "main": "index.php",
   "moduleType": [],
   "authors": [
-    "Jean-Philippe LEVY <jeanphilippe.levy@gmail.com>"
+    "RGM team <rgm-community@fr.scc.com>"
   ],
   "license": "GPL2",
   "homepage": "",
