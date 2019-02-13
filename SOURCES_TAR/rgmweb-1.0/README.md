@@ -1,2 +1,2 @@
 # rgmweb
-EyesOfNetwork web interface 5.1
+RGM web interface 5.1
