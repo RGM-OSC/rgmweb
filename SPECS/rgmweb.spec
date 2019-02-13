@@ -32,14 +32,7 @@ RGMWEB is the web frontend for the RGM appliance : https://www.scc.com.
 %install
 install -d -m0755 %{buildroot}%{datadir}
 install -d -m0755 %{buildroot}%{rgmconfdir}
-install -d -m0755 %{buildroot}%{_sysconfdir}/cron.d
-install -d -m0755 %{buildroot}%{_sysconfdir}/httpd/conf.d
-mv ./appliance/* %{buildroot}%{rgmconfdir}
-rm -rf ./appliance
 cp -afv ./* %{buildroot}%{datadir}
-cp -afv %{buildroot}%{eonconfdir}/rgmbackup %{buildroot}%{_sysconfdir}/cron.d/
-cp -afv %{buildroot}%{eonconfdir}/rgmwebpurge %{buildroot}%{_sysconfdir}/cron.d/
-cp -afv %{buildroot}%{eonconfdir}/rgmweb.conf %{buildroot}%{_sysconfdir}/httpd/conf.d/
 
 %post
 ln -nsf %{datadir} %{linkdir}
@@ -53,13 +46,11 @@ rm -rf %{buildroot}
 %files
 %{datadir}
 %{rgmconfdir}
-%config(noreplace) %{_sysconfdir}/cron.d/rgmbackup
-%config(noreplace) %{_sysconfdir}/cron.d/rgmwebpurge
-%config(noreplace) %{_sysconfdir}/httpd/conf.d/%{name}.conf
 
 %changelog
 * Wed Feb 13 2019 Michael Aubertin <michael.aubertin@gmail.com> - 1.0-0.rgm
 - Fork from EyesOfNetwork.
+- Remove all config parts
 
 * Wed Jan 11 2017 Jean-Philippe Levy <jeanphilippe.levy@gmail.com> - 5.1-0.eon
 - packaged for EyesOfNetwork appliance 5.1
