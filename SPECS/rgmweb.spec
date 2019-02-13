@@ -5,7 +5,7 @@ Release: 0.rgm
 Source: %{name}-%{version}.tar.gz
 Group: Applications/System
 License: GPL
-Requires: backup-manager, ged, ged-mysql, eon4apps, lilac, snmptt, thruk 
+Requires: backup-manager, ged, ged-mysql, rgma, lilac, snmptt, thruk 
 Requires: httpd, mariadb-server, mod_auth_rgm, mod_perl
 Requires: php, php-mysql, php-ldap, php-process, php-xml
 Requires: nagios >= 3.0, nagios-www >= 3.0, nagios-plugins >= 1.4.0, nagvis, nagiosbp, notifier, nrpe-plugin, pnp4nagios
@@ -15,9 +15,9 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
 
 # appliance group and users
 %define rgmdir          /srv/rgm
-%define	datadir		%{eondir}/%{name}-%{version}
+%define	datadir		%{rgmdir}/%{name}-%{version}
 %define rgmconfdir	/srv/rgm/%{name}
-%define linkdir         %{eondir}/%{name}
+%define linkdir         %{rgmdir}/%{name}
 %define snmpdir		/etc/snmp
 %define backupdir	/etc
 
