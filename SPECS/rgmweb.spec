@@ -2,7 +2,7 @@ Summary: EyesOfNetwork Web Interface
 Name: rgmweb
 Version: 1.0
 Release: 0.rgm
-Source: %{name}-%{version}.taB.gz
+Source: %{name}-%{version}.tar.gz
 Group: Applications/System
 License: GPL
 Requires: backup-manager, ged, ged-mysql, rgma, lilac, snmptt, thruk 
