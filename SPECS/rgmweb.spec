@@ -51,7 +51,7 @@ rm -rf %{buildroot}
 * Wed Feb 13 2019 Michael Aubertin <michael.aubertin@gmail.com> - 1.0-0.rgm
 - Fork from EyesOfNetwork.
 - Remove all config parts
-- Add CI/CD Webhooks
+- Add CI/CD Webhooks (gitlab)
 
 * Wed Jan 11 2017 Jean-Philippe Levy <jeanphilippe.levy@gmail.com> - 5.1-0.eon
 - packaged for EyesOfNetwork appliance 5.1
