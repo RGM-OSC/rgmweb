@@ -1,15 +1,16 @@
-Summary: EyesOfNetwork Web Interface 
+Summary: RGM Web Interface 
 Name: rgmweb
 Version: 1.0
-Release: 0.rgm
+Release: 1.rgm
 Source: %{name}-%{version}.tar.gz
 Group: Applications/System
 License: GPL
-Requires: backup-manager, ged, ged-mysql, rgma, lilac, snmptt, thruk 
+Requires: ged, ged-mysql, lilac, thruk 
 Requires: httpd, mariadb-server, mod_auth_rgm, mod_perl
 Requires: php, php-mysql, php-ldap, php-process, php-xml
-Requires: nagios >= 3.0, nagios-www >= 3.0, nagios-plugins >= 1.4.0, nagvis, nagiosbp, notifier, nrpe-plugin, pnp4nagios
-Requires: net-snmp
+Requires: nagios >= 3.0, nagvis, nagiosbp, notifier
+Requires: net-snmp, netcat
+#Requires: histou, kibana
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
 
@@ -48,6 +49,9 @@ rm -rf %{buildroot}
 %{rgmconfdir}
 
 %changelog
+* Mon Mar 11 2019 Michael Aubertin <maubertin@fr.scc.com> - 1.0-0.rgm
+- Fix dependance issues base on Eric suggestions.
+
 * Wed Feb 13 2019 Michael Aubertin <michael.aubertin@gmail.com> - 1.0-0.rgm
 - Fork from EyesOfNetwork.
 - Remove all config parts
