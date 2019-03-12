@@ -39,9 +39,9 @@ install -d -m0755 %{buildroot}%{rgmlibdir}
 install -d -m0755 %{buildroot}%{rgmlibdir}/sql
 install -d -m0755 %{buildroot}%{rgmdocdir}
 cp -afv ./* %{buildroot}%{rgmdatadir}
-cp %Source1 %{buildroot}%{rgmlibdir}/sql/
-cp %Source2 %{buildroot}%{rgmlibdir}/sql/
-cp %Source3 %{buildroot}%{rgmdocdir}/
+cp %{Source1} %{buildroot}%{rgmlibdir}/sql/
+cp %{Source2} %{buildroot}%{rgmlibdir}/sql/
+cp %{Source3} %{buildroot}%{rgmdocdir}/
 
 
 %post
