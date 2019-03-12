@@ -1,0 +1,132 @@
+<Directory /srv/eyesofnetwork/eonweb>
+	Options -Indexes
+	Require all granted
+</Directory>
+
+<Directory ~ /srv/eyesofnetwork/eonweb/(cache|include|module)>
+	AuthType Basic
+	AuthName "Restricted"
+	AuthEonAuthoritative On
+	AuthEonMySQLSocket /var/lib/mysql/mysql.sock
+	AuthEonMySQLUsername eonweb
+	AuthEonMySQLPassword root66
+	AuthEonMySQLDB eonweb
+	AuthEonMySQLTableSID sessions,users,groupright
+	AuthEonMySQLFieldUID sessions.user_id
+	AuthEonMySQLTableSIDCondition "`sessions`.`session_id`=$session_id AND `sessions`.`user_id`=$user_id AND `users`.`user_id`=$user_id AND `users`.`user_name`=$user_name AND (`users`.`group_id`=$group_id AND `groupright`.`group_id`=$group_id OR `users`.`user_limitation`='1')"
+	AuthEonPageLogin /login.php
+	AuthEonSessionCookies On
+	Require valid-user
+</Directory>
+
+<Directory ~ /srv/eyesofnetwork/eonweb/module/dashboard_(.*)>
+	AuthType Basic
+	AuthName "Restricted"
+	AuthEonAuthoritative On
+	AuthEonMySQLSocket /var/lib/mysql/mysql.sock
+	AuthEonMySQLUsername eonweb
+	AuthEonMySQLPassword root66
+	AuthEonMySQLDB eonweb
+	AuthEonMySQLTableSID sessions,users,groupright
+	AuthEonMySQLFieldUID sessions.user_id
+	AuthEonMySQLTableSIDCondition "`sessions`.`session_id`=$session_id AND `sessions`.`user_id`=$user_id AND `users`.`user_id`=$user_id AND `users`.`user_name`=$user_name AND (`users`.`group_id`=$group_id AND `groupright`.`group_id`=$group_id AND `groupright`.`tab_1`='1' OR `users`.`user_limitation`='1')"
+	AuthEonPageLogin /login.php
+	AuthEonSessionCookies On
+	Require valid-user
+</Directory>
+
+<Directory ~ /srv/eyesofnetwork/eonweb/module/monitoring_(.*)>
+	AuthType Basic
+	AuthName "Restricted"
+	AuthEonAuthoritative On
+	AuthEonMySQLSocket /var/lib/mysql/mysql.sock
+	AuthEonMySQLUsername eonweb
+	AuthEonMySQLPassword root66
+	AuthEonMySQLDB eonweb
+	AuthEonMySQLTableSID sessions,users,groupright
+	AuthEonMySQLFieldUID sessions.user_id
+	AuthEonMySQLTableSIDCondition "`sessions`.`session_id`=$session_id AND `sessions`.`user_id`=$user_id AND `users`.`user_id`=$user_id AND `users`.`user_name`=$user_name AND (`users`.`group_id`=$group_id AND `groupright`.`group_id`=$group_id AND `groupright`.`tab_2`='1' OR `users`.`user_limitation`='1')"
+	AuthEonPageLogin /login.php
+	AuthEonSessionCookies On
+	Require valid-user
+</Directory>
+
+<Directory ~ /srv/eyesofnetwork/eonweb/module/capacity_(.*)>
+	AuthType Basic
+	AuthName "Restricted"
+	AuthEonAuthoritative On
+	AuthEonMySQLSocket /var/lib/mysql/mysql.sock
+	AuthEonMySQLUsername eonweb
+	AuthEonMySQLPassword root66
+	AuthEonMySQLDB eonweb
+	AuthEonMySQLTableSID sessions,users,groupright
+	AuthEonMySQLFieldUID sessions.user_id
+	AuthEonMySQLTableSIDCondition "`sessions`.`session_id`=$session_id AND `sessions`.`user_id`=$user_id AND `users`.`user_id`=$user_id AND `users`.`user_name`=$user_name AND `users`.`group_id`=$group_id AND `groupright`.`group_id`=$group_id AND `groupright`.`tab_3`='1'"
+	AuthEonPageLogin /login.php
+	AuthEonSessionCookies On
+	Require valid-user
+</Directory>
+
+<Directory ~ /srv/eyesofnetwork/eonweb/module/tool_(.*)>
+	AuthType Basic
+	AuthName "Restricted"
+	AuthEonAuthoritative On
+	AuthEonMySQLSocket /var/lib/mysql/mysql.sock
+	AuthEonMySQLUsername eonweb
+	AuthEonMySQLPassword root66
+	AuthEonMySQLDB eonweb
+	AuthEonMySQLTableSID sessions,users,groupright
+	AuthEonMySQLFieldUID sessions.user_id
+	AuthEonMySQLTableSIDCondition "`sessions`.`session_id`=$session_id AND `sessions`.`user_id`=$user_id AND `users`.`user_id`=$user_id AND `users`.`user_name`=$user_name AND `users`.`group_id`=$group_id AND `groupright`.`group_id`=$group_id AND `groupright`.`tab_4`='1'"
+	AuthEonPageLogin /login.php
+	AuthEonSessionCookies On
+	Require valid-user
+</Directory>
+
+<Directory ~ /srv/eyesofnetwork/eonweb/module/report_(.*)>
+	AuthType Basic
+	AuthName "Restricted"
+	AuthEonAuthoritative On
+	AuthEonMySQLSocket /var/lib/mysql/mysql.sock
+	AuthEonMySQLUsername eonweb
+	AuthEonMySQLPassword root66
+	AuthEonMySQLDB eonweb
+	AuthEonMySQLTableSID sessions,users,groupright
+	AuthEonMySQLFieldUID sessions.user_id
+	AuthEonMySQLTableSIDCondition "`sessions`.`session_id`=$session_id AND `sessions`.`user_id`=$user_id AND `users`.`user_id`=$user_id AND `users`.`user_name`=$user_name AND `users`.`group_id`=$group_id AND `groupright`.`group_id`=$group_id AND `groupright`.`tab_5`='1'"
+	AuthEonPageLogin /login.php
+	AuthEonSessionCookies On
+	Require valid-user
+</Directory>
+
+<Directory ~ /srv/eyesofnetwork/eonweb/module/admin_(.*)>
+	AuthType Basic
+	AuthName "Restricted"
+	AuthEonAuthoritative On
+	AuthEonMySQLSocket /var/lib/mysql/mysql.sock
+	AuthEonMySQLUsername eonweb
+	AuthEonMySQLPassword root66
+	AuthEonMySQLDB eonweb
+	AuthEonMySQLTableSID sessions,users,groupright
+	AuthEonMySQLFieldUID sessions.user_id
+	AuthEonMySQLTableSIDCondition "`sessions`.`session_id`=$session_id AND `sessions`.`user_id`=$user_id AND `users`.`user_id`=$user_id AND `users`.`user_name`=$user_name AND `users`.`group_id`=$group_id AND `groupright`.`group_id`=$group_id AND `groupright`.`tab_6`='1'"
+	AuthEonPageLogin /login.php
+	AuthEonSessionCookies On
+	Require valid-user
+</Directory>
+
+<Directory ~ /srv/eyesofnetwork/eonweb/module/help_(.*)>
+	AuthType Basic
+	AuthName "Restricted"
+	AuthEonAuthoritative On
+	AuthEonMySQLSocket /var/lib/mysql/mysql.sock
+	AuthEonMySQLUsername eonweb
+	AuthEonMySQLPassword root66
+	AuthEonMySQLDB eonweb
+	AuthEonMySQLTableSID sessions,users,groupright
+	AuthEonMySQLFieldUID sessions.user_id
+	AuthEonMySQLTableSIDCondition "`sessions`.`session_id`=$session_id AND `sessions`.`user_id`=$user_id AND `users`.`user_id`=$user_id AND `users`.`user_name`=$user_name AND `users`.`group_id`=$group_id AND `groupright`.`group_id`=$group_id AND `groupright`.`tab_7`='1'"
+	AuthEonPageLogin /login.php
+	AuthEonSessionCookies On
+	Require valid-user
+</Directory>

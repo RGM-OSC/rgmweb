@@ -1,7 +1,7 @@
 Summary: RGM Web Interface 
 Name: rgmweb
 Version: 1.0
-Release: 1.rgm
+Release: 2.rgm
 Source: %{name}-%{version}.tar.gz
 Group: Applications/System
 License: GPL
@@ -11,19 +11,22 @@ Requires: php, php-mysql, php-ldap, php-process, php-xml
 Requires: nagios >= 3.0, nagvis, nagiosbp, notifier
 Requires: net-snmp, netcat
 #Requires: histou, kibana
+BuildRequires: rpm-macros-rgm
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
 
+Source1: schema.sql
+Source2: update_schema.sh
+Source3: eonweb-apache.sample
+
 # appliance group and users
-%define rgmdir          /srv/rgm
-%define	datadir		%{rgmdir}/%{name}-%{version}
-%define rgmconfdir	/srv/rgm/%{name}
-%define linkdir         %{rgmdir}/%{name}
-%define snmpdir		/etc/snmp
-%define backupdir	/etc
+%define	rgmdatadir		%{rgm_path}/%{name}-%{version}  # /srv/rgm/rgmweb-1.0
+%define rgmlinkdir      %{rgm_path}/%{name}
+%define rgmlibdir       %{_sharedstatedir}/%{name}      # /var/lib/rgmweb
+%define rgmdocdir       %{_datarootdir}/doc             # /usr/share/doc
 
 %description
-RGMWEB is the web frontend for the RGM appliance : https://www.scc.com.
+RGMWEB is the web frontend for the RGM appliance : %{rgm_web_site}
 
 %prep
 %setup -q
@@ -31,25 +34,45 @@ RGMWEB is the web frontend for the RGM appliance : https://www.scc.com.
 %build
 
 %install
-install -d -m0755 %{buildroot}%{datadir}
-install -d -m0755 %{buildroot}%{rgmconfdir}
-cp -afv ./* %{buildroot}%{datadir}
+install -d -m0755 %{buildroot}%{rgmdatadir}
+install -d -m0755 %{buildroot}%{rgmlibdir}
+install -d -m0755 %{buildroot}%{rgmlibdir}/sql
+install -d -m0755 %{buildroot}%{rgmdocdir}
+cp -afv ./* %{buildroot}%{rgmdatadir}
+cp %Source1 %{buildroot}%{rgmlibdir}/sql/
+cp %Source2 %{buildroot}%{rgmlibdir}/sql/
+cp %Source3 %{buildroot}%{rgmdocdir}/
+
 
 %post
-ln -nsf %{datadir} %{linkdir}
-/bin/chmod 775 %{datadir}/cache
-/bin/chown -R root:rgm %{datadir}
-/bin/chown -h root:rgm %{linkdir}
+ln -nsf %{rgmdatadir} %{rgmlinkdir}
+/bin/chmod 0775 %{rgmdatadir}/cache
+/bin/chown -R root:rgm %{rgmdatadir}
+/bin/chown -h root:rgm %{rgmlinkdir}
+
+# set purge cron job
+echo "*/5 * * * * root /usr/bin/php %{rgmlinkdir}/include/purge.php > /dev/null 2>&1" > /etc/cron.d/eonwebpurge
+/bin/chmod 0644 /etc/cron.d/eonwebpurge
+
+# execute SQL postinstall script
+/bin/chmod 0744 %{rgmlibdir}/sql/%{Source2}
+sed -i "s/^\(RGMWEBVARLIB=.*\)$/RGMWEBVARLIB=%{rgmlibdir}/" %{rgmlibdir}/sql/%{Source2}
+%{rgmlibdir}/sql/%{Source2}
 
 %clean
 rm -rf %{buildroot}
 
 %files
-%{datadir}
-%{rgmconfdir}
+%{rgmdatadir}
+%{rgmlibdir}
+%{rgmdocdir}
 
 %changelog
-* Mon Mar 11 2019 Michael Aubertin <maubertin@fr.scc.com> - 1.0-0.rgm
+* Tue Mar 12 2019 Eric Belhomme <ebelhomme@fr.scc.com> - 1.0-2.rgm
+- use of rpm-macros-rgm
+- add SQL schema and scripts
+
+* Mon Mar 11 2019 Michael Aubertin <maubertin@fr.scc.com> - 1.0-1.rgm
 - Fix dependance issues base on Eric suggestions.
 
 * Wed Feb 13 2019 Michael Aubertin <michael.aubertin@gmail.com> - 1.0-0.rgm
