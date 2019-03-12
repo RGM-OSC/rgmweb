@@ -9,7 +9,7 @@ Requires: ged, ged-mysql, lilac, thruk
 Requires: httpd, mariadb-server, mod_auth_rgm, mod_perl
 Requires: php, php-mysql, php-ldap, php-process, php-xml
 Requires: nagios >= 3.0, nagvis, nagiosbp, notifier
-Requires: net-snmp, netcat
+Requires: net-snmp, nmap-ncat
 #Requires: histou, kibana
 BuildRequires: rpm-macros-rgm
 
