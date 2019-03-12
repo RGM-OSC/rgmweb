@@ -1,7 +1,7 @@
 Summary: RGM Web Interface 
 Name: rgmweb
 Version: 1.0
-Release: 2.rgm
+Release: 3.rgm
 Source: %{name}-%{version}.tar.gz
 Group: Applications/System
 License: GPL
@@ -42,9 +42,9 @@ install -d -m0755 %{buildroot}%{rgmlibdir}
 install -d -m0755 %{buildroot}%{rgmlibdir}/sql
 install -d -m0755 %{buildroot}%{rgmdocdir}
 cp -afv ./* %{buildroot}%{rgmdatadir}
-cp %{Source1} %{buildroot}%{rgmlibdir}/sql/
-cp %{Source2} %{buildroot}%{rgmlibdir}/sql/
-cp %{Source3} %{buildroot}%{rgmdocdir}/
+cp %{SOURCE1} %{buildroot}%{rgmlibdir}/sql/
+cp %{SOURCE2} %{buildroot}%{rgmlibdir}/sql/
+cp %{SOURCE3} %{buildroot}%{rgmdocdir}/
 
 
 %post
@@ -58,9 +58,9 @@ echo "*/5 * * * * root /usr/bin/php %{rgmlinkdir}/include/purge.php > /dev/null 
 /bin/chmod 0644 /etc/cron.d/eonwebpurge
 
 # execute SQL postinstall script
-/bin/chmod 0744 %{rgmlibdir}/sql/%{Source2}
-sed -i "s/^\(RGMWEBVARLIB=.*\)$/RGMWEBVARLIB=%{rgmlibdir}/" %{rgmlibdir}/sql/%{Source2}
-%{rgmlibdir}/sql/%{Source2}
+/bin/chmod 0744 %{rgmlibdir}/sql/%{SOURCE2}
+sed -i "s/^\(RGMWEBVARLIB=.*\)$/RGMWEBVARLIB=%{rgmlibdir}/" %{rgmlibdir}/sql/%{SOURCE2}
+%{rgmlibdir}/sql/%{SOURCE2}
 
 %clean
 rm -rf %{buildroot}
@@ -71,7 +71,7 @@ rm -rf %{buildroot}
 %{rgmdocdir}
 
 %changelog
-* Tue Mar 12 2019 Eric Belhomme <ebelhomme@fr.scc.com> - 1.0-2.rgm
+* Tue Mar 12 2019 Eric Belhomme <ebelhomme@fr.scc.com> - 1.0-3.rgm
 - use of rpm-macros-rgm
 - add SQL schema and scripts
 
