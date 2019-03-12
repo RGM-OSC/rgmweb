@@ -20,10 +20,13 @@ Source2: update_schema.sh
 Source3: eonweb-apache.sample
 
 # appliance group and users
-%define	rgmdatadir		%{rgm_path}/%{name}-%{version}  # /srv/rgm/rgmweb-1.0
+# /srv/rgm/rgmweb-1.0
+%define	rgmdatadir		%{rgm_path}/%{name}-%{version}
 %define rgmlinkdir      %{rgm_path}/%{name}
-%define rgmlibdir       %{_sharedstatedir}/%{name}      # /var/lib/rgmweb
-%define rgmdocdir       %{_datarootdir}/doc             # /usr/share/doc
+# /var/lib/rgmweb
+%define rgmlibdir       %{_sharedstatedir}/%{name}
+# /usr/share/doc
+%define rgmdocdir       %{_datarootdir}/doc
 
 %description
 RGMWEB is the web frontend for the RGM appliance : %{rgm_web_site}
