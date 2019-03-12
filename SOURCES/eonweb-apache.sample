@@ -1,132 +1,134 @@
-<Directory /srv/eyesofnetwork/eonweb>
+<Directory /srv/rgm/rgmweb>
 	Options -Indexes
 	Require all granted
 </Directory>
 
-<Directory ~ /srv/eyesofnetwork/eonweb/(cache|include|module)>
+
+
+<Directory ~ /srv/rgm/rgmweb/(cache|include|module)>
 	AuthType Basic
 	AuthName "Restricted"
-	AuthEonAuthoritative On
-	AuthEonMySQLSocket /var/lib/mysql/mysql.sock
-	AuthEonMySQLUsername eonweb
-	AuthEonMySQLPassword root66
-	AuthEonMySQLDB eonweb
-	AuthEonMySQLTableSID sessions,users,groupright
-	AuthEonMySQLFieldUID sessions.user_id
-	AuthEonMySQLTableSIDCondition "`sessions`.`session_id`=$session_id AND `sessions`.`user_id`=$user_id AND `users`.`user_id`=$user_id AND `users`.`user_name`=$user_name AND (`users`.`group_id`=$group_id AND `groupright`.`group_id`=$group_id OR `users`.`user_limitation`='1')"
-	AuthEonPageLogin /login.php
-	AuthEonSessionCookies On
+	AuthrgmAuthoritative On
+	AuthrgmMySQLSocket /var/lib/mysql/mysql.sock
+	AuthrgmMySQLUsername rgminternal
+	AuthrgmMySQLPassword 0rd0-c0m1735-b47h0n143
+	AuthrgmMySQLDB rgmweb
+	AuthrgmMySQLTableSID sessions,users,groupright
+	AuthrgmMySQLFieldUID sessions.user_id
+	AuthrgmMySQLTableSIDCondition "`sessions`.`session_id`=$session_id AND `sessions`.`user_id`=$user_id AND `users`.`user_id`=$user_id AND `users`.`user_name`=$user_name AND (`users`.`group_id`=$group_id AND `groupright`.`group_id`=$group_id OR `users`.`user_limitation`='1')"
+	AuthrgmPageLogin /login.php
+	AuthrgmSessionCookies On
 	Require valid-user
 </Directory>
 
-<Directory ~ /srv/eyesofnetwork/eonweb/module/dashboard_(.*)>
+<Directory ~ /srv/rgm/rgmweb/module/dashboard_(.*)>
 	AuthType Basic
 	AuthName "Restricted"
-	AuthEonAuthoritative On
-	AuthEonMySQLSocket /var/lib/mysql/mysql.sock
-	AuthEonMySQLUsername eonweb
-	AuthEonMySQLPassword root66
-	AuthEonMySQLDB eonweb
-	AuthEonMySQLTableSID sessions,users,groupright
-	AuthEonMySQLFieldUID sessions.user_id
-	AuthEonMySQLTableSIDCondition "`sessions`.`session_id`=$session_id AND `sessions`.`user_id`=$user_id AND `users`.`user_id`=$user_id AND `users`.`user_name`=$user_name AND (`users`.`group_id`=$group_id AND `groupright`.`group_id`=$group_id AND `groupright`.`tab_1`='1' OR `users`.`user_limitation`='1')"
-	AuthEonPageLogin /login.php
-	AuthEonSessionCookies On
+	AuthrgmAuthoritative On
+	AuthrgmMySQLSocket /var/lib/mysql/mysql.sock
+	AuthrgmMySQLUsername rgminternal
+	AuthrgmMySQLPassword 0rd0-c0m1735-b47h0n143
+	AuthrgmMySQLDB rgmweb
+	AuthrgmMySQLTableSID sessions,users,groupright
+	AuthrgmMySQLFieldUID sessions.user_id
+	AuthrgmMySQLTableSIDCondition "`sessions`.`session_id`=$session_id AND `sessions`.`user_id`=$user_id AND `users`.`user_id`=$user_id AND `users`.`user_name`=$user_name AND (`users`.`group_id`=$group_id AND `groupright`.`group_id`=$group_id AND `groupright`.`tab_1`='1' OR `users`.`user_limitation`='1')"
+	AuthrgmPageLogin /login.php
+	AuthrgmSessionCookies On
 	Require valid-user
 </Directory>
 
-<Directory ~ /srv/eyesofnetwork/eonweb/module/monitoring_(.*)>
+<Directory ~ /srv/rgm/rgmweb/module/monitoring_(.*)>
 	AuthType Basic
 	AuthName "Restricted"
-	AuthEonAuthoritative On
-	AuthEonMySQLSocket /var/lib/mysql/mysql.sock
-	AuthEonMySQLUsername eonweb
-	AuthEonMySQLPassword root66
-	AuthEonMySQLDB eonweb
-	AuthEonMySQLTableSID sessions,users,groupright
-	AuthEonMySQLFieldUID sessions.user_id
-	AuthEonMySQLTableSIDCondition "`sessions`.`session_id`=$session_id AND `sessions`.`user_id`=$user_id AND `users`.`user_id`=$user_id AND `users`.`user_name`=$user_name AND (`users`.`group_id`=$group_id AND `groupright`.`group_id`=$group_id AND `groupright`.`tab_2`='1' OR `users`.`user_limitation`='1')"
-	AuthEonPageLogin /login.php
-	AuthEonSessionCookies On
+	AuthrgmAuthoritative On
+	AuthrgmMySQLSocket /var/lib/mysql/mysql.sock
+	AuthrgmMySQLUsername rgminternal
+	AuthrgmMySQLPassword 0rd0-c0m1735-b47h0n143
+	AuthrgmMySQLDB rgmweb
+	AuthrgmMySQLTableSID sessions,users,groupright
+	AuthrgmMySQLFieldUID sessions.user_id
+	AuthrgmMySQLTableSIDCondition "`sessions`.`session_id`=$session_id AND `sessions`.`user_id`=$user_id AND `users`.`user_id`=$user_id AND `users`.`user_name`=$user_name AND (`users`.`group_id`=$group_id AND `groupright`.`group_id`=$group_id AND `groupright`.`tab_2`='1' OR `users`.`user_limitation`='1')"
+	AuthrgmPageLogin /login.php
+	AuthrgmSessionCookies On
 	Require valid-user
 </Directory>
 
-<Directory ~ /srv/eyesofnetwork/eonweb/module/capacity_(.*)>
+<Directory ~ /srv/rgm/rgmweb/module/capacity_(.*)>
 	AuthType Basic
 	AuthName "Restricted"
-	AuthEonAuthoritative On
-	AuthEonMySQLSocket /var/lib/mysql/mysql.sock
-	AuthEonMySQLUsername eonweb
-	AuthEonMySQLPassword root66
-	AuthEonMySQLDB eonweb
-	AuthEonMySQLTableSID sessions,users,groupright
-	AuthEonMySQLFieldUID sessions.user_id
-	AuthEonMySQLTableSIDCondition "`sessions`.`session_id`=$session_id AND `sessions`.`user_id`=$user_id AND `users`.`user_id`=$user_id AND `users`.`user_name`=$user_name AND `users`.`group_id`=$group_id AND `groupright`.`group_id`=$group_id AND `groupright`.`tab_3`='1'"
-	AuthEonPageLogin /login.php
-	AuthEonSessionCookies On
+	AuthrgmAuthoritative On
+	AuthrgmMySQLSocket /var/lib/mysql/mysql.sock
+	AuthrgmMySQLUsername rgminternal
+	AuthrgmMySQLPassword 0rd0-c0m1735-b47h0n143
+	AuthrgmMySQLDB rgmweb
+	AuthrgmMySQLTableSID sessions,users,groupright
+	AuthrgmMySQLFieldUID sessions.user_id
+	AuthrgmMySQLTableSIDCondition "`sessions`.`session_id`=$session_id AND `sessions`.`user_id`=$user_id AND `users`.`user_id`=$user_id AND `users`.`user_name`=$user_name AND `users`.`group_id`=$group_id AND `groupright`.`group_id`=$group_id AND `groupright`.`tab_3`='1'"
+	AuthrgmPageLogin /login.php
+	AuthrgmSessionCookies On
 	Require valid-user
 </Directory>
 
-<Directory ~ /srv/eyesofnetwork/eonweb/module/tool_(.*)>
+<Directory ~ /srv/rgm/rgmweb/module/tool_(.*)>
 	AuthType Basic
 	AuthName "Restricted"
-	AuthEonAuthoritative On
-	AuthEonMySQLSocket /var/lib/mysql/mysql.sock
-	AuthEonMySQLUsername eonweb
-	AuthEonMySQLPassword root66
-	AuthEonMySQLDB eonweb
-	AuthEonMySQLTableSID sessions,users,groupright
-	AuthEonMySQLFieldUID sessions.user_id
-	AuthEonMySQLTableSIDCondition "`sessions`.`session_id`=$session_id AND `sessions`.`user_id`=$user_id AND `users`.`user_id`=$user_id AND `users`.`user_name`=$user_name AND `users`.`group_id`=$group_id AND `groupright`.`group_id`=$group_id AND `groupright`.`tab_4`='1'"
-	AuthEonPageLogin /login.php
-	AuthEonSessionCookies On
+	AuthrgmAuthoritative On
+	AuthrgmMySQLSocket /var/lib/mysql/mysql.sock
+	AuthrgmMySQLUsername rgminternal
+	AuthrgmMySQLPassword 0rd0-c0m1735-b47h0n143
+	AuthrgmMySQLDB rgmweb
+	AuthrgmMySQLTableSID sessions,users,groupright
+	AuthrgmMySQLFieldUID sessions.user_id
+	AuthrgmMySQLTableSIDCondition "`sessions`.`session_id`=$session_id AND `sessions`.`user_id`=$user_id AND `users`.`user_id`=$user_id AND `users`.`user_name`=$user_name AND `users`.`group_id`=$group_id AND `groupright`.`group_id`=$group_id AND `groupright`.`tab_4`='1'"
+	AuthrgmPageLogin /login.php
+	AuthrgmSessionCookies On
 	Require valid-user
 </Directory>
 
-<Directory ~ /srv/eyesofnetwork/eonweb/module/report_(.*)>
+<Directory ~ /srv/rgm/rgmweb/module/report_(.*)>
 	AuthType Basic
 	AuthName "Restricted"
-	AuthEonAuthoritative On
-	AuthEonMySQLSocket /var/lib/mysql/mysql.sock
-	AuthEonMySQLUsername eonweb
-	AuthEonMySQLPassword root66
-	AuthEonMySQLDB eonweb
-	AuthEonMySQLTableSID sessions,users,groupright
-	AuthEonMySQLFieldUID sessions.user_id
-	AuthEonMySQLTableSIDCondition "`sessions`.`session_id`=$session_id AND `sessions`.`user_id`=$user_id AND `users`.`user_id`=$user_id AND `users`.`user_name`=$user_name AND `users`.`group_id`=$group_id AND `groupright`.`group_id`=$group_id AND `groupright`.`tab_5`='1'"
-	AuthEonPageLogin /login.php
-	AuthEonSessionCookies On
+	AuthrgmAuthoritative On
+	AuthrgmMySQLSocket /var/lib/mysql/mysql.sock
+	AuthrgmMySQLUsername rgminternal
+	AuthrgmMySQLPassword 0rd0-c0m1735-b47h0n143
+	AuthrgmMySQLDB rgmweb
+	AuthrgmMySQLTableSID sessions,users,groupright
+	AuthrgmMySQLFieldUID sessions.user_id
+	AuthrgmMySQLTableSIDCondition "`sessions`.`session_id`=$session_id AND `sessions`.`user_id`=$user_id AND `users`.`user_id`=$user_id AND `users`.`user_name`=$user_name AND `users`.`group_id`=$group_id AND `groupright`.`group_id`=$group_id AND `groupright`.`tab_5`='1'"
+	AuthrgmPageLogin /login.php
+	AuthrgmSessionCookies On
 	Require valid-user
 </Directory>
 
-<Directory ~ /srv/eyesofnetwork/eonweb/module/admin_(.*)>
+<Directory ~ /srv/rgm/rgmweb/module/admin_(.*)>
 	AuthType Basic
 	AuthName "Restricted"
-	AuthEonAuthoritative On
-	AuthEonMySQLSocket /var/lib/mysql/mysql.sock
-	AuthEonMySQLUsername eonweb
-	AuthEonMySQLPassword root66
-	AuthEonMySQLDB eonweb
-	AuthEonMySQLTableSID sessions,users,groupright
-	AuthEonMySQLFieldUID sessions.user_id
-	AuthEonMySQLTableSIDCondition "`sessions`.`session_id`=$session_id AND `sessions`.`user_id`=$user_id AND `users`.`user_id`=$user_id AND `users`.`user_name`=$user_name AND `users`.`group_id`=$group_id AND `groupright`.`group_id`=$group_id AND `groupright`.`tab_6`='1'"
-	AuthEonPageLogin /login.php
-	AuthEonSessionCookies On
+	AuthrgmAuthoritative On
+	AuthrgmMySQLSocket /var/lib/mysql/mysql.sock
+	AuthrgmMySQLUsername rgminternal
+	AuthrgmMySQLPassword 0rd0-c0m1735-b47h0n143
+	AuthrgmMySQLDB rgmweb
+	AuthrgmMySQLTableSID sessions,users,groupright
+	AuthrgmMySQLFieldUID sessions.user_id
+	AuthrgmMySQLTableSIDCondition "`sessions`.`session_id`=$session_id AND `sessions`.`user_id`=$user_id AND `users`.`user_id`=$user_id AND `users`.`user_name`=$user_name AND `users`.`group_id`=$group_id AND `groupright`.`group_id`=$group_id AND `groupright`.`tab_6`='1'"
+	AuthrgmPageLogin /login.php
+	AuthrgmSessionCookies On
 	Require valid-user
 </Directory>
 
-<Directory ~ /srv/eyesofnetwork/eonweb/module/help_(.*)>
+<Directory ~ /srv/rgm/rgmweb/module/help_(.*)>
 	AuthType Basic
 	AuthName "Restricted"
-	AuthEonAuthoritative On
-	AuthEonMySQLSocket /var/lib/mysql/mysql.sock
-	AuthEonMySQLUsername eonweb
-	AuthEonMySQLPassword root66
-	AuthEonMySQLDB eonweb
-	AuthEonMySQLTableSID sessions,users,groupright
-	AuthEonMySQLFieldUID sessions.user_id
-	AuthEonMySQLTableSIDCondition "`sessions`.`session_id`=$session_id AND `sessions`.`user_id`=$user_id AND `users`.`user_id`=$user_id AND `users`.`user_name`=$user_name AND `users`.`group_id`=$group_id AND `groupright`.`group_id`=$group_id AND `groupright`.`tab_7`='1'"
-	AuthEonPageLogin /login.php
-	AuthEonSessionCookies On
+	AuthrgmAuthoritative On
+	AuthrgmMySQLSocket /var/lib/mysql/mysql.sock
+	AuthrgmMySQLUsername rgminternal
+	AuthrgmMySQLPassword 0rd0-c0m1735-b47h0n143
+	AuthrgmMySQLDB rgmweb
+	AuthrgmMySQLTableSID sessions,users,groupright
+	AuthrgmMySQLFieldUID sessions.user_id
+	AuthrgmMySQLTableSIDCondition "`sessions`.`session_id`=$session_id AND `sessions`.`user_id`=$user_id AND `users`.`user_id`=$user_id AND `users`.`user_name`=$user_name AND `users`.`group_id`=$group_id AND `groupright`.`group_id`=$group_id AND `groupright`.`tab_7`='1'"
+	AuthrgmPageLogin /login.php
+	AuthrgmSessionCookies On
 	Require valid-user
 </Directory>

@@ -1,7 +1,7 @@
 Summary: RGM Web Interface 
 Name: rgmweb
 Version: 1.0
-Release: 3.rgm
+Release: 4.rgm
 Source: %{name}-%{version}.tar.gz
 Group: Applications/System
 License: GPL
@@ -53,6 +53,12 @@ ln -nsf %{rgmdatadir} %{rgmlinkdir}
 /bin/chown -R root:rgm %{rgmdatadir}
 /bin/chown -h root:rgm %{rgmlinkdir}
 
+
+# patch apache conf file with macro values
+sed -i 's|/srv/rgm/rgmweb|%{rgmlinkdir}|' %{rgmdocdir}/%{SOURCE3}
+sed -i 's|AuthrgmMySQLUsername rgminternal|AuthrgmMySQLUsername %{rgm_sql_internal_user}|' %{rgmdocdir}/%{SOURCE3}
+sed -i 's|AuthrgmMySQLPassword 0rd0-c0m1735-b47h0n143|AuthrgmMySQLPassword %{rgm_sql_internal_pwd}|' %{rgmdocdir}/%{SOURCE3}
+
 # set purge cron job
 echo "*/5 * * * * root /usr/bin/php %{rgmlinkdir}/include/purge.php > /dev/null 2>&1" > /etc/cron.d/eonwebpurge
 /bin/chmod 0644 /etc/cron.d/eonwebpurge
@@ -71,6 +77,9 @@ rm -rf %{buildroot}
 %{rgmdocdir}
 
 %changelog
+* Tue Mar 12 2019 Eric Belhomme <ebelhomme@fr.scc.com> - 1.0-4.rgm
+- fix apache template with authrgm
+
 * Tue Mar 12 2019 Eric Belhomme <ebelhomme@fr.scc.com> - 1.0-3.rgm
 - use of rpm-macros-rgm
 - add SQL schema and scripts
