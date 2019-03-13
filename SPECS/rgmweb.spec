@@ -1,7 +1,7 @@
 Summary: RGM Web Interface 
 Name: rgmweb
 Version: 1.0
-Release: 4.rgm
+Release: 5.rgm
 Source: %{name}-%{version}.tar.gz
 Group: Applications/System
 License: GPL
@@ -28,31 +28,40 @@ Source3: eonweb-apache.sample
 # /usr/share/doc
 %define rgmdocdir       %{_datarootdir}/doc
 
+
 %description
 RGMWEB is the web frontend for the RGM appliance : %{rgm_web_site}
+
 
 %prep
 %setup -q
 
+
 %build
 
+
 %install
-install -d -m0755 %{buildroot}%{rgmdatadir}
-install -d -m0755 %{buildroot}%{rgmlibdir}
-install -d -m0755 %{buildroot}%{rgmlibdir}/sql
-install -d -m0755 %{buildroot}%{rgmdocdir}
+install -d -o root -g %{rgm_group} -m 0755 %{buildroot}%{rgmdatadir}
+install -d -o root -g %{rgm_group} -m 0755 %{buildroot}%{rgmlibdir}
+install -d -o root -g %{rgm_group} -m 0755 %{buildroot}%{rgmlibdir}/sql
+install -d -o root -g %{rgm_group} -m 0755 %{buildroot}%{rgmdocdir}
 cp -afv ./* %{buildroot}%{rgmdatadir}
 cp %{SOURCE1} %{buildroot}%{rgmlibdir}/sql/
 cp %{SOURCE2} %{buildroot}%{rgmlibdir}/sql/
 cp %{SOURCE3} %{buildroot}%{rgmdocdir}/
 
 
+%pre
+# create RGM system group if it doesn't already exists
+/usr/sbin/groupadd -r %{rgm_group} >/dev/null 2>&1 || :
+
+
 %post
 ln -nsf %{rgmdatadir} %{rgmlinkdir}
-/bin/chmod 0775 %{rgmdatadir}/cache
-/bin/chown -R root:rgm %{rgmdatadir}
-/bin/chown -h root:rgm %{rgmlinkdir}
-
+/bin/chown -R root:%{rgm_group} %{rgmdatadir}
+/bin/chown -h root:%{rgm_group} %{rgmlinkdir}
+/bin/chmod -R u=rwX,go=rX %{rgmdatadir}
+/bin/chmod -R g+w %{rgmdatadir}/cache
 
 # patch apache conf file with macro values
 sed -i 's|/srv/rgm/rgmweb|%{rgmlinkdir}|' %{rgmdocdir}/%{SOURCE3}
@@ -68,15 +77,21 @@ echo "*/5 * * * * root /usr/bin/php %{rgmlinkdir}/include/purge.php > /dev/null 
 sed -i "s/^\(RGMWEBVARLIB=.*\)$/RGMWEBVARLIB=%{rgmlibdir}/" %{rgmlibdir}/sql/%{SOURCE2}
 %{rgmlibdir}/sql/%{SOURCE2}
 
+
 %clean
 rm -rf %{buildroot}
+
 
 %files
 %{rgmdatadir}
 %{rgmlibdir}
 %{rgmdocdir}
 
+
 %changelog
+* Wed Mar 13 2019 Eric Belhomme <ebelhomme@fr.scc.com> - 1.0-5.rgm
+- add RGM group creation, fix perms and ownership
+
 * Tue Mar 12 2019 Eric Belhomme <ebelhomme@fr.scc.com> - 1.0-4.rgm
 - fix apache template with authrgm
 
