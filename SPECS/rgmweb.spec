@@ -5,7 +5,7 @@ Release: 5.rgm
 Source: %{name}-%{version}.tar.gz
 Group: Applications/System
 License: GPL
-Requires: ged, ged-mysql, lilac, thruk 
+Requires: rgm-base, ged, ged-mysql, lilac, thruk 
 Requires: httpd, mariadb-server, mod_auth_rgm, mod_perl
 Requires: php, php-mysql, php-ldap, php-process, php-xml
 Requires: nagios >= 3.0, nagvis, nagiosbp, notifier
@@ -16,8 +16,7 @@ BuildRequires: rpm-macros-rgm
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
 
 Source1: schema.sql
-Source2: update_schema.sh
-Source3: eonweb-apache.sample
+Source2: eonweb-apache.sample
 
 # appliance group and users
 # /srv/rgm/rgmweb-1.0
@@ -47,8 +46,7 @@ install -d -o root -g %{rgm_group} -m 0755 %{buildroot}%{rgmlibdir}/sql
 install -d -o root -g %{rgm_group} -m 0755 %{buildroot}%{rgmdocdir}
 cp -afv ./* %{buildroot}%{rgmdatadir}
 cp %{SOURCE1} %{buildroot}%{rgmlibdir}/sql/
-cp %{SOURCE2} %{buildroot}%{rgmlibdir}/sql/
-cp %{SOURCE3} %{buildroot}%{rgmdocdir}/
+cp %{SOURCE2} %{buildroot}%{rgmdocdir}/
 
 
 %pre
@@ -65,18 +63,15 @@ ln -nsf %{rgmdatadir} %{rgmlinkdir}
 
 # patch apache conf file with macro values
 sed -i 's|/srv/rgm/rgmweb|%{rgmlinkdir}|' %{rgmdocdir}/%{SOURCE3}
-sed -i 's|AuthrgmMySQLUsername rgminternal|AuthrgmMySQLUsername %{rgm_sql_internal_user}|' %{rgmdocdir}/%{SOURCE3}
-sed -i 's|AuthrgmMySQLPassword 0rd0-c0m1735-b47h0n143|AuthrgmMySQLPassword %{rgm_sql_internal_pwd}|' %{rgmdocdir}/%{SOURCE3}
+sed -i 's|AuthrgmMySQLUsername rgminternal|AuthrgmMySQLUsername %{rgm_sql_internal_user}|' %{rgmdocdir}/%{SOURCE2}
+sed -i 's|AuthrgmMySQLPassword 0rd0-c0m1735-b47h0n143|AuthrgmMySQLPassword %{rgm_sql_internal_pwd}|' %{rgmdocdir}/%{SOURCE2}
 
 # set purge cron job
 echo "*/5 * * * * root /usr/bin/php %{rgmlinkdir}/include/purge.php > /dev/null 2>&1" > /etc/cron.d/eonwebpurge
 /bin/chmod 0644 /etc/cron.d/eonwebpurge
 
 # execute SQL postinstall script
-/bin/chmod 0744 %{rgmlibdir}/sql/%{SOURCE2}
-sed -i "s/^\(RGMWEBVARLIB=.*\)$/RGMWEBVARLIB=%{rgmlibdir}/" %{rgmlibdir}/sql/%{SOURCE2}
-%{rgmlibdir}/sql/%{SOURCE2}
-
+/usr/share/rgm/manage_sql.sh "%{rgm_db_rgmweb}" "%{SOURCE1}" "%{rgm_sql_internal_user}" "%{rgm_sql_internal_pwd}"
 
 %clean
 rm -rf %{buildroot}
@@ -89,6 +84,10 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Thu Mar 14 2019 Eric Belhomme <ebelhomme@fr.scc.com> - 1.0-6.rgm
+- add dependency to rgm-base package,
+- modify SQL post-installation
+
 * Wed Mar 13 2019 Eric Belhomme <ebelhomme@fr.scc.com> - 1.0-5.rgm
 - add RGM group creation, fix perms and ownership
 
