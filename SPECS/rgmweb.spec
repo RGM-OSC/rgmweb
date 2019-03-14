@@ -16,16 +16,16 @@ BuildRequires: rpm-macros-rgm
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
 
 Source1: schema.sql
-Source2: eonweb-apache.sample
+Source2: httpd-eonweb.conf
 
 # appliance group and users
 # /srv/rgm/rgmweb-1.0
 %define	rgmdatadir		%{rgm_path}/%{name}-%{version}
 %define rgmlinkdir      %{rgm_path}/%{name}
-# /var/lib/rgmweb
-%define rgmlibdir       %{_sharedstatedir}/%{name}
-# /usr/share/doc
-%define rgmdocdir       %{_datarootdir}/doc
+# /var/lib/rgm/rgmweb
+%define rgmlibdir       %{_sharedstatedir}/rgm/%{name}
+# /usr/share/doc/rgm
+%define rgmdocdir       %{_datarootdir}/doc/rgm
 
 
 %description
@@ -43,10 +43,16 @@ RGMWEB is the web frontend for the RGM appliance : %{rgm_web_site}
 install -d -o root -g %{rgm_group} -m 0755 %{buildroot}%{rgmdatadir}
 install -d -o root -g %{rgm_group} -m 0755 %{buildroot}%{rgmlibdir}
 install -d -o root -g %{rgm_group} -m 0755 %{buildroot}%{rgmlibdir}/sql
-install -d -o root -g %{rgm_group} -m 0755 %{buildroot}%{rgmdocdir}
+install -d -m0755 %{buildroot}%{_sysconfdir}/httpd/conf.d
+#install -d -o root -g %{rgm_group} -m 0755 %{buildroot}%{rgmdocdir}
 cp -afv ./* %{buildroot}%{rgmdatadir}
 cp %{SOURCE1} %{buildroot}%{rgmlibdir}/sql/
-cp %{SOURCE2} %{buildroot}%{rgmdocdir}/
+cp -afpv %{SOURCE2}  %{buildroot}%{_sysconfdir}/httpd/conf.d/%{name}.conf
+
+# patch apache conf file with macro values
+sed -i 's|/srv/rgm/rgmweb|%{rgmlinkdir}|' %{buildroot}%{_sysconfdir}/httpd/conf.d/%{name}.conf
+sed -i 's|AuthrgmMySQLUsername rgminternal|AuthrgmMySQLUsername %{rgm_sql_internal_user}|' %{buildroot}%{_sysconfdir}/httpd/conf.d/%{name}.conf
+sed -i 's|AuthrgmMySQLPassword 0rd0-c0m1735-b47h0n143|AuthrgmMySQLPassword %{rgm_sql_internal_pwd}|' %{buildroot}%{_sysconfdir}/httpd/conf.d/%{name}.conf
 
 
 %pre
@@ -61,10 +67,6 @@ ln -nsf %{rgmdatadir} %{rgmlinkdir}
 /bin/chmod -R u=rwX,go=rX %{rgmdatadir}
 /bin/chmod -R g+w %{rgmdatadir}/cache
 
-# patch apache conf file with macro values
-sed -i 's|/srv/rgm/rgmweb|%{rgmlinkdir}|' %{rgmdocdir}/%{SOURCE3}
-sed -i 's|AuthrgmMySQLUsername rgminternal|AuthrgmMySQLUsername %{rgm_sql_internal_user}|' %{rgmdocdir}/%{SOURCE2}
-sed -i 's|AuthrgmMySQLPassword 0rd0-c0m1735-b47h0n143|AuthrgmMySQLPassword %{rgm_sql_internal_pwd}|' %{rgmdocdir}/%{SOURCE2}
 
 # set purge cron job
 echo "*/5 * * * * root /usr/bin/php %{rgmlinkdir}/include/purge.php > /dev/null 2>&1" > /etc/cron.d/eonwebpurge
@@ -78,9 +80,12 @@ rm -rf %{buildroot}
 
 
 %files
+%defattr(-, root, root, 0644)
 %{rgmdatadir}
 %{rgmlibdir}
 %{rgmdocdir}
+%defattr(-, root, root, 0644)
+%{_sysconfdir}/httpd/conf.d/%{name}.conf
 
 
 %changelog
