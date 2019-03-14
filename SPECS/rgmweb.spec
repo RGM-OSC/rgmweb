@@ -25,7 +25,7 @@ Source2: httpd-eonweb.conf
 # /var/lib/rgm/rgmweb
 %define rgmlibdir       %{_sharedstatedir}/rgm/%{name}
 # /usr/share/doc/rgm
-%define rgmdocdir       %{_datarootdir}/doc/rgm
+#%define rgmdocdir       %{_datarootdir}/doc/rgm
 
 
 %description
@@ -83,7 +83,7 @@ rm -rf %{buildroot}
 %defattr(-, root, root, 0644)
 %{rgmdatadir}
 %{rgmlibdir}
-%{rgmdocdir}
+#%{rgmdocdir}
 %defattr(-, root, root, 0644)
 %{_sysconfdir}/httpd/conf.d/%{name}.conf
 
