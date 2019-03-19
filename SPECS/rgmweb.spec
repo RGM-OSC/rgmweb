@@ -24,9 +24,6 @@ Source2: httpd-rgmweb.conf
 %define rgmlinkdir      %{rgm_path}/%{name}
 # /var/lib/rgm/rgmweb
 %define rgmlibdir       %{_sharedstatedir}/rgm/%{name}
-# /usr/share/doc/rgm
-#%define rgmdocdir       %{_datarootdir}/doc/rgm
-
 
 %description
 RGMWEB is the web frontend for the RGM appliance : %{rgm_web_site}
