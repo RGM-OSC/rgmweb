@@ -16,7 +16,7 @@ BuildRequires: rpm-macros-rgm
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
 
 Source1: schema.sql
-Source2: httpd-eonweb.conf
+Source2: httpd-rgmweb.conf
 
 # appliance group and users
 # /srv/rgm/rgmweb-1.0
@@ -69,8 +69,8 @@ ln -nsf %{rgmdatadir} %{rgmlinkdir}
 
 
 # set purge cron job
-echo "*/5 * * * * root /usr/bin/php %{rgmlinkdir}/include/purge.php > /dev/null 2>&1" > /etc/cron.d/eonwebpurge
-/bin/chmod 0644 /etc/cron.d/eonwebpurge
+echo "*/5 * * * * root /usr/bin/php %{rgmlinkdir}/include/purge.php > /dev/null 2>&1" > /etc/cron.d/rgmwebpurge
+/bin/chmod 0644 /etc/cron.d/rgmwebpurge
 
 # execute SQL postinstall script
 /usr/share/rgm/manage_sql.sh -d %{rgm_db_rgmweb} -s %{SOURCE1} -u %{rgm_sql_internal_user} -p %{rgm_sql_internal_pwd}"
