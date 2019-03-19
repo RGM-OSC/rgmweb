@@ -1,12 +1,12 @@
 Summary: RGM Web Interface 
 Name: rgmweb
 Version: 1.0
-Release: 5.rgm
+Release: 7.rgm
 Source: %{name}-%{version}.tar.gz
 Group: Applications/System
 License: GPL
 Requires: rgm-base, ged, ged-mysql, lilac, thruk 
-Requires: httpd, mariadb-server, mod_auth_rgm, mod_perl
+Requires: httpd, mariadb-libs, mod_auth_rgm, mod_perl
 Requires: php, php-mysql, php-ldap, php-process, php-xml
 Requires: nagios >= 3.0, nagvis, nagiosbp, notifier
 Requires: net-snmp, nmap-ncat
@@ -73,7 +73,7 @@ echo "*/5 * * * * root /usr/bin/php %{rgmlinkdir}/include/purge.php > /dev/null 
 /bin/chmod 0644 /etc/cron.d/eonwebpurge
 
 # execute SQL postinstall script
-/usr/share/rgm/manage_sql.sh "%{rgm_db_rgmweb}" "%{SOURCE1}" "%{rgm_sql_internal_user}" "%{rgm_sql_internal_pwd}"
+/usr/share/rgm/manage_sql.sh -d %{rgm_db_rgmweb} -s %{SOURCE1} -u %{rgm_sql_internal_user} -p %{rgm_sql_internal_pwd}"
 
 %clean
 rm -rf %{buildroot}
@@ -89,6 +89,9 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Thu Mar 19 2019 Eric Belhomme <ebelhomme@fr.scc.com> - 1.0-7.rgm
+- fix mariadb dependency to mariadb-libs
+
 * Thu Mar 14 2019 Eric Belhomme <ebelhomme@fr.scc.com> - 1.0-6.rgm
 - add dependency to rgm-base package,
 - modify SQL post-installation
