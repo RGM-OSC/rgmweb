@@ -52,11 +52,6 @@ sed -i 's|AuthrgmMySQLUsername rgminternal|AuthrgmMySQLUsername %{rgm_sql_intern
 sed -i 's|AuthrgmMySQLPassword 0rd0-c0m1735-b47h0n143|AuthrgmMySQLPassword %{rgm_sql_internal_pwd}|' %{buildroot}%{_sysconfdir}/httpd/conf.d/%{name}.conf
 
 
-%pre
-# create RGM system group if it doesn't already exists
-/usr/sbin/groupadd -r %{rgm_group} >/dev/null 2>&1 || :
-
-
 %post
 ln -nsf %{rgmdatadir} %{rgmlinkdir}
 /bin/chown -R root:%{rgm_group} %{rgmdatadir}
@@ -86,8 +81,9 @@ rm -rf %{buildroot}
 
 
 %changelog
-* Thu Mar 19 2019 Eric Belhomme <ebelhomme@fr.scc.com> - 1.0-7.rgm
+* Wed Mar 20 2019 Eric Belhomme <ebelhomme@fr.scc.com> - 1.0-7.rgm
 - fix mariadb dependency to mariadb-libs
+- move RGM group creation to rgm-base package
 
 * Thu Mar 14 2019 Eric Belhomme <ebelhomme@fr.scc.com> - 1.0-6.rgm
 - add dependency to rgm-base package,
