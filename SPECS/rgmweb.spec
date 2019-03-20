@@ -65,7 +65,7 @@ echo "*/5 * * * * root /usr/bin/php %{rgmlinkdir}/include/purge.php > /dev/null 
 /bin/chmod 0644 /etc/cron.d/rgmwebpurge
 
 # execute SQL postinstall script
-/usr/share/rgm/manage_sql.sh -d %{rgm_db_rgmweb} -s %{SOURCE1} -u %{rgm_sql_internal_user} -p "%{rgm_sql_internal_pwd}"
+/usr/share/rgm/manage_sql.sh -d %{rgm_db_rgmweb} -s %{rgmlibdir}/sql/schema.sql -u %{rgm_sql_internal_user} -p "%{rgm_sql_internal_pwd}"
 
 %clean
 rm -rf %{buildroot}
@@ -84,6 +84,7 @@ rm -rf %{buildroot}
 * Wed Mar 20 2019 Eric Belhomme <ebelhomme@fr.scc.com> - 1.0-7.rgm
 - fix mariadb dependency to mariadb-libs
 - move RGM group creation to rgm-base package
+- fix schema.sql path on post section when invoked manage_sql.sh
 
 * Thu Mar 14 2019 Eric Belhomme <ebelhomme@fr.scc.com> - 1.0-6.rgm
 - add dependency to rgm-base package,
