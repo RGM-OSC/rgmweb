@@ -46,6 +46,8 @@ install -d -m0755 %{buildroot}%{_sysconfdir}/httpd/conf.d
 cp -afv ./* %{buildroot}%{rgmdatadir}
 cp %{SOURCE1} %{buildroot}%{rgmlibdir}/sql/
 cp -afpv %{SOURCE2}  %{buildroot}%{_sysconfdir}/httpd/conf.d/%{name}.conf
+/bin/chmod -R u=rwX,go=rX %{buildroot}%{rgmdatadir}
+/bin/chmod -R g+w %{buildroot}%{rgmdatadir}/cache
 
 # patch apache conf file with macro values
 sed -i 's|/srv/rgm/rgmweb|%{rgmlinkdir}|' %{buildroot}%{_sysconfdir}/httpd/conf.d/%{name}.conf
