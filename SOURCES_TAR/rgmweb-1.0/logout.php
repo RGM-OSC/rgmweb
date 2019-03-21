@@ -1,12 +1,10 @@
 <?php
 /*
 #########################################
-#
 # Copyright (C) 2016 EyesOfNetwork Team
 # DEV NAME : Jean-Philippe LEVY
 # VERSION : 5.1
 # APPLICATION : eonweb for eyesofnetwork project
-#
 # LICENCE :
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -44,7 +42,7 @@ setcookie("highlightedTreeviewLink",FALSE);
 		<div class="img col-md-4 col-md-offset-4">
 			<div class="login-panel panel panel-default">
 				<div class="panel-heading">
-					<img class="img-responsive center-block login-logo" src="<?php echo $path_logo; ?>" alt="logo eyesofnetwork">
+					<img class="img-responsive center-block login-logo" src="<?php echo $path_logo; ?>" alt="logo rgm">
 				</div>
 				<div class="panel-body">
 					<div class="alert alert-info">

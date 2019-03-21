@@ -131,7 +131,7 @@ include("../../side.php");
 
 					
 					// update user into nagvis :
-					$bdd = new PDO('sqlite:/srv/eyesofnetwork/nagvis/etc/auth.db');
+					$bdd = new PDO('sqlite:/srv/rgm/nagvis/etc/auth.db');
 					$req = $bdd->query("SELECT userId, name FROM users WHERE name='".$_POST["user_name_old"]."'");
                     $nagvis_user_exist = $req->fetch();
 
@@ -321,7 +321,7 @@ include("../../side.php");
 			else { $cacti_user = false; }
 
 			// search the user in Nagvis (to check the checkbox if he's found)
-			$bdd = new PDO('sqlite:/srv/eyesofnetwork/nagvis/etc/auth.db');
+			$bdd = new PDO('sqlite:/srv/rgm/nagvis/etc/auth.db');
             $req = $bdd->query("SELECT count(*) FROM users WHERE name='$user_name'");
             $nagvis_user_exist = $req->fetch();
             if ($nagvis_user_exist["count(*)"] > 0){ $nagvis_user = true; }
@@ -334,7 +334,7 @@ include("../../side.php");
 		}
 
 		// search all nagvis groups
-		$bdd = new PDO('sqlite:/srv/eyesofnetwork/nagvis/etc/auth.db');
+		$bdd = new PDO('sqlite:/srv/rgm/nagvis/etc/auth.db');
 		$req = $bdd->query("SELECT * FROM roles");
 		$nagvis_groups = $req->fetchAll(PDO::FETCH_OBJ);
 

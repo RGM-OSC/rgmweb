@@ -81,7 +81,7 @@ include("../../side.php");
 						}
 
 						// delete user in nagvis
-						$bdd = new PDO('sqlite:/srv/eyesofnetwork/nagvis/etc/auth.db');
+						$bdd = new PDO('sqlite:/srv/rgm/nagvis/etc/auth.db');
 						$req = $bdd->query("SELECT userId FROM users WHERE name = '$user_name'");
 						$nagvis_user_exist = $req->fetch();
 						if($nagvis_user_exist > 0){

@@ -24,7 +24,7 @@
 (PHP_SAPI !== 'cli' || isset($_SERVER['HTTP_USER_AGENT'])) && die("<br><strong>This script is only meant to run at the command line.</strong>");
 
 
-exec("/usr/bin/php /srv/eyesofnetwork/lilac/cli/xml_import.php --file=".dirname(__FILE__)."/commands.xml 2>/dev/null",$result);
+exec("/usr/bin/php /srv/rgm/lilac/cli/xml_import.php --file=".dirname(__FILE__)."/commands.xml 2>/dev/null",$result);
 echo($result[0]."\n");
 
 ?>
