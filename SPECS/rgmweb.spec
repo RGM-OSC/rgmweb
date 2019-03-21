@@ -38,6 +38,7 @@ RGMWEB is the web frontend for the RGM appliance : %{rgm_web_site}
 
 %install
 install -d -o root -g %{rgm_group} -m 0755 %{buildroot}%{rgmdatadir}
+install -d -o root -g %{rgm_group} -m 0775 %{buildroot}%{rgmdatadir}/cache
 install -d -o root -g %{rgm_group} -m 0755 %{buildroot}%{rgmlibdir}
 install -d -o root -g %{rgm_group} -m 0755 %{buildroot}%{rgmlibdir}/sql
 install -d -m0755 %{buildroot}%{_sysconfdir}/httpd/conf.d
@@ -56,8 +57,6 @@ sed -i 's|AuthrgmMySQLPassword 0rd0-c0m1735-b47h0n143|AuthrgmMySQLPassword %{rgm
 ln -nsf %{rgmdatadir} %{rgmlinkdir}
 /bin/chown -R root:%{rgm_group} %{rgmdatadir}
 /bin/chown -h root:%{rgm_group} %{rgmlinkdir}
-/bin/chmod -R u=rwX,go=rX %{rgmdatadir}
-/bin/chmod -R g+w %{rgmdatadir}/cache
 
 
 # set purge cron job
