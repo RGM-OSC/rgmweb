@@ -87,7 +87,7 @@ $min_dup = 1000;
 $max_dup = 9999;
 
 // # Define All Path
-$path_eon="/srv/eyesofnetwork";
+$path_eon="/srv/rgm";
 $path_eonweb="$path_eon/rgmweb";
 $path_frame="/module/module_frame/index.php?url=";
 $dir_imgcache="cache";
