@@ -24,7 +24,7 @@
 (PHP_SAPI !== 'cli' || isset($_SERVER['HTTP_USER_AGENT'])) && die("<br><strong>This script is only meant to run at the command line.</strong>");
 
 $_COOKIE["user_name"]="admin";
-$path_eonweb="/srv/eyesofnetwork/eonweb";
+$path_eonweb="/srv/rgm/rgmweb";
 include("$path_eonweb/include/config.php");
 include("$path_eonweb/include/function.php");
 setcookie("user_name",FALSE);

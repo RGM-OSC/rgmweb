@@ -37,7 +37,7 @@ CREATE TABLE `configs` (
 
 LOCK TABLES `configs` WRITE;
 /*!40000 ALTER TABLE `configs` DISABLE KEYS */;
-INSERT INTO `configs` VALUES (1,'debug','cfg','0'),(2,'debug_rules','rules','2'),(3,'log_file','cfg','/srv/eyesofnetwork/notifier/log/notifier.log'),(4,'logrules_file','rules','/srv/eyesofnetwork/notifier/log/notifier_rules.log'),(5,'notifsent_file','rules','/srv/eyesofnetwork/notifier/log/notifier_send.log');
+INSERT INTO `configs` VALUES (1,'debug','cfg','0'),(2,'debug_rules','rules','2'),(3,'log_file','cfg','/srv/rgm/notifier/log/notifier.log'),(4,'logrules_file','rules','/srv/rgm/notifier/log/notifier_rules.log'),(5,'notifsent_file','rules','/srv/rgm/notifier/log/notifier_send.log');
 /*!40000 ALTER TABLE `configs` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -77,7 +77,7 @@ CREATE TABLE `methods` (
 
 LOCK TABLES `methods` WRITE;
 /*!40000 ALTER TABLE `methods` DISABLE KEYS */;
-INSERT INTO `methods` VALUES (1,'email-host','host','/usr/bin/printf \"%b\" \"***** EyesOfNetwork  *****\\\\n\\\\nNotification Type: $NOTIFICATIONTYPE$\\\\nHost: $HOSTNAME$\\\\nState: $HOSTSTATE$\\\\nAddress: $HOSTADDRESS$\\\\nInfo: $HOSTOUTPUT$\\\\n\\\\nDate/Time: $LONGDATETIME$\\\\n\" | /bin/mail -s \"Host $HOSTSTATE$ alert for $HOSTNAME$!\" $CONTACTEMAIL$'),(2,'email-service','service','/usr/bin/printf \"%b\" \"*****  EyesOfNetwork *****\\\\n\\\\nNotification Type: $NOTIFICATIONTYPE$\\\\n\\\\nService: $SERVICEDESC$\\\\nHost: $HOSTALIAS$\\\\nAddress: $HOSTADDRESS$\\\\nState: $SERVICESTATE$\\\\n\\\\nDate/Time: $LONGDATETIME$\\\\n\\\\nAdditional Info:\\\\n\\\\n$SERVICEOUTPUT$\" | /bin/mail -s \"Services $SERVICESTATE$ alert for $HOSTNAME$/$SERVICEDESC$!\" $CONTACTEMAIL$');
+INSERT INTO `methods` VALUES (1,'email-host','host','/usr/bin/printf \"%b\" \"***** RGM  *****\\\\n\\\\nNotification Type: $NOTIFICATIONTYPE$\\\\nHost: $HOSTNAME$\\\\nState: $HOSTSTATE$\\\\nAddress: $HOSTADDRESS$\\\\nInfo: $HOSTOUTPUT$\\\\n\\\\nDate/Time: $LONGDATETIME$\\\\n\" | /bin/mail -s \"Host $HOSTSTATE$ alert for $HOSTNAME$!\" $CONTACTEMAIL$'),(2,'email-service','service','/usr/bin/printf \"%b\" \"*****  RGM *****\\\\n\\\\nNotification Type: $NOTIFICATIONTYPE$\\\\n\\\\nService: $SERVICEDESC$\\\\nHost: $HOSTALIAS$\\\\nAddress: $HOSTADDRESS$\\\\nState: $SERVICESTATE$\\\\n\\\\nDate/Time: $LONGDATETIME$\\\\n\\\\nAdditional Info:\\\\n\\\\n$SERVICEOUTPUT$\" | /bin/mail -s \"Services $SERVICESTATE$ alert for $HOSTNAME$/$SERVICEDESC$!\" $CONTACTEMAIL$');
 /*!40000 ALTER TABLE `methods` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -180,4 +180,4 @@ UNLOCK TABLES;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 -- Dump completed on 2017-03-13 15:55:32
-GRANT ALL ON notifier.* TO eonweb@localhost IDENTIFIED BY 'root66';
+GRANT ALL ON notifier.* TO rgminternal@localhost IDENTIFIED BY '0rd0-c0m1735-b47h0n143';

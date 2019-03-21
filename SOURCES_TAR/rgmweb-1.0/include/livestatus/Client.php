@@ -7,7 +7,7 @@
 	class Client
 	{
 		protected $socketType = 'unix';
-		protected $socketPath = '/srv/eyesofnetwork/nagios/var/log/rw/live';
+		protected $socketPath = '/srv/rgm/nagios/var/log/rw/live';
 		protected $socketAddress = '';
 		protected $socketPort = '';
 		protected $socket = null;
