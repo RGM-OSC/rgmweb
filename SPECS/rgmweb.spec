@@ -46,8 +46,8 @@ install -d -m0755 %{buildroot}%{_sysconfdir}/httpd/conf.d
 cp -afv ./* %{buildroot}%{rgmdatadir}
 cp %{SOURCE1} %{buildroot}%{rgmlibdir}/sql/
 cp -afpv %{SOURCE2}  %{buildroot}%{_sysconfdir}/httpd/conf.d/%{name}.conf
-/bin/chmod -R u=rwX,go=rX %{buildroot}%{rgmdatadir}
-/bin/chmod -R g+w %{buildroot}%{rgmdatadir}/cache
+#/bin/chmod -R u=rwX,go=rX %{buildroot}%{rgmdatadir}
+#/bin/chmod -R g+w %{buildroot}%{rgmdatadir}/cache
 
 # patch apache conf file with macro values
 sed -i 's|/srv/rgm/rgmweb|%{rgmlinkdir}|' %{buildroot}%{_sysconfdir}/httpd/conf.d/%{name}.conf
@@ -57,8 +57,8 @@ sed -i 's|AuthrgmMySQLPassword 0rd0-c0m1735-b47h0n143|AuthrgmMySQLPassword %{rgm
 
 %post
 ln -nsf %{rgmdatadir} %{rgmlinkdir}
-/bin/chown -R root:%{rgm_group} %{rgmdatadir}
-/bin/chown -h root:%{rgm_group} %{rgmlinkdir}
+#/bin/chown -R root:%{rgm_group} %{rgmdatadir}
+#/bin/chown -h root:%{rgm_group} %{rgmlinkdir}
 
 
 # set purge cron job
@@ -73,11 +73,13 @@ rm -rf %{buildroot}
 
 
 %files
-%defattr(-, root, root, 0644)
+%defattr(0644, root, %{rgm_group}, 0755)
 %{rgmdatadir}
 %{rgmlibdir}
+%defattr(0664, %{rgm_user_httpd}, %{rgm_group}, 0775)
+%{rgmdatadir}/cache
 #%{rgmdocdir}
-%defattr(-, root, root, 0644)
+%defattr(0644, root, root, 0755)
 %{_sysconfdir}/httpd/conf.d/%{name}.conf
 
 
