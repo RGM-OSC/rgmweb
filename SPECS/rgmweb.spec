@@ -68,6 +68,10 @@ echo "*/5 * * * * root /usr/bin/php %{rgmlinkdir}/include/purge.php > /dev/null 
 # execute SQL postinstall script
 /usr/share/rgm/manage_sql.sh -d %{rgm_db_rgmweb} -s %{rgmlibdir}/sql/schema.sql -u %{rgm_sql_internal_user} -p "%{rgm_sql_internal_pwd}"
 
+%preun
+rm -f %{rgmlinkdir}
+
+
 %clean
 rm -rf %{buildroot}
 
