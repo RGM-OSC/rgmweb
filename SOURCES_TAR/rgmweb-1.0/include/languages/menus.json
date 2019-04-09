@@ -307,11 +307,6 @@
                             "target":"main"
                         },
                         {
-                            "name":"menu.link.sync_cacti",
-                            "url":"/module/admin_device/",
-                            "target":"main"
-                        },
-                        {
                             "name":"menu.link.notif",
                             "url":"/module/admin_notifier/",
                             "target":"main"
@@ -373,11 +368,6 @@
                 {
                     "name":"Kibana",
                     "url":"/kibana",
-                    "target":"frame"
-                },
-                {
-                    "name":"Chronograf",
-                    "url":"/chronograf/sources/2/chronograf/data-explorer",
                     "target":"frame"
                 }
             ]
