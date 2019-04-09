@@ -1,10 +1,11 @@
 /*
 #########################################
 #
-# Copyright (C) 2016 EyesOfNetwork Team
-# DEV NAME : Jean-Philippe LEVY
-# VERSION : 5.1
-# APPLICATION : eonweb for eyesofnetwork project
+# Copyright (C) 2019 RGM Team
+# VERSION : 1.0
+# APPLICATION : rgmweb for eyesofnetwork project
+#
+# Project forked from eonweb
 #
 # LICENCE :
 # This program is free software; you can redistribute it and/or
@@ -26,8 +27,8 @@
 */
 
 @font-face {
-    font-family: 'Helvetica Neue';
-    src: url('/fonts/HelveticaNeue-ThinCond.woff'); 
+    font-family: 'Fira Sans';
+    src: url('/fonts/FiraSans-Thin.woff'); 
 }
 
 @media {
@@ -97,7 +98,7 @@
 .h1, h1 {
     font-size: 36px;
     color: #a7a9ac;
-    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-family: "Fira Sans",Helvetica,Arial,sans-serif;
 }
 
 /*
