@@ -337,21 +337,6 @@
                             "target":"_blank"
                         }
                     ]
-                },
-                {
-                    "name":"menu.subtab.external_links",
-                    "link":[
-                        {
-                            "name":"menu.link.thruk",
-                            "url":"/thruk/index.html",
-                            "target":"_blank"
-                        },
-                        {
-                            "name":"menu.link.cacti",
-                            "url":"/cacti",
-                            "target":"_blank"
-                        }
-                    ]
                 }
             ]
         },
