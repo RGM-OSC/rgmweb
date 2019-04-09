@@ -73,13 +73,13 @@ function sqlrequest($database,$sql,$id=false,$prepare=false){
 	$connexion = mysqli_connect($database_host, $database_username, $database_password, $database);
 	if (!$connexion) {
 		echo "<ul>";
-		echo "<li class='msg_title'>Alert EyesOfNetwork - Message EON-database connect</li>";
+		echo "<li class='msg_title'>Alert RGM - Message RGM-database connect</li>";
 		echo "<li class='msg'> Could not connect to database : $database ($database_host)</li>";
 		echo "</ul>";
 		exit(1);
 	}
 
-	if ( $database == "eonweb" ) {
+	if ( $database == "rgmweb" ) {
 		// Force UTF-8
 		mysqli_query($connexion, "SET NAMES 'utf8'");
 	}
@@ -782,7 +782,7 @@ function insert_user($user_name, $user_descr, $user_group, $user_password1, $use
 
 			// Insert into nagvis
 			if($in_nagvis == "yes"){
-				$bdd = new PDO('sqlite:/srv/eyesofnetwork/nagvis/etc/auth.db');
+				$bdd = new PDO('sqlite:/srv/rgm/nagvis/etc/auth.db');
 
 				$req = $bdd->query("SELECT count(*) FROM users WHERE name = '$user_name'");
 				$nagvis_user_exist = $req->fetch();

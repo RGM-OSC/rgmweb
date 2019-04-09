@@ -2,6 +2,10 @@
 /*
 #########################################
 #
+# Copyright (C) 2019 RGM Team
+# VERSION : 1.0
+# APPLICATION : rgmweb for RGM project
+#
 # Copyright (C) 2016 EyesOfNetwork Team
 # DEV NAME : Quentin HOARAU
 # VERSION : 5.1
@@ -83,7 +87,7 @@ if($backend_selected=="1"){
 }
 
 // search all nagvis groups
-$bdd = new PDO('sqlite:/srv/eyesofnetwork/nagvis/etc/auth.db');
+$bdd = new PDO('sqlite:/srv/rgm/nagvis/etc/auth.db');
 $req = $bdd->query("SELECT * FROM roles");
 $nagvis_groups = $req->fetchAll(PDO::FETCH_OBJ);
 

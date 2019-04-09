@@ -31,11 +31,11 @@ $version="1.0";
 $database_host="localhost";
 $database_port="3306";
 
-$database_username="eonweb";
-$database_password="root66";
+$database_username="rgminternal";
+$database_password="0rd0-c0m1735-b47h0n143";
 
 $database_cacti="cacti";
-$database_eonweb="eonweb";
+$database_eonweb="rgmweb";
 $database_ged="ged";
 $database_lilac="lilac";
 $database_nagios="nagiosbp";
@@ -53,7 +53,7 @@ $dateformat="M j, Y g:i:s A";
 $datepurge="-1 month";
 
 // # Menu Config
-// You can view tabid in eonweb database
+// You can view tabid in rgmweb database
 $defaulttab=1;
 $defaultpage="./module/dashboard_view/index.php";
 
@@ -87,8 +87,8 @@ $min_dup = 1000;
 $max_dup = 9999;
 
 // # Define All Path
-$path_eon="/srv/eyesofnetwork";
-$path_eonweb="$path_eon/eonweb";
+$path_eon="/srv/rgm";
+$path_eonweb="$path_eon/rgmweb";
 $path_frame="/module/module_frame/index.php?url=";
 $dir_imgcache="cache";
 $path_images="/images";

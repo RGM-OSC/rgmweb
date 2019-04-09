@@ -1,12 +1,12 @@
 Summary: RGM Web Interface 
 Name: rgmweb
 Version: 1.0
-Release: 3.rgm
+Release: 7.rgm
 Source: %{name}-%{version}.tar.gz
 Group: Applications/System
 License: GPL
-Requires: ged, ged-mysql, lilac, thruk 
-Requires: httpd, mariadb-server, mod_auth_rgm, mod_perl
+Requires: rgm-base, ged, ged-mysql, lilac, thruk 
+Requires: httpd, mariadb-libs, mod_auth_rgm, mod_perl
 Requires: php, php-mysql, php-ldap, php-process, php-xml
 Requires: nagios >= 3.0, nagvis, nagiosbp, notifier
 Requires: net-snmp, nmap-ncat
@@ -16,61 +16,93 @@ BuildRequires: rpm-macros-rgm
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
 
 Source1: schema.sql
-Source2: update_schema.sh
-Source3: eonweb-apache.sample
+Source2: httpd-rgmweb.conf
 
 # appliance group and users
 # /srv/rgm/rgmweb-1.0
 %define	rgmdatadir		%{rgm_path}/%{name}-%{version}
 %define rgmlinkdir      %{rgm_path}/%{name}
-# /var/lib/rgmweb
-%define rgmlibdir       %{_sharedstatedir}/%{name}
-# /usr/share/doc
-%define rgmdocdir       %{_datarootdir}/doc
+# /var/lib/rgm/rgmweb
+%define rgmlibdir       %{_sharedstatedir}/rgm/%{name}
 
 %description
 RGMWEB is the web frontend for the RGM appliance : %{rgm_web_site}
 
+
 %prep
 %setup -q
 
+
 %build
 
+
 %install
-install -d -m0755 %{buildroot}%{rgmdatadir}
-install -d -m0755 %{buildroot}%{rgmlibdir}
-install -d -m0755 %{buildroot}%{rgmlibdir}/sql
-install -d -m0755 %{buildroot}%{rgmdocdir}
+install -d -o root -g %{rgm_group} -m 0755 %{buildroot}%{rgmdatadir}
+install -d -o root -g %{rgm_group} -m 0775 %{buildroot}%{rgmdatadir}/cache
+install -d -o root -g %{rgm_group} -m 0755 %{buildroot}%{rgmlibdir}
+install -d -o root -g %{rgm_group} -m 0755 %{buildroot}%{rgmlibdir}/sql
+install -d -m0755 %{buildroot}%{_sysconfdir}/httpd/conf.d
+#install -d -o root -g %{rgm_group} -m 0755 %{buildroot}%{rgmdocdir}
 cp -afv ./* %{buildroot}%{rgmdatadir}
 cp %{SOURCE1} %{buildroot}%{rgmlibdir}/sql/
-cp %{SOURCE2} %{buildroot}%{rgmlibdir}/sql/
-cp %{SOURCE3} %{buildroot}%{rgmdocdir}/
+cp -afpv %{SOURCE2}  %{buildroot}%{_sysconfdir}/httpd/conf.d/%{name}.conf
+#/bin/chmod -R u=rwX,go=rX %{buildroot}%{rgmdatadir}
+#/bin/chmod -R g+w %{buildroot}%{rgmdatadir}/cache
+
+# patch apache conf file with macro values
+sed -i 's|/srv/rgm/rgmweb|%{rgmlinkdir}|' %{buildroot}%{_sysconfdir}/httpd/conf.d/%{name}.conf
+sed -i 's|AuthrgmMySQLUsername rgminternal|AuthrgmMySQLUsername %{rgm_sql_internal_user}|' %{buildroot}%{_sysconfdir}/httpd/conf.d/%{name}.conf
+sed -i 's|AuthrgmMySQLPassword 0rd0-c0m1735-b47h0n143|AuthrgmMySQLPassword %{rgm_sql_internal_pwd}|' %{buildroot}%{_sysconfdir}/httpd/conf.d/%{name}.conf
 
 
 %post
 ln -nsf %{rgmdatadir} %{rgmlinkdir}
-/bin/chmod 0775 %{rgmdatadir}/cache
-/bin/chown -R root:rgm %{rgmdatadir}
-/bin/chown -h root:rgm %{rgmlinkdir}
+#/bin/chown -R root:%{rgm_group} %{rgmdatadir}
+#/bin/chown -h root:%{rgm_group} %{rgmlinkdir}
+
 
 # set purge cron job
-echo "*/5 * * * * root /usr/bin/php %{rgmlinkdir}/include/purge.php > /dev/null 2>&1" > /etc/cron.d/eonwebpurge
-/bin/chmod 0644 /etc/cron.d/eonwebpurge
+echo "*/5 * * * * root /usr/bin/php %{rgmlinkdir}/include/purge.php > /dev/null 2>&1" > /etc/cron.d/rgmwebpurge
+/bin/chmod 0644 /etc/cron.d/rgmwebpurge
 
 # execute SQL postinstall script
-/bin/chmod 0744 %{rgmlibdir}/sql/%{SOURCE2}
-sed -i "s/^\(RGMWEBVARLIB=.*\)$/RGMWEBVARLIB=%{rgmlibdir}/" %{rgmlibdir}/sql/%{SOURCE2}
-%{rgmlibdir}/sql/%{SOURCE2}
+/usr/share/rgm/manage_sql.sh -d %{rgm_db_rgmweb} -s %{rgmlibdir}/sql/schema.sql -u %{rgm_sql_internal_user} -p "%{rgm_sql_internal_pwd}"
+
+%preun
+rm -f %{rgmlinkdir}
+
 
 %clean
 rm -rf %{buildroot}
 
+
 %files
+%defattr(0644, root, %{rgm_group}, 0755)
 %{rgmdatadir}
 %{rgmlibdir}
-%{rgmdocdir}
+%defattr(0664, %{rgm_user_httpd}, %{rgm_group}, 0775)
+%{rgmdatadir}/cache
+#%{rgmdocdir}
+%defattr(0644, root, root, 0755)
+%{_sysconfdir}/httpd/conf.d/%{name}.conf
+
 
 %changelog
+* Wed Mar 20 2019 Eric Belhomme <ebelhomme@fr.scc.com> - 1.0-7.rgm
+- fix mariadb dependency to mariadb-libs
+- move RGM group creation to rgm-base package
+- fix schema.sql path on post section when invoked manage_sql.sh
+
+* Thu Mar 14 2019 Eric Belhomme <ebelhomme@fr.scc.com> - 1.0-6.rgm
+- add dependency to rgm-base package,
+- modify SQL post-installation
+
+* Wed Mar 13 2019 Eric Belhomme <ebelhomme@fr.scc.com> - 1.0-5.rgm
+- add RGM group creation, fix perms and ownership
+
+* Tue Mar 12 2019 Eric Belhomme <ebelhomme@fr.scc.com> - 1.0-4.rgm
+- fix apache template with authrgm
+
 * Tue Mar 12 2019 Eric Belhomme <ebelhomme@fr.scc.com> - 1.0-3.rgm
 - use of rpm-macros-rgm
 - add SQL schema and scripts

@@ -189,7 +189,7 @@ $ged_sla_intervals = array(
 
 // sockets definition (for multi-backends !)
 $sockets = array(
-        "unix::-1:/srv/eyesofnetwork/nagios/var/log/rw/live"
+        "unix::-1:/srv/rgm/nagios/var/log/rw/live"
         //"tcp:192.168.197.100:6557:",
         //"tcp:192.168.197.102:6557:"
 );

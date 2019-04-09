@@ -99,7 +99,7 @@ function list_services($host_name){
 }
 
 function list_services_51($host_name){
-	$path_nagios_ser = "/srv/eyesofnetwork/nagios/etc/objects/services.cfg";
+	$path_nagios_ser = "/srv/rgm/nagios/etc/objects/services.cfg";
 	$tabServices = array() ;
 	$tabServices['service'] = array() ;
 	$lignes = file($path_nagios_ser);
@@ -131,7 +131,7 @@ function list_services_51($host_name){
 }
 
 function list_services_52($host_name){
-	$path_nagios_ser = "/srv/eyesofnetwork/nagios/etc/objects/hosts/". str_replace('.','_',$host_name) .".cfg";
+	$path_nagios_ser = "/srv/rgm/nagios/etc/objects/hosts/". str_replace('.','_',$host_name) .".cfg";
 	$tabServices = array() ;
 	$tabServices['service'] = array() ;
 	$lignes = file($path_nagios_ser);
@@ -289,7 +289,7 @@ function build_file($bdd){
 	copy($file,$backup_file);
 	$bp_file = fopen($file, "w");
 	fputs($bp_file, "#\n");
-	fputs($bp_file, "# EyesOfNetwork\n");
+	fputs($bp_file, "# RGM\n");
 	fputs($bp_file, "#\n");
 	
 	foreach($bps_informations as $bp_informations){
