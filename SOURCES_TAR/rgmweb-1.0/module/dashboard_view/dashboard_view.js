@@ -1,10 +1,10 @@
 /*
 #########################################
 #
-# Copyright (C) 2016 EyesOfNetwork Team
-# DEV NAME : Jean-Philippe LEVY
-# VERSION : 5.1
-# APPLICATION : eonweb for eyesofnetwork project
+# Copyright (C) 2019 RGM Team
+# Forked from EyesOfNetwork
+# VERSION : 1.0
+# APPLICATION : rgmweb for rgm project
 #
 # LICENCE :
 # This program is free software; you can redistribute it and/or
@@ -159,7 +159,17 @@ function drawPieChart(div_id, title, datas, column_type, link)
 			backgroundColor: 'rgba(255, 255, 255, 0.01)',
 			plotShadow: false,
 			renderto: 'container',
-			margin: '40'
+			margin: '20',
+			height: '330',
+			type: 'pie',
+			options3d: {
+            	enabled: true,
+            	alpha: 7
+        	},
+        	style: {
+            	fontFamily: 'Fira Sans',
+            	color: "#337ab7"
+        	}
 		},
 		exporting: {
 			enabled: false
@@ -169,7 +179,7 @@ function drawPieChart(div_id, title, datas, column_type, link)
 		},
 		title: {
 			useHTML: true,
-			text: false
+			text: ''
 		},
 		tooltip: {
 			pointFormat: '{series.name} : <b>{point.percentage:.1f}%</b>'
@@ -177,6 +187,14 @@ function drawPieChart(div_id, title, datas, column_type, link)
 		plotOptions: {
 			pie: {
 				cursor: 'pointer',
+				innerSize: 80,
+            	depth: 55,
+            	style: {
+            		fontFamily: 'Fira Sans',
+            		color: "#337ab7",
+            		fontSize: "14px",
+					fontWeight: 'bold'
+        		},
 				point:{
 					events: {
 						click: function(){
@@ -194,7 +212,9 @@ function drawPieChart(div_id, title, datas, column_type, link)
 					enabled: true,
 					format: '<b>{point.name} : {point.y:.0f}</b>',
 					style: {
-						color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+						color: "#337ab7",
+						fontSize: "14px",
+						fontWeight: 'bold'
 					}
 				}
 			},
@@ -224,7 +244,16 @@ function drawColumnChart(div_id, title, datas)
 			backgroundColor: 'rgba(255, 255, 255, 0.01)',
 			plotShadow: false,
 			renderto: 'container',
-			marginTop: '80',
+			marginTop: '30',
+			height: '330',
+			options3d: {
+            	enabled: true,
+            	alpha: 7
+        	},
+        	style: {
+            	fontFamily: 'Fira Sans',
+            	color: "#337ab7"
+        	}
 		},
 		exporting: {
 			enabled: false
@@ -234,7 +263,7 @@ function drawColumnChart(div_id, title, datas)
 		},
 		title: {
 			useHTML: true,
-			text: false
+			text: ''
 		},
 		xAxis: {
 			categories: [

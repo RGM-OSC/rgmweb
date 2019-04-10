@@ -21,7 +21,8 @@
 */
 ?>
 <!-- Highcharts -->
-<script src="/bower_components/highcharts/highcharts.js"></script>
+<script src="/js/highcharts.js"></script>
+<script src="/js/highcharts-3d.js"></script>
 
 <!-- Dashboards -->
 <script type="text/javascript">
