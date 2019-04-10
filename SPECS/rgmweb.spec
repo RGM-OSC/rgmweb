@@ -1,7 +1,7 @@
 Summary: RGM Web Interface 
 Name: rgmweb
 Version: 1.0
-Release: 7.rgm
+Release: 8.rgm
 Source: %{name}-%{version}.tar.gz
 Group: Applications/System
 License: GPL
@@ -88,6 +88,10 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Wed Apr 10 2019 Michael Aubertin <maubertin@fr.scc.com> - 1.0-8.rgm
+- Change default fonts.
+- Change dashboard aspect
+- Fix menu for RGM.
 * Wed Mar 20 2019 Eric Belhomme <ebelhomme@fr.scc.com> - 1.0-7.rgm
 - fix mariadb dependency to mariadb-libs
 - move RGM group creation to rgm-base package
