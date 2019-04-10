@@ -11,11 +11,6 @@
                     "target":"main"
                 },
                 {
-                    "name":"menu.link.technical_table",
-                    "url":"/thruk/cgi-bin/tac.cgi",
-                    "target":"frame"
-                },
-                {
                     "name":"menu.link.panorama",
                     "url":"/thruk/cgi-bin/panorama.cgi",
                     "target":"_blank"
@@ -29,11 +24,6 @@
                     "name":"menu.link.nagvis",
                     "url":"/nagvis/frontend/nagvis-js/index.php",
                     "target":"frame"
-                },
-                {
-                    "name":"menu.link.network",
-                    "url":"/cacti/plugins/weathermap/weathermap-cacti-plugin.php?action=",
-                    "target":"_blank"
                 }
             ]
         },
@@ -55,6 +45,16 @@
                 {
                     "name":"menu.link.service_incident",
                     "url":"/thruk/cgi-bin/status.cgi?host=all&servicestatustypes=28",
+                    "target":"frame"
+                },
+                {
+                    "name":"menu.link.equipment_group",
+                    "url":"/thruk/cgi-bin/status.cgi?hostgroup=all&style=summary",
+                    "target":"frame"
+                },
+                {
+                    "name":"menu.link.service_group",
+                    "url":"/thruk/cgi-bin/status.cgi?servicegroup=all&style=summary",
                     "target":"frame"
                 }
             ],
@@ -80,16 +80,6 @@
                         {
                             "name":"menu.link.service_view",
                             "url":"/thruk/cgi-bin/status.cgi?host=all",
-                            "target":"frame"
-                        },
-                        {
-                            "name":"menu.link.equipment_group",
-                            "url":"/thruk/cgi-bin/status.cgi?hostgroup=all&style=summary",
-                            "target":"frame"
-                        },
-                        {
-                            "name":"menu.link.service_group",
-                            "url":"/thruk/cgi-bin/status.cgi?servicegroup=all&style=summary",
                             "target":"frame"
                         }
                     ]
