@@ -28,7 +28,7 @@
 
 @font-face {
     font-family: 'Fira Sans';
-    src: url('/fonts/FiraSans-Light.woff'); 
+    src: url('/fonts/FiraSans-Regular.woff'); 
 }
 
 @media {
@@ -92,9 +92,9 @@
 	resize: vertical;
 }
 
-.a, a {
+/*.a, a {
     font-weight: bold;
-}
+}*/
 .h1, h1 {
     font-size: 36px;
     color: #a7a9ac;
