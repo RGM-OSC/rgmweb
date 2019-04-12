@@ -2,10 +2,9 @@
 /*
 #########################################
 #
-# Copyright (C) 2016 EyesOfNetwork Team
-# DEV NAME : Jean-Philippe LEVY
-# VERSION : 5.1
-# APPLICATION : eonweb for eyesofnetwork project
+# Copyright (C) 2019 RGM Team
+# VERSION : 1.0
+# APPLICATION : RGMweb based on for eyesofnetwork project
 #
 # LICENCE :
 # This program is free software; you can redistribute it and/or
@@ -24,18 +23,18 @@ global $path_nagios_bin;
 global $path_nagios_etc;
 
 $array_msg = array (
-	0 => "EON - Standard Error ",
-	1 => "EON - Could not connect to Database ",
-	2 => "EON - Could not find file ",
-	3 => "EON - Could not write in file (verify access) ",
-	4 => "EON - Could not get the value in parameters : ",
-	5 => "EON - Error uploading file ",
-	6 => "EON - Operation successful",
-	7 => "EON - Form error ",
-	8 => "EON - User / Group ",
-	9 => "EON - Graph ",
-	10 => "EON - Name Error",
-	11 => "EON - GED");
+	0 => "RGM - Standard Error ",
+	1 => "RGM - Could not connect to Database ",
+	2 => "RGM - Could not find file ",
+	3 => "RGM - Could not write in file (verify access) ",
+	4 => "RGM - Could not get the value in parameters : ",
+	5 => "RGM - Error uploading file ",
+	6 => "RGM - Operation successful",
+	7 => "RGM - Form error ",
+	8 => "RGM - User / Group ",
+	9 => "RGM - Graph ",
+	10 => "RGM - Name Error",
+	11 => "RGM - GED");
 
 $array_modules = array ("glpi","ocsinventory-reports");
 	
