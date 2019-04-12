@@ -107,22 +107,7 @@
             "icon":"fa fa-bar-chart",
             "menusubtab":[
                 {
-                    "name":"menu.subtab.graphical_views",
-                    "link":[
-                        {
-                            "name":"menu.link.cacti",
-                            "url":"/cacti/graph_view.php",
-                            "target":"_blank"
-                        },
-                        {
-                            "name":"menu.link.pnp4nagios",
-                            "url":"/pnp4nagios/",
-                            "target":"_blank"
-                        }
-                    ]
-                },
-                {
-                    "name":"menu.subtab.cacti_performance",
+                    "name":"menu.subtab.grafana_performance",
                     "link":[
                         {
                             "name":"menu.link.per_equipment",
@@ -130,9 +115,9 @@
                             "target":"main"
                         },
                         {
-                            "name":"menu.link.per_metric",
-                            "url":"/module/capacity_per_label/",
-                            "target":"main"
+                            "name":"menu.link.grafana",
+                            "url":"/grafana/",
+                            "target":"frame"
                         }
                     ]
                 }
@@ -223,16 +208,6 @@
                             "target":"frame"
                         }
                     ]
-                },
-                {
-                    "name":"menu.subtab.capacity",
-                    "link":[
-                        {
-                            "name":"menu.link.performances",
-                            "url":"/module/report_performance/",
-                            "target":"main"
-                        }
-                    ]
                 }
             ]
         },
@@ -320,11 +295,6 @@
                             "name":"menu.link.nagvis",
                             "url":"/nagvis",
                             "target":"frame"
-                        },
-                        {
-                            "name":"menu.link.weathermap",
-                            "url":"/cacti/plugins/weathermap/weathermap-cacti-plugin-mgmt.php",
-                            "target":"_blank"
                         }
                     ]
                 }

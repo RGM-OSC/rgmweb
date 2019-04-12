@@ -1,7 +1,7 @@
 Summary: RGM Web Interface 
 Name: rgmweb
 Version: 1.0
-Release: 8.rgm
+Release: 9.rgm
 Source: %{name}-%{version}.tar.gz
 Group: Applications/System
 License: GPL
@@ -88,6 +88,10 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Wed Apr 12 2019 Michael Aubertin <maubertin@fr.scc.com> - 1.0-9.rgm
+- Fix menus.
+- Add Capacity
+
 * Wed Apr 10 2019 Michael Aubertin <maubertin@fr.scc.com> - 1.0-8.rgm
 - Change default fonts.
 - Change dashboard aspect
