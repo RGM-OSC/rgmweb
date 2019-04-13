@@ -313,7 +313,7 @@
                 {
                     "name":"Kibana",
                     "url":"/kibana",
-                    "target":"frame"
+                    "target":"_blank"
                 }
             ]
         }

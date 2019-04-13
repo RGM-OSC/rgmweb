@@ -1,7 +1,7 @@
 Summary: RGM Web Interface 
 Name: rgmweb
 Version: 1.0
-Release: 9.rgm
+Release: 10.rgm
 Source: %{name}-%{version}.tar.gz
 Group: Applications/System
 License: GPL
@@ -88,6 +88,9 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Wed Apr 13 2019 Michael Aubertin <maubertin@fr.scc.com> - 1.0-10.rgm
+- Move kibana in blank.
+
 * Wed Apr 12 2019 Michael Aubertin <maubertin@fr.scc.com> - 1.0-9.rgm
 - Fix menus.
 - Add Capacity
