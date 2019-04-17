@@ -81,10 +81,9 @@ include("../../side.php");
 		//--------------------------------------------------------
 
 		// Update User Information & Right
-		function update_user($user_id, $user_name, $user_descr, $user_group, $user_password1, $user_password2 ,$user_type, $user_location, $user_mail, $user_limitation, $old_group_id, $old_name, $create_user_in_nagvis, $create_user_in_cacti, $nagvis_role_id, $user_language)
+		function update_user($user_id, $user_name, $user_descr, $user_group, $user_password1, $user_password2 ,$user_type, $user_location, $user_mail, $user_limitation, $old_group_id, $old_name, $create_user_in_nagvis, $nagvis_role_id, $user_language)
 		{
 			global $database_host;
-			global $database_cacti;
 			global $database_username;
 			global $database_password;
 
@@ -155,24 +154,6 @@ include("../../side.php");
 							$bdd->exec("INSERT INTO users2roles (userId, roleId) VALUES ('$nagvis_id', $nagvis_role_id)");
 						}
 					}
-
-                     // Update user into cacti
-                    $bdd = new PDO('mysql:host='.$database_host.';dbname='.$database_cacti, $database_username, $database_password);
-                    $req = $bdd->query("SELECT id FROM user_auth WHERE username='".$_POST["user_name_old"]."'");
-                    $cacti_user_exist = $req->fetch();
-
-                    if($cacti_user_exist["id"] > 0){
-                    	$cacti_id = $cacti_user_exist["id"];
-                    	if($create_user_in_cacti == "yes"){
-                    		$bdd->exec("UPDATE user_auth SET username = '$user_name' WHERE id = $cacti_id");
-                    	} else {
-                    		$bdd->exec("DELETE FROM user_auth WHERE id = $cacti_id");
-                    	}
-                    } else {
-                    	if($create_user_in_cacti == "yes"){
-        					$bdd->exec("INSERT INTO user_auth (username,realm,full_name,show_tree,show_list,show_preview,graph_settings,login_opts,policy_graphs,policy_trees,policy_hosts,policy_graph_templates,enabled) VALUES ('$user_name',2,'$user_descr','on','on','on','on',3,2,2,2,2,'on')");
-                    	}
-                    }
 					
 					// logging action
 					logging("admin_user","UPDATE : $user_id $user_name $user_descr $user_limitation $user_group $user_type $user_location");
@@ -226,7 +207,6 @@ include("../../side.php");
 
 		$create_user_in_nagvis = retrieve_form_data("create_user_in_nagvis","");
 		$nagvis_role_id = retrieve_form_data("nagvis_group","");
-		$create_user_in_cacti = retrieve_form_data("create_user_in_cacti","");
 
 		if($user_type=="1"){
 			$result = sqlrequest($database_eonweb,"select login from ldap_users_extended where dn='$user_location'");
@@ -257,15 +237,12 @@ include("../../side.php");
 			if 	(isset($_POST['add']))
 			{
 				$create_user_in_nagvis = retrieve_form_data("create_user_in_nagvis","");
-				$create_user_in_cacti = retrieve_form_data("create_user_in_cacti","");
 				if($create_user_in_nagvis == "yes"){ $nagvis_user = true; }
 				else { $nagvis_user = false; }
-				if($create_user_in_cacti == "yes"){ $cacti_user = true; }
-				else { $cacti_user = false; }
 				
 				$user_group = retrieve_form_data("user_group","");
 				$nagvis_grp = retrieve_form_data("nagvis_group", "");
-				$user_id=insert_user(stripAccents($user_name), $user_descr, $user_group, $user_password1, $user_password2, $user_type, $user_location,$user_mail,$user_limitation, true, $create_user_in_nagvis, $create_user_in_cacti, $nagvis_grp, $user_language);
+				$user_id=insert_user(stripAccents($user_name), $user_descr, $user_group, $user_password1, $user_password2, $user_type, $user_location,$user_mail,$user_limitation, true, $create_user_in_nagvis, $nagvis_grp, $user_language);
 				//message(8,"User location: $user_location",'ok');	// For debug pupose, to be removed
 
 				// Retrieve Group Information from database
@@ -297,7 +274,7 @@ include("../../side.php");
 						// ACCOUNT UPDATE (and retrieve parameters)
 						//------------------------------------------------------------------------------------------------
 			if (isset($_POST['update'])){
-				update_user($user_id, stripAccents($user_name), $user_descr, $user_group, $user_password1, $user_password2, $user_type, $user_location, $user_mail, $user_limitation, $old_group_id, $old_name, $create_user_in_nagvis, $create_user_in_cacti, $nagvis_role_id, $user_language);	
+				update_user($user_id, stripAccents($user_name), $user_descr, $user_group, $user_password1, $user_password2, $user_type, $user_location, $user_mail, $user_limitation, $old_group_id, $old_name, $create_user_in_nagvis, $nagvis_role_id, $user_language);	
 				//message(8,"Update: User location = $user_location",'ok');	// For debug pupose, to be removed
 				//message(8,"Update: User name =  $user_name",'ok');			// For debug pupose, to be removed
 			}
@@ -313,12 +290,6 @@ include("../../side.php");
 			$user_location=mysqli_result($user_name_descr,0,"user_location");
 			$user_password1="abcdefghijklmnopqrstuvwxyz";
 			$user_password2="abcdefghijklmnopqrstuvwxyz";
-
-			// search the user in Cacti (to check the checkbox if he's found)
-			$cacti_user = sqlrequest($database_cacti, "SELECT id FROM user_auth WHERE username = '$user_name'");
-			$cacti_user_found = mysqli_num_rows($cacti_user);
-			if($cacti_user_found > 0){ $cacti_user = true; }
-			else { $cacti_user = false; }
 
 			// search the user in Nagvis (to check the checkbox if he's found)
 			$bdd = new PDO('sqlite:/srv/rgm/nagvis/etc/auth.db');
@@ -488,7 +459,7 @@ include("../../side.php");
 				</div>
 			</div>
 		</div>
-
+<!-- 
 		<div class="row form-group">
 			<label class="col-md-3"><?php echo getLabel("label.admin_user.user_cacti"); ?></label>
 			<div class="col-md-9">
@@ -499,7 +470,7 @@ include("../../side.php");
 				?>
 			</div>
 		</div>
-		
+	-->	
 		<?php } ?>
 		<div class="form-group">
 			<?php
