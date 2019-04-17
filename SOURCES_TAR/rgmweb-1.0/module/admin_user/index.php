@@ -101,7 +101,7 @@ include("../../side.php");
 	}
         
 	// Get the name user and description group
-	$user_name_descr=sqlrequest("$database_eonweb"," SELECT user_name,user_descr,user_id,group_name,user_type,user_limitation FROM users LEFT OUTER JOIN groups ON groups.group_id = users.group_id ORDER BY user_name");
+	$user_name_descr=sqlrequest("$database_eonweb"," SELECT user_name,user_descr,user_email,user_id,group_name,user_type,user_limitation FROM users LEFT OUTER JOIN groups ON groups.group_id = users.group_id ORDER BY user_name");
 	?>
 
 	<form action="./index.php" method="GET" class="form-inline">
@@ -121,32 +121,32 @@ include("../../side.php");
 				<tbody>
 				<?php
 				while ($line = mysqli_fetch_array($user_name_descr)) {
-					$user_mail=mysqli_result(sqlrequest("$database_lilac","SELECT email FROM nagios_contact WHERE name='$line[0]'"),0,"email");
+//					$user_mail=mysqli_result(sqlrequest("$database_lilac","SELECT email FROM nagios_contact WHERE name='$line[0]'"),0,"email");
 				?>
 				<tr>
 					<td class="text-center">
 						<?php
-						if($line[2]=="1")
-							echo "<input type='checkbox' name='user_selected[]' value='$line[2]' disabled>";
+						if($line[3]=="1")
+							echo "<input type='checkbox' name='user_selected[]' value='$line[3]' disabled>";
 						else
-							echo "<input type='checkbox' name='user_selected[]' value='$line[2]'>";
+							echo "<input type='checkbox' name='user_selected[]' value='$line[3]'>";
 						?>
 					</td>
 					<td>
-						<?php echo"<a href='./add_modify_user.php?user_id=$line[2]'> $line[0] </a>";?>
+						<?php echo"<a href='./add_modify_user.php?user_id=$line[3]'> $line[0] </a>";?>
 					</td>
 					<td>
 						<?php
-						if($line[5]=="0")
+						if($line[6]=="0")
 								$type="NO";
 						else
-								$type="<a href='../module_filters/index.php?user_id=$line[2]&user_name=$line[0]'>YES</a>";
+								$type="<a href='../module_filters/index.php?user_id=$line[3]&user_name=$line[0]'>YES</a>";
 						echo "$type";
 						?>
 					</td>
 					<td>
 						<?php
-						if($line[4]=="0")
+						if($line[5]=="0")
 							$type="MYSQL";
 						else
 							$type="LDAP";
@@ -154,18 +154,19 @@ include("../../side.php");
 						?>
 					</td>
 					<td>
-						<?php echo "$user_mail";?>
+						<?php echo "$line[2]";?>
 					</td>
 					<td>
 						<?php echo "$line[1]";?>
 					</td>
 					<td>
-						<?php echo "$line[3]";?>
+						<?php echo "$line[4]";?>
 					</td>
 				</tr>
 				<?php
 				}
 				?>
+				<!-- user_name,user_descr,user_email,user_id,group_name,user_type,user_limitation -->
 				</tbody>
 			</table>
 		</div>

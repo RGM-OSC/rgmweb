@@ -36,7 +36,7 @@ include("../../side.php");
 		function retrieve_user_info($user_id)
 		{
 			global $database_eonweb;
-			return sqlrequest("$database_eonweb","SELECT user_name, user_descr, group_id, user_passwd, user_type, user_location, user_limitation, user_language  FROM users WHERE user_id='$user_id'");
+			return sqlrequest("$database_eonweb","SELECT user_name, user_descr, user_email, group_id, user_passwd, user_type, user_location, user_limitation, user_language  FROM users WHERE user_id='$user_id'");
 		}
 
 		// Display user language selection  
@@ -81,7 +81,7 @@ include("../../side.php");
 		//--------------------------------------------------------
 
 		// Update User Information & Right
-		function update_user($user_id, $user_name, $user_descr, $user_group, $user_password1, $user_password2 ,$user_type, $user_location, $user_mail, $user_limitation, $old_group_id, $old_name, $create_user_in_nagvis, $nagvis_role_id, $user_language)
+		function update_user($user_id, $user_name, $user_descr, $user_email, $user_group, $user_password1, $user_password2 ,$user_type, $user_location, $user_limitation, $old_group_id, $old_name, $create_user_in_nagvis, $nagvis_role_id, $user_language)
 		{
 			global $database_host;
 			global $database_username;
@@ -110,11 +110,11 @@ include("../../side.php");
 					if ($user_password1 != "abcdefghijklmnopqrstuvwxyz") {
 						$passwd_temp = md5($user_password1);
 						// Update into eonweb
-						sqlrequest("$database_eonweb","UPDATE users set user_name='$user_name', user_descr='$user_descr',group_id='$user_group',user_passwd='$passwd_temp',user_type='$user_type',user_location='$user_location',user_limitation='$user_limitation',user_language='$user_language' WHERE user_id ='$user_id'");
+						sqlrequest("$database_eonweb","UPDATE users set user_name='$user_name', user_descr='$user_descr', user_email='$user_email', group_id='$user_group',user_passwd='$passwd_temp',user_type='$user_type',user_location='$user_location',user_limitation='$user_limitation',user_language='$user_language' WHERE user_id ='$user_id'");
 					}
 					else {
 						// Update into eonweb
-						sqlrequest("$database_eonweb","UPDATE users set user_name='$user_name', user_descr='$user_descr',group_id='$user_group',user_type='$user_type',user_location='$user_location',user_limitation='$user_limitation',user_language='$user_language' WHERE user_id ='$user_id'");
+						sqlrequest("$database_eonweb","UPDATE users set user_name='$user_name', user_descr='$user_descr', user_email='$user_email', group_id='$user_group',user_type='$user_type',user_location='$user_location',user_limitation='$user_limitation',user_language='$user_language' WHERE user_id ='$user_id'");
 					}
 			
 					// Update into lilac
@@ -195,7 +195,7 @@ include("../../side.php");
 
 		$user_location = retrieve_form_data("user_location","");
 		$user_location = ldap_escape($user_location);
-		$user_mail = retrieve_form_data("user_mail","");
+		$user_email = retrieve_form_data("user_email","");
 		$user_descr = retrieve_form_data("user_descr","");
 		$user_descr = htmlspecialchars($user_descr, ENT_QUOTES);
 		$user_group = retrieve_form_data("user_group","");
@@ -242,14 +242,15 @@ include("../../side.php");
 				
 				$user_group = retrieve_form_data("user_group","");
 				$nagvis_grp = retrieve_form_data("nagvis_group", "");
-				$user_id=insert_user(stripAccents($user_name), $user_descr, $user_group, $user_password1, $user_password2, $user_type, $user_location,$user_mail,$user_limitation, true, $create_user_in_nagvis, $nagvis_grp, $user_language);
+				$user_id=insert_user(stripAccents($user_name), $user_descr, $user_mail, $user_group, $user_password1, $user_password2, $user_type, $user_location,$user_limitation, true, $create_user_in_nagvis, $nagvis_grp, $user_language);
 				//message(8,"User location: $user_location",'ok');	// For debug pupose, to be removed
 
 				// Retrieve Group Information from database
 				if($user_id){
 					$user_name_descr = retrieve_user_info($user_id);
 					$user_name=mysqli_result($user_name_descr,0,"user_name");
-					$user_mail=mysqli_result(sqlrequest("$database_lilac","SELECT email FROM nagios_contact WHERE name='$user_name'"),0,"email");
+//					$user_mail=mysqli_result(sqlrequest("$database_lilac","SELECT email FROM nagios_contact WHERE name='$user_name'"),0,"email");
+					$user_mail=mysqli_result($user_name_descr,0,"user_email");
 					$user_descr=mysqli_result($user_name_descr,0,"user_descr");
 					$user_group=mysqli_result($user_name_descr,0,"group_id");
 					$user_type=mysqli_result($user_name_descr,0,"user_type");
@@ -282,7 +283,8 @@ include("../../side.php");
 			// Retrieve Group Information from database
 			$user_name_descr = retrieve_user_info($user_id);
 			$user_name=mysqli_result($user_name_descr,0,"user_name");
-			$user_mail=mysqli_result(sqlrequest("$database_lilac","SELECT email FROM nagios_contact WHERE name='$user_name'"),0,"email");
+//			$user_mail=mysqli_result(sqlrequest("$database_lilac","SELECT email FROM nagios_contact WHERE name='$user_name'"),0,"email");
+			$user_mail=mysqli_result($user_name_descr,0,"user_email");
 			$user_descr=mysqli_result($user_name_descr,0,"user_descr");
 			$user_group=mysqli_result($user_name_descr,0,"group_id");
 			$user_type=mysqli_result($user_name_descr,0,"user_type");

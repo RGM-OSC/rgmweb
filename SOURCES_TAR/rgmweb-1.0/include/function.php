@@ -218,67 +218,10 @@ function get_host_listbox_from_nagios(){
 	echo '</div>';
 }
 
-// Host list from CACTI
-function get_title_list_from_cacti(){
-
-	global $database_cacti;
-
-	$titles=array();
-	$request="SELECT DISTINCT graph_templates_graph.title FROM graph_local,graph_templates_graph WHERE graph_templates_graph.local_graph_id=graph_local.id ORDER BY title";
-	$result=sqlrequest($database_cacti,$request);
-	while ($line = mysqli_fetch_array($result)){
-	$line[0]=str_replace("|host_description| - ","",$line[0]);
-		$titles[]=$line[0];
-	}
-	echo json_encode($titles);
-}
-
-// Host listbox from CACTI
-function get_host_listbox_from_cacti(){
-	
-	global $database_cacti;
-	
-	$ref = "";
-	if( isset($_GET['host']) ){
-		$ref = $_GET['host'];
-	}
-	
-	$result=sqlrequest($database_cacti,"SELECT DISTINCT host.id,hostname,description FROM host INNER JOIN graph_local ON host.id = graph_local.host_id ORDER BY hostname ASC");
-	echo "<SELECT name='host' class='form-control' size=7>";
-        while ($line = mysqli_fetch_array($result))
-        {
-			echo "<OPTION value='$line[0]' ";
-			if($ref == $line[0]){echo 'selected="selected"';}
-			echo ">&nbsp;$line[1] ($line[2])&nbsp;</OPTION>";
-        }
-        echo "</SELECT><br>";
-}
-
 // system function : CUT
 function cut($string, $width, $padding = "..."){
     return (strlen($string) > $width ? substr($string, 0, $width-strlen($padding)).$padding : $string);
 } 
-
-// Get graph from CACTI
-function get_graph_listbox_from_cacti(){
-	
-	global $database_cacti;
-	
-	$ref = "";
-	if( isset($_GET['graph']) ){
-		$ref = $_GET['graph'];
-	}
-	
-	$result=sqlrequest($database_cacti,"SELECT DISTINCT graph_templates.id,name FROM graph_templates INNER JOIN graph_local ON graph_local.graph_template_id = graph_templates.id ORDER BY name ASC");
-	echo "<SELECT name='graph' class='form-control' size=7>";
-	while ($line = mysqli_fetch_array($result))
-	{
-		echo "<OPTION value='$line[0]' ";
-		if($ref == $line[0]){echo 'selected="selected"';}
-		echo ">&nbsp;$line[1]&nbsp;</OPTION>";
-	}
-	echo "</SELECT><br>";
-}
 
 // Display TOOL list
 function get_tool_listbox(){
@@ -731,9 +674,8 @@ function ldap_escape($str, $login=false, $escape=false){
 }
 
 // User creation
-function insert_user($user_name, $user_descr, $user_group, $user_password1, $user_password2, $user_type, $user_location, $user_mail, $user_limitation, $message, $in_nagvis = false, $in_cacti = false, $nagvis_group = false, $user_language = false){
+function insert_user($user_name, $user_descr, $user_email, $user_group, $user_password1, $user_password2, $user_type, $user_location, $user_limitation, $message, $in_nagvis = false, $nagvis_group = false, $user_language = false){
 	global $database_host;
-	global $database_cacti;
 	global $database_username;
 	global $database_password;
 
@@ -766,13 +708,22 @@ function insert_user($user_name, $user_descr, $user_group, $user_password1, $use
 			$user_password = md5($user_password1);
 			
 			// Insert into eonweb
-			sqlrequest("$database_eonweb","INSERT INTO users (user_name,user_descr,group_id,user_passwd,user_type,user_location,user_limitation,user_language) VALUES('$user_name', '$user_descr', '$user_group', '$user_password', '$user_type', '$user_location', '$user_limitation', '$user_language')");
+			sqlrequest("$database_eonweb","INSERT INTO users (user_name,user_descr,user_email,group_id,user_passwd,user_type,"
+				."user_location,user_limitation,user_language) VALUES "
+				."('$user_name', '$user_descr', '$user_email', '$user_group', '$user_password', '$user_type', '$user_location', '$user_limitation', '$user_language')");
 			$user_id=mysqli_result(sqlrequest("$database_eonweb","SELECT user_id FROM users WHERE user_name='$user_name'"),0,"user_id");
 			$group_name=mysqli_result(sqlrequest("$database_eonweb","SELECT group_name FROM groups WHERE group_id='$user_group'"),0,"group_name");
 
 			// Insert into lilac
 			$lilac_period=mysqli_result(sqlrequest("$database_lilac","SELECT id FROM nagios_timeperiod limit 1"),0,"id");
-			sqlrequest("$database_lilac","INSERT INTO nagios_contact (id,name,alias,email,host_notifications_enabled,service_notifications_enabled,host_notification_period,service_notification_period,host_notification_on_down,host_notification_on_unreachable,host_notification_on_recovery,host_notification_on_flapping,service_notification_on_warning,service_notification_on_unknown,service_notification_on_critical,service_notification_on_recovery,service_notification_on_flapping,can_submit_commands,retain_status_information,retain_nonstatus_information,host_notification_on_scheduled_downtime) VALUES('','$user_name','$user_descr','$user_mail', 1, 1, '$lilac_period', '$lilac_period', 1, 1, 1, 1, 1, 1, 1, 1, 1 ,1 ,1, 1, 1);");
+			sqlrequest("$database_lilac","INSERT INTO nagios_contact (id,name,alias,email,host_notifications_enabled,"
+				."service_notifications_enabled,host_notification_period,service_notification_period,"
+				."host_notification_on_down,host_notification_on_unreachable,host_notification_on_recovery,"
+				."host_notification_on_flapping,service_notification_on_warning,service_notification_on_unknown,"
+				."service_notification_on_critical,service_notification_on_recovery,service_notification_on_flapping,"
+				."can_submit_commands,retain_status_information,retain_nonstatus_information,"
+				."host_notification_on_scheduled_downtime) VALUES "
+				."('','$user_name','$user_descr','$user_email', 1, 1, '$lilac_period', '$lilac_period', 1, 1, 1, 1, 1, 1, 1, 1, 1 ,1 ,1, 1, 1);");
 
 			// Lilac contact_group_member
 			$lilac_contactgroupid=mysqli_result(sqlrequest("$database_lilac","SELECT id FROM nagios_contact_group WHERE name='$group_name'"),0,"id");
@@ -803,16 +754,6 @@ function insert_user($user_name, $user_descr, $user_group, $user_password1, $use
 
 					$sql = "INSERT INTO users2roles (userId, roleId) VALUES ($nagvis_id, $nagvis_group)";
 					$bdd->exec($sql);
-				}
-			}
-
-			// Insert into cacti
-			if($in_cacti == "yes"){
-				$bdd = new PDO('mysql:host='.$database_host.';dbname='.$database_cacti, $database_username, $database_password);
-				$req = $bdd->query("SELECT count(*) FROM user_auth WHERE username='$user_name'");
-				$cacti_user_exist = $req->fetch();
-				if ($cacti_user_exist["count(*)"] == 0){
-					$bdd->exec("INSERT INTO user_auth (username,password,realm,full_name,show_tree,show_list,show_preview,graph_settings,login_opts,policy_graphs,policy_trees,policy_hosts,policy_graph_templates,enabled) VALUES ('$user_name','',2,'$user_descr','on','on','on','on',3,2,2,2,2,'on')");
 				}
 			}
 

@@ -135,6 +135,7 @@ CREATE TABLE `users` (
   `user_name` varchar(255) NOT NULL,
   `user_passwd` varchar(255) NOT NULL,
   `user_descr` varchar(255) DEFAULT NULL,
+  `user_email` varchar(255) DEFAULT NULL,
   `user_type` tinyint(1) NOT NULL,
   `user_location` varchar(255) DEFAULT NULL,
   `user_limitation` tinyint(1) NOT NULL,
@@ -143,5 +144,5 @@ CREATE TABLE `users` (
 ) ENGINE=INNODB DEFAULT CHARSET=utf8;
 
 LOCK TABLES `users` WRITE;
-INSERT INTO `users` VALUES (1,1,'admin','21232f297a57a5a743894a0e4a801fc3','default user',0,'',0,'0');
+INSERT INTO `users` VALUES (1,1,'admin','21232f297a57a5a743894a0e4a801fc3','default user',NULL,0,'',0,'0');
 UNLOCK TABLES;
