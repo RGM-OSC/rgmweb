@@ -1,7 +1,7 @@
 Summary: RGM Web Interface 
 Name: rgmweb
 Version: 1.0
-Release: 10.rgm
+Release: 11.rgm
 Source: %{name}-%{version}.tar.gz
 Group: Applications/System
 License: GPL
@@ -88,6 +88,11 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Wed Apr 20 2019 Eric Belhomme <ebelhomme@fr.scc.com> - 1.0-11.rgm
+- partially cleaned cacti references
+- updated rgmweb DB schema to support user email
+- replaced nagvis DB backend from sqlite to mysql
+
 * Wed Apr 13 2019 Michael Aubertin <maubertin@fr.scc.com> - 1.0-10.rgm
 - Move kibana in blank.
 
