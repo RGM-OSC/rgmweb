@@ -34,8 +34,8 @@ $database_port="3306";
 $database_username="rgminternal";
 $database_password="0rd0-c0m1735-b47h0n143";
 
-$database_cacti="cacti";
 $database_eonweb="rgmweb";
+$database_nagvis="nagvis";
 $database_ged="ged";
 $database_lilac="lilac";
 $database_nagios="nagiosbp";

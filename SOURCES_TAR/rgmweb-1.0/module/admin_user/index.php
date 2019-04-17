@@ -80,16 +80,12 @@ include("../../side.php");
 							@unlink($filename);
 						}
 
-						/* delete user in nagvis
-						$bdd = new PDO('sqlite:/srv/rgm/nagvis/etc/auth.db');
-						$req = $bdd->query("SELECT userId FROM users WHERE name = '$user_name'");
-						$nagvis_user_exist = $req->fetch();
-						if($nagvis_user_exist > 0){
-							$userId = $nagvis_user_exist['userId'];
-							$bdd->exec("DELETE FROM users2roles WHERE userId = $userId");
-							$bdd->exec("DELETE FROM users WHERE userId = $userId");
-
-						}*/
+						// delete user in nagvis
+						$nagvis_userid=mysqli_result(sqlrequest("$database_nagvis","SELECT userId FROM users WHERE name = '$user_name'"),0,"userId");
+						if($nagvis_userid > 0) {
+							sqlrequest("$database_nagvis","DELETE FROM users2roles WHERE userId = $nagvis_userid");
+							sqlrequest("$database_nagvis","DELETE FROM users WHERE userId = $nagvis_userid");
+						}
 
 						// Logging action
 						logging("admin_user","DELETE : $user_selected[$i]");
