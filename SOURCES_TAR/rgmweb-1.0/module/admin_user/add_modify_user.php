@@ -36,7 +36,7 @@ include("../../side.php");
 		function retrieve_user_info($user_id)
 		{
 			global $database_eonweb;
-			return sqlrequest("$database_eonweb","SELECT user_name, user_descr, group_id, user_passwd, user_type, user_location, user_limitation, user_language  FROM users WHERE user_id='$user_id'");
+			return sqlrequest("$database_eonweb","SELECT user_name, user_descr, user_email, group_id, user_passwd, user_type, user_location, user_limitation, user_language  FROM users WHERE user_id='$user_id'");
 		}
 
 		// Display user language selection  
@@ -81,15 +81,15 @@ include("../../side.php");
 		//--------------------------------------------------------
 
 		// Update User Information & Right
-		function update_user($user_id, $user_name, $user_descr, $user_group, $user_password1, $user_password2 ,$user_type, $user_location, $user_mail, $user_limitation, $old_group_id, $old_name, $create_user_in_nagvis, $create_user_in_cacti, $nagvis_role_id, $user_language)
+		function update_user($user_id, $user_name, $user_descr, $user_email, $user_group, $user_password1, $user_password2 ,$user_type, $user_location, $user_limitation, $old_group_id, $old_name, $create_user_in_nagvis, $nagvis_role_id, $user_language)
 		{
 			global $database_host;
-			global $database_cacti;
 			global $database_username;
 			global $database_password;
 
 			global $database_eonweb;
 			global $database_lilac;
+			global $database_nagvis;
 			global $path_eonweb;
 			global $dir_imgcache;
 
@@ -103,93 +103,79 @@ include("../../side.php");
 			if($user_descr=="")
 				$user_descr=$user_name;
 
-			if (($user_name != "") && ($user_name != null) && ($user_id != null) && ($user_id != "") && ($user_exist == 0)) {
-				if (($user_password1 != "") && ($user_password1 != null) && ($user_password1 == $user_password2)) {
-
-					$eonweb_groupname=mysqli_result(sqlrequest("$database_eonweb","SELECT group_name FROM groups WHERE group_id='$user_group'"),0,"group_name");			
-					$eonweb_oldgroupname=mysqli_result(sqlrequest("$database_eonweb","SELECT group_name FROM groups WHERE group_id='$old_group_id'"),0,"group_name");			
-					if ($user_password1 != "abcdefghijklmnopqrstuvwxyz") {
-						$passwd_temp = md5($user_password1);
-						// Update into eonweb
-						sqlrequest("$database_eonweb","UPDATE users set user_name='$user_name', user_descr='$user_descr',group_id='$user_group',user_passwd='$passwd_temp',user_type='$user_type',user_location='$user_location',user_limitation='$user_limitation',user_language='$user_language' WHERE user_id ='$user_id'");
-					}
-					else {
-						// Update into eonweb
-						sqlrequest("$database_eonweb","UPDATE users set user_name='$user_name', user_descr='$user_descr',group_id='$user_group',user_type='$user_type',user_location='$user_location',user_limitation='$user_limitation',user_language='$user_language' WHERE user_id ='$user_id'");
-					}
-			
-					// Update into lilac
-					$lilac_userid=mysqli_result(sqlrequest("$database_lilac","SELECT id FROM nagios_contact WHERE name='$old_name'"),0,"id");
-					$lilac_groupid=mysqli_result(sqlrequest("$database_lilac","SELECT id FROM nagios_contact_group WHERE name='$eonweb_groupname'"),0,"id");
-					$lilac_oldgroupid=mysqli_result(sqlrequest("$database_lilac","SELECT id FROM nagios_contact_group WHERE name='$eonweb_oldgroupname'"),0,"id");
-
-					sqlrequest("$database_lilac","UPDATE nagios_contact set name='".str_replace(","," ",$user_name)."', alias='$user_descr', email='$user_mail' WHERE name ='$old_name'");
-					sqlrequest("$database_lilac","DELETE from nagios_contact_group_member WHERE contact='$lilac_userid' and contactgroup='$lilac_groupid'");
-					sqlrequest("$database_lilac","DELETE from nagios_contact_group_member WHERE contact='$lilac_userid' and contactgroup='$lilac_oldgroupid'");
-					if($lilac_groupid!="" and $lilac_userid!="" and $user_limitation!="1")
-						sqlrequest("$database_lilac","INSERT into nagios_contact_group_member (contactgroup,contact) values('$lilac_groupid','$lilac_userid')");
-
-					
-					// update user into nagvis :
-					$bdd = new PDO('sqlite:/srv/rgm/nagvis/etc/auth.db');
-					$req = $bdd->query("SELECT userId, name FROM users WHERE name='".$_POST["user_name_old"]."'");
-                    $nagvis_user_exist = $req->fetch();
-
-                    // this is nagvis default salt for password encryption security
-					$nagvis_salt = '29d58ead6a65f5c00342ae03cdc6d26565e20954';
-
-					if($nagvis_user_exist["userId"] > 0){
-						// update in nagvis
-						if($create_user_in_nagvis=="yes"){
-							$nagvis_id = $nagvis_user_exist["userId"];
-							$bdd->exec("UPDATE users SET name = '$user_name', password = '".sha1($nagvis_salt.$passwd_temp)."' WHERE userId = $nagvis_id");
-							$bdd->exec("UPDATE users2roles SET roleId = $nagvis_role_id WHERE userId = $nagvis_id");
-						} else { // delete in nagvis
-							$bdd->exec("DELETE FROM users WHERE userId = ".$nagvis_user_exist["userId"]);
-							$bdd->exec("DELETE FROM users2roles WHERE userId = ".$nagvis_user_exist["userId"]);
-						}
-					} else{ // no user found in nagvis, so if checkbox is checked, we create
-						if($create_user_in_nagvis=="yes"){
-							$bdd->exec("INSERT INTO users (name, password) VALUES ('$user_name', '".sha1($nagvis_salt.$passwd_temp)."')");
-							$nagvis_id = $bdd->lastInsertId();
-							$bdd->exec("INSERT INTO users2roles (userId, roleId) VALUES ('$nagvis_id', $nagvis_role_id)");
-						}
-					}
-
-                     // Update user into cacti
-                    $bdd = new PDO('mysql:host='.$database_host.';dbname='.$database_cacti, $database_username, $database_password);
-                    $req = $bdd->query("SELECT id FROM user_auth WHERE username='".$_POST["user_name_old"]."'");
-                    $cacti_user_exist = $req->fetch();
-
-                    if($cacti_user_exist["id"] > 0){
-                    	$cacti_id = $cacti_user_exist["id"];
-                    	if($create_user_in_cacti == "yes"){
-                    		$bdd->exec("UPDATE user_auth SET username = '$user_name' WHERE id = $cacti_id");
-                    	} else {
-                    		$bdd->exec("DELETE FROM user_auth WHERE id = $cacti_id");
-                    	}
-                    } else {
-                    	if($create_user_in_cacti == "yes"){
-        					$bdd->exec("INSERT INTO user_auth (username,realm,full_name,show_tree,show_list,show_preview,graph_settings,login_opts,policy_graphs,policy_trees,policy_hosts,policy_graph_templates,enabled) VALUES ('$user_name',2,'$user_descr','on','on','on','on',3,2,2,2,2,'on')");
-                    	}
-                    }
-					
-					// logging action
-					logging("admin_user","UPDATE : $user_id $user_name $user_descr $user_limitation $user_group $user_type $user_location");
-
-					// renaming files
-					if($user_name!=$old_name){
-						foreach (glob("$path_eonweb/$dir_imgcache/$old_name*.png") as $filename)
-							unlink($filename);
-						if(file_exists("$path_eonweb/$dir_imgcache/$old_name-ged.xml"))
-							rename("$path_eonweb/$dir_imgcache/$old_name-ged.xml","$path_eonweb/$dir_imgcache/$user_name-ged.xml");
-					}
-					message(8," : User updated",'ok');
-					}
-					else
-						message(8," : Passwords do not match or are empty",'warning');
+			$passwd_temp='';
+			if ($user_password1 != "" && $user_password1 != null && $user_password1 != $user_password2 && $user_password1 != 'abcdefghijklmnopqrstuvwxyz') {
+				message(8," : Passwords do not match",'error');
+				return;
+			} elseif ($user_password1 != "" && $user_password1 != null && $user_password1 == $user_password2 && $user_password1 != "abcdefghijklmnopqrstuvwxyz") {
+				$passwd_temp = md5($user_password1);
 			}
-			elseif($user_exist != 0 && $user_name!=$old_name)
+
+			if (($user_name != "") && ($user_name != null) && ($user_id != null) && ($user_id != "") && ($user_exist == 0)) {
+
+				$eonweb_groupname=mysqli_result(sqlrequest("$database_eonweb","SELECT group_name FROM groups WHERE group_id='$user_group'"),0,"group_name");			
+				$eonweb_oldgroupname=mysqli_result(sqlrequest("$database_eonweb","SELECT group_name FROM groups WHERE group_id='$old_group_id'"),0,"group_name");			
+
+				// Update into eonweb
+				sqlrequest("$database_eonweb","UPDATE users set user_name='$user_name', user_descr='$user_descr', user_email='$user_email', "
+					."group_id='$user_group', user_type='$user_type', user_location='$user_location' ,user_limitation='$user_limitation', "
+					."user_language='$user_language' WHERE user_id = '$user_id'");
+			
+				if ($passwd_temp != '') {
+					sqlrequest("$database_eonweb","UPDATE users SET user_passwd='$passwd_temp' WHERE user_id = '$user_id'");
+				}
+			
+				// Update into lilac
+				$lilac_userid=mysqli_result(sqlrequest("$database_lilac","SELECT id FROM nagios_contact WHERE name='$old_name'"),0,"id");
+				$lilac_groupid=mysqli_result(sqlrequest("$database_lilac","SELECT id FROM nagios_contact_group WHERE name='$eonweb_groupname'"),0,"id");
+				$lilac_oldgroupid=mysqli_result(sqlrequest("$database_lilac","SELECT id FROM nagios_contact_group WHERE name='$eonweb_oldgroupname'"),0,"id");
+				sqlrequest("$database_lilac","UPDATE nagios_contact set name='".str_replace(","," ",$user_name)."', alias='$user_descr', email='$user_email' WHERE name ='$old_name'");
+				sqlrequest("$database_lilac","DELETE from nagios_contact_group_member WHERE contact='$lilac_userid' and contactgroup='$lilac_groupid'");
+				sqlrequest("$database_lilac","DELETE from nagios_contact_group_member WHERE contact='$lilac_userid' and contactgroup='$lilac_oldgroupid'");
+				if($lilac_groupid!="" and $lilac_userid!="" and $user_limitation!="1")
+					sqlrequest("$database_lilac","INSERT into nagios_contact_group_member (contactgroup,contact) values('$lilac_groupid','$lilac_userid')");
+
+				// update user into nagvis
+				// this is nagvis default salt for password encryption security
+				$nagvis_salt = '29d58ead6a65f5c00342ae03cdc6d26565e20954';
+				$nagvis_userid=mysqli_result(sqlrequest("$database_nagvis","SELECT userId FROM users WHERE name='".$_POST["user_name_old"]."'"),0,"userId");
+				if ($nagvis_userid == 0) {
+					// no user found in nagvis, so if checkbox is checked, we create
+					if ($create_user_in_nagvis=="yes") {
+						sqlrequest("$database_nagvis", "INSERT INTO users (name) VALUES ('$user_name')");
+					}
+				}
+				$nagvis_userid=mysqli_result(sqlrequest("$database_nagvis","SELECT userId FROM users WHERE name='".$_POST["user_name_old"]."'"),0,"userId");
+				if ($nagvis_userid > 0) {
+					if ($create_user_in_nagvis=="yes") {
+						sqlrequest("$database_nagvis", "UPDATE users SET name = '$user_name' WHERE userId = $nagvis_userid");
+						if ($passwd_temp != '') {
+							sqlrequest("$database_nagvis", "UPDATE users SET password = '".sha1($nagvis_salt.$passwd_temp)."' WHERE userId = $nagvis_userid");
+						}
+						if (mysqli_result(sqlrequest("$database_nagvis","SELECT count(*) AS found FROM users2roles WHERE userId = $nagvis_userid"),0,"found") == 0 ) {
+							sqlrequest("$database_nagvis", "INSERT INTO users2roles (userId, roleId) VALUES ('$nagvis_userid', '$nagvis_role_id')");
+						} else {
+							sqlrequest("$database_nagvis", "UPDATE users2roles SET roleId = $nagvis_role_id WHERE userId = $nagvis_userid");
+						}
+					} else { // delete in nagvis
+						sqlrequest("$database_nagvis", "DELETE FROM users WHERE userId = ".$nagvis_userid);
+						sqlrequest("$database_nagvis", "DELETE FROM users2roles WHERE userId = ".$nagvis_userid);
+					}
+				}
+
+				// logging action
+				logging("admin_user","UPDATE : $user_id $user_name $user_descr $user_limitation $user_group $user_type $user_location");
+
+				// renaming files
+				if($user_name!=$old_name){
+					foreach (glob("$path_eonweb/$dir_imgcache/$old_name*.png") as $filename)
+						unlink($filename);
+					if(file_exists("$path_eonweb/$dir_imgcache/$old_name-ged.xml"))
+						rename("$path_eonweb/$dir_imgcache/$old_name-ged.xml","$path_eonweb/$dir_imgcache/$user_name-ged.xml");
+				}
+				message(8," : User updated",'ok');
+			}
+			elseif ($user_exist != 0 && $user_name!=$old_name)
 				message(8," : User $user_name already exists",'warning');
 			else
 				message(8," : User name can not be empty",'warning');
@@ -214,7 +200,7 @@ include("../../side.php");
 
 		$user_location = retrieve_form_data("user_location","");
 		$user_location = ldap_escape($user_location);
-		$user_mail = retrieve_form_data("user_mail","");
+		$user_email = retrieve_form_data("user_mail","");
 		$user_descr = retrieve_form_data("user_descr","");
 		$user_descr = htmlspecialchars($user_descr, ENT_QUOTES);
 		$user_group = retrieve_form_data("user_group","");
@@ -226,7 +212,6 @@ include("../../side.php");
 
 		$create_user_in_nagvis = retrieve_form_data("create_user_in_nagvis","");
 		$nagvis_role_id = retrieve_form_data("nagvis_group","");
-		$create_user_in_cacti = retrieve_form_data("create_user_in_cacti","");
 
 		if($user_type=="1"){
 			$result = sqlrequest($database_eonweb,"select login from ldap_users_extended where dn='$user_location'");
@@ -257,22 +242,19 @@ include("../../side.php");
 			if 	(isset($_POST['add']))
 			{
 				$create_user_in_nagvis = retrieve_form_data("create_user_in_nagvis","");
-				$create_user_in_cacti = retrieve_form_data("create_user_in_cacti","");
 				if($create_user_in_nagvis == "yes"){ $nagvis_user = true; }
 				else { $nagvis_user = false; }
-				if($create_user_in_cacti == "yes"){ $cacti_user = true; }
-				else { $cacti_user = false; }
 				
 				$user_group = retrieve_form_data("user_group","");
 				$nagvis_grp = retrieve_form_data("nagvis_group", "");
-				$user_id=insert_user(stripAccents($user_name), $user_descr, $user_group, $user_password1, $user_password2, $user_type, $user_location,$user_mail,$user_limitation, true, $create_user_in_nagvis, $create_user_in_cacti, $nagvis_grp, $user_language);
+				$user_id=insert_user(stripAccents($user_name), $user_descr, $user_email, $user_group, $user_password1, $user_password2, $user_type, $user_location,$user_limitation, true, $create_user_in_nagvis, $nagvis_grp, $user_language);
 				//message(8,"User location: $user_location",'ok');	// For debug pupose, to be removed
 
 				// Retrieve Group Information from database
 				if($user_id){
 					$user_name_descr = retrieve_user_info($user_id);
 					$user_name=mysqli_result($user_name_descr,0,"user_name");
-					$user_mail=mysqli_result(sqlrequest("$database_lilac","SELECT email FROM nagios_contact WHERE name='$user_name'"),0,"email");
+					$user_email=mysqli_result($user_name_descr,0,"user_email");
 					$user_descr=mysqli_result($user_name_descr,0,"user_descr");
 					$user_group=mysqli_result($user_name_descr,0,"group_id");
 					$user_type=mysqli_result($user_name_descr,0,"user_type");
@@ -297,7 +279,7 @@ include("../../side.php");
 						// ACCOUNT UPDATE (and retrieve parameters)
 						//------------------------------------------------------------------------------------------------
 			if (isset($_POST['update'])){
-				update_user($user_id, stripAccents($user_name), $user_descr, $user_group, $user_password1, $user_password2, $user_type, $user_location, $user_mail, $user_limitation, $old_group_id, $old_name, $create_user_in_nagvis, $create_user_in_cacti, $nagvis_role_id, $user_language);	
+				update_user($user_id, stripAccents($user_name), $user_descr, $user_email, $user_group, $user_password1, $user_password2, $user_type, $user_location, $user_limitation, $old_group_id, $old_name, $create_user_in_nagvis, $nagvis_role_id, $user_language);	
 				//message(8,"Update: User location = $user_location",'ok');	// For debug pupose, to be removed
 				//message(8,"Update: User name =  $user_name",'ok');			// For debug pupose, to be removed
 			}
@@ -305,7 +287,7 @@ include("../../side.php");
 			// Retrieve Group Information from database
 			$user_name_descr = retrieve_user_info($user_id);
 			$user_name=mysqli_result($user_name_descr,0,"user_name");
-			$user_mail=mysqli_result(sqlrequest("$database_lilac","SELECT email FROM nagios_contact WHERE name='$user_name'"),0,"email");
+			$user_email=mysqli_result($user_name_descr,0,"user_email");
 			$user_descr=mysqli_result($user_name_descr,0,"user_descr");
 			$user_group=mysqli_result($user_name_descr,0,"group_id");
 			$user_type=mysqli_result($user_name_descr,0,"user_type");
@@ -314,43 +296,30 @@ include("../../side.php");
 			$user_password1="abcdefghijklmnopqrstuvwxyz";
 			$user_password2="abcdefghijklmnopqrstuvwxyz";
 
-			// search the user in Cacti (to check the checkbox if he's found)
-			$cacti_user = sqlrequest($database_cacti, "SELECT id FROM user_auth WHERE username = '$user_name'");
-			$cacti_user_found = mysqli_num_rows($cacti_user);
-			if($cacti_user_found > 0){ $cacti_user = true; }
-			else { $cacti_user = false; }
-
 			// search the user in Nagvis (to check the checkbox if he's found)
-			$bdd = new PDO('sqlite:/srv/rgm/nagvis/etc/auth.db');
-            $req = $bdd->query("SELECT count(*) FROM users WHERE name='$user_name'");
-            $nagvis_user_exist = $req->fetch();
-            if ($nagvis_user_exist["count(*)"] > 0){ $nagvis_user = true; }
-            else { $nagvis_user = false; }
+			$nagvis_user_count=mysqli_result(sqlrequest("$database_nagvis","SELECT count(*) AS count_user FROM users WHERE name='$user_name'"),0,"count_user");
+            if ($nagvis_user_count > 0) {
+				$nagvis_user = true;
+			} else {
+				$nagvis_user = false;
+			}
 
-			//message(8,"Mod: User location = $user_location",'ok');       // For debug pupose, to be removed
 			//message(8,"Mod: User name =  $user_name",'ok');                      // For debug pupose, to be removed
 
 			//------------------------------------------------------------------------------------------------
 		}
 
 		// search all nagvis groups
-		$bdd = new PDO('sqlite:/srv/rgm/nagvis/etc/auth.db');
-		$req = $bdd->query("SELECT * FROM roles");
-		$nagvis_groups = $req->fetchAll(PDO::FETCH_OBJ);
-
-		// get userId in Nagvis
-		$req = $bdd->query("SELECT userId from users WHERE name = '$user_name'");
-		$result = $req->fetch(PDO::FETCH_OBJ);
-
 		$id_nagvis = false;
 		$role_id = false;
-		if($result){
-			$id_nagvis = $result->userId;
-			$req = $bdd->query("SELECT roleId FROM users2roles WHERE userId = $id_nagvis");
-			$result = $req->fetch(PDO::FETCH_OBJ);
+		$nagvis_roles=sqlrequest("$database_nagvis", "SELECT roleId, name FROM roles");
+		$nagvis_userid=mysqli_result(sqlrequest("$database_nagvis","SELECT userId from users WHERE name = '$user_name'"),0,"userId");
 
-			if($result){
-				$role_id = $result->roleId;
+		if ($nagvis_userid > 0) {
+			$id_nagvis = $nagvis_userid;
+			$req = mysqli_result(sqlrequest("$database_nagvis","SELECT roleId FROM users2roles WHERE userId = $id_nagvis"),0,"roleId");
+			if ($req > 0) {
+				$role_id = $req;
 			}
 		}
 	?>
@@ -408,7 +377,7 @@ include("../../side.php");
 		<div class="row form-group">
 			<label class="col-md-3"><?php echo getLabel("label.admin_user.user_mail"); ?></label>
 			<div class="col-md-9">
-				<input class="form-control" type='text' name='user_mail' value='<?php echo $user_mail?>'>
+				<input class="form-control" type='text' name='user_mail' value='<?php echo $user_email?>'>
 			</div>
 		</div>
 
@@ -473,22 +442,23 @@ include("../../side.php");
 						?>
 					</span>
 					<select class="form-control" name="nagvis_group">
-						<?php foreach ($nagvis_groups as $group):
-							$selected = "";
-							if(!isset($_GET["user_id"]) && $group->name == "Guests" && !$role_id){
+					<?php
+						while ($line = mysqli_fetch_array($nagvis_roles)) {
+							$selected = '';
+							if (!isset($_GET["user_id"]) && $line["name"] == "Guests" && !$role_id) {
 								$selected = "selected";
 							}
-							if($role_id == $group->roleId){
+							if ($role_id == $line["roleId"]) {
 								$selected = "selected";
 							}
+							echo "<option value=\"" . $line["roleId"] . "\" $selected>" . $line["name"] . "</option>";
+						}
 						?>
-							<option value="<?php echo $group->roleId; ?>" <?php echo $selected; ?>><?php echo $group->name; ?></option>
-						<?php endforeach ?>
 					</select>
 				</div>
 			</div>
 		</div>
-
+<!-- 
 		<div class="row form-group">
 			<label class="col-md-3"><?php echo getLabel("label.admin_user.user_cacti"); ?></label>
 			<div class="col-md-9">
@@ -499,7 +469,7 @@ include("../../side.php");
 				?>
 			</div>
 		</div>
-		
+	-->	
 		<?php } ?>
 		<div class="form-group">
 			<?php

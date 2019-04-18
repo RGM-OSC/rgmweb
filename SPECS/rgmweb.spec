@@ -1,7 +1,7 @@
 Summary: RGM Web Interface 
 Name: rgmweb
 Version: 1.0
-Release: 10.rgm
+Release: 11.rgm
 Source: %{name}-%{version}.tar.gz
 Group: Applications/System
 License: GPL
@@ -55,11 +55,8 @@ sed -i 's|AuthrgmMySQLUsername rgminternal|AuthrgmMySQLUsername %{rgm_sql_intern
 sed -i 's|AuthrgmMySQLPassword 0rd0-c0m1735-b47h0n143|AuthrgmMySQLPassword %{rgm_sql_internal_pwd}|' %{buildroot}%{_sysconfdir}/httpd/conf.d/%{name}.conf
 
 
-%post
+%posttrans
 ln -nsf %{rgmdatadir} %{rgmlinkdir}
-#/bin/chown -R root:%{rgm_group} %{rgmdatadir}
-#/bin/chown -h root:%{rgm_group} %{rgmlinkdir}
-
 
 # set purge cron job
 echo "*/5 * * * * root /usr/bin/php %{rgmlinkdir}/include/purge.php > /dev/null 2>&1" > /etc/cron.d/rgmwebpurge
@@ -88,6 +85,14 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Thu Apr 18 2019 Eric Belhomme <ebelhomme@fr.scc.com> - 1.0-11.rgm
+- partially cleaned cacti references
+- updated rgmweb DB schema to support user email
+- replaced nagvis DB backend from sqlite to mysql
+- add triggers on users table to keep RGM users synced with Grafana users
+- symlink creation is moved from %post to %posttrans section to avoid
+  symlink deletion conflicts while upgrading
+
 * Wed Apr 13 2019 Michael Aubertin <maubertin@fr.scc.com> - 1.0-10.rgm
 - Move kibana in blank.
 

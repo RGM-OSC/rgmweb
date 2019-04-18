@@ -123,7 +123,7 @@ include("../../side.php");
 					$in_cacti = "yes";
 				}
 
-				$test = insert_user(stripAccents($usrname), $userdesc, $usergroup, $user_password1, $user_password2, $usrtype, $usrlocation,$usrmail,$usrlimitation, false, $in_nagvis, $in_cacti, $nagvis_role_id);
+				$test = insert_user(stripAccents($usrname), $userdesc, $usrmail, $usergroup, $user_password1, $user_password2, $usrtype, $usrlocation, $usrlimitation, false, $in_nagvis, $nagvis_role_id);
 				
 				if( is_null($test) ){
 					array_push($errors_names, $usrname);
