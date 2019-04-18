@@ -142,6 +142,9 @@ CREATE TABLE `users` (
   `user_language` char(2) DEFAULT '0',
   PRIMARY KEY (`user_id`,`user_name`)
 ) ENGINE=INNODB DEFAULT CHARSET=utf8;
+LOCK TABLES `users` WRITE;
+INSERT INTO `users` VALUES (1,1,'admin','21232f297a57a5a743894a0e4a801fc3','default user',NULL,0,'',0,'0');
+UNLOCK TABLES;
 
 DELIMITER $$
 -- Triggers on users table to synchronize RGM users with Grafana users
@@ -190,7 +193,3 @@ END;
 $$
 
 DELIMITER ;
-
-LOCK TABLES `users` WRITE;
-INSERT INTO `users` VALUES (1,1,'admin','21232f297a57a5a743894a0e4a801fc3','default user',NULL,0,'',0,'0');
-UNLOCK TABLES;
