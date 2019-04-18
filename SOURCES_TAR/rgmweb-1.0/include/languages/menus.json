@@ -91,11 +91,6 @@
                             "name":"menu.link.application_view",
                             "url":"/nagiosbp/cgi-bin/nagios-bp.cgi",
                             "target":"frame"
-                        },
-                        {
-                            "name":"menu.link.impact_view",
-                            "url":"/nagiosbp/cgi-bin/nagios-bp.cgi?mode=bi",
-                            "target":"frame"
                         }
                     ]
                 }
