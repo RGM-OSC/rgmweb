@@ -230,6 +230,11 @@
                     "name":"menu.link.apply_conf",
                     "url":"/lilac/export.php",
                     "target":"frame"
+                },
+                {
+                    "name":"Kibana",
+                    "url":"/kibana",
+                    "target":"_blank"
                 }
             ],
             "menusubtab":[
@@ -297,23 +302,6 @@
                             "target":"frame"
                         }
                     ]
-                }
-            ]
-        },
-        {
-            "id":"7",
-            "name":"Performances",
-            "icon":"fa fa-area-chart",
-            "link":[
-                {
-                    "name":"Grafana",
-                    "url":"/grafana",
-                    "target":"frame"
-                },
-                {
-                    "name":"Kibana",
-                    "url":"/kibana",
-                    "target":"_blank"
                 }
             ]
         }
