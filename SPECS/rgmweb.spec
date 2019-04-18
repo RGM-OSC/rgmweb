@@ -92,6 +92,7 @@ rm -rf %{buildroot}
 - partially cleaned cacti references
 - updated rgmweb DB schema to support user email
 - replaced nagvis DB backend from sqlite to mysql
+- add triggers on users table to keep RGM users synced with Grafana users
 
 * Wed Apr 13 2019 Michael Aubertin <maubertin@fr.scc.com> - 1.0-10.rgm
 - Move kibana in blank.

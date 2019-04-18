@@ -143,6 +143,54 @@ CREATE TABLE `users` (
   PRIMARY KEY (`user_id`,`user_name`)
 ) ENGINE=INNODB DEFAULT CHARSET=utf8;
 
+DELIMITER $$
+-- Triggers on users table to synchronize RGM users with Grafana users
+-- Trigger on INSERT
+DROP TRIGGER IF EXISTS `rgm_user_insert` $$
+CREATE TRIGGER rgm_user_insert AFTER INSERT on rgmweb.users FOR EACH ROW
+BEGIN
+	DECLARE is_admin BOOL;
+	SET is_admin = FALSE;
+	IF NEW.group_id = 1 THEN
+		SET is_admin = TRUE;
+	END IF;
+	INSERT INTO `grafana`.`user` SET
+		login = NEW.user_name,
+        email = NEW.user_email,
+        name = NEW.user_descr,
+        org_id = 1,
+        is_admin = is_admin,
+        email_verified = TRUE,
+        created = NOW();
+END;
+-- Trigger on UPDATE
+DROP TRIGGER IF EXISTS `rgm_user_update` $$
+CREATE TRIGGER rgm_user_update AFTER UPDATE on rgmweb.users FOR EACH ROW
+BEGIN
+	DECLARE is_admin BOOL;
+	SET is_admin = FALSE;
+	IF NEW.group_id = 1 THEN
+		SET is_admin = TRUE;
+	END IF;
+	UPDATE `grafana`.`user` SET
+		email = NEW.user_email,
+        name = NEW.user_descr,
+        org_id = 1,
+        is_admin = is_admin,
+        email_verified = TRUE,
+        updated = NOW()
+        WHERE login = NEW.user_name;
+END;
+-- Trigger on DELETE
+DROP TRIGGER IF EXISTS `rgm_user_delete` $$
+CREATE TRIGGER rgm_user_delete AFTER DELETE on rgmweb.users FOR EACH ROW
+BEGIN
+	DELETE FROM `grafana`.`user` WHERE login = OLD.user_name;
+END;
+$$
+
+DELIMITER ;
+
 LOCK TABLES `users` WRITE;
 INSERT INTO `users` VALUES (1,1,'admin','21232f297a57a5a743894a0e4a801fc3','default user',NULL,0,'',0,'0');
 UNLOCK TABLES;
