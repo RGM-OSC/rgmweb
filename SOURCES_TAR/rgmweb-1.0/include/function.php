@@ -762,8 +762,8 @@ function insert_user($user_name, $user_descr, $user_email, $user_group, $user_pa
 			if($message){ message(8," : User Inserted",'ok'); }
 
 			// Lilac contact_commands
-			$lilac_contact_hcommand=mysqli_result(sqlrequest("$database_lilac","select id from nagios_command where name like 'notify-by-email-host'"),0,"id");
-			$lilac_contact_scommand=mysqli_result(sqlrequest("$database_lilac","select id from nagios_command where name like 'notify-by-email-service'"),0,"id");
+			$lilac_contact_hcommand=mysqli_result(sqlrequest("$database_lilac","select id from nagios_command where name like 'notifier_host_notifier'"),0,"id");
+			$lilac_contact_scommand=mysqli_result(sqlrequest("$database_lilac","select id from nagios_command where name like 'notifier_service_notifier'"),0,"id");
 			if($lilac_contactid!="" and $lilac_contact_hcommand!="")
 				sqlrequest("$database_lilac","INSERT INTO nagios_contact_notification_command (contact_id,command,type) values ('$lilac_contactid','$lilac_contact_hcommand','host')");
 			elseif($lilac_contact_hcommand=="")
