@@ -1,7 +1,7 @@
 Summary: RGM Web Interface 
 Name: rgmweb
 Version: 1.0
-Release: 11.rgm
+Release: 12.rgm
 Source: %{name}-%{version}.tar.gz
 Group: Applications/System
 License: GPL
@@ -85,6 +85,9 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Wed Apr 23 2019 Michael Aubertin <maubertin@fr.scc.com> - 1.0-11.rgm
+- Fix user creation issue.
+
 * Thu Apr 18 2019 Eric Belhomme <ebelhomme@fr.scc.com> - 1.0-11.rgm
 - partially cleaned cacti references
 - updated rgmweb DB schema to support user email
