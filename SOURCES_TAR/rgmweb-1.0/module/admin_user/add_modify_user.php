@@ -192,8 +192,9 @@ include("../../side.php");
 
 		// Get parameter
 		$user_change_passord = retrieve_form_data("user_change_passord",null);
+	
 		$user_id = retrieve_form_data("user_id",null);
-
+	
 		// Secure the change password
 		if (($user_change_passord != null) && ($user_id != $_COOKIE['user_id']))
 			message(0,"No Access Right","critical");
@@ -212,6 +213,7 @@ include("../../side.php");
 
 		$create_user_in_nagvis = retrieve_form_data("create_user_in_nagvis","");
 		$nagvis_role_id = retrieve_form_data("nagvis_group","");
+
 
 		if($user_type=="1"){
 			$result = sqlrequest($database_eonweb,"select login from ldap_users_extended where dn='$user_location'");
@@ -235,6 +237,7 @@ include("../../side.php");
 						<h1 class="page-header">'.getLabel("label.admin_user.title_new").'</h1>
 					</div>
 				</div>';
+
 			
 			//------------------------------------------------------------------------------------------------
 			// ACCOUNT CREATION (New user ID)
@@ -477,7 +480,7 @@ include("../../side.php");
 					echo "<button class='btn btn-primary' type='submit' name='update' value='update'>".getLabel("action.update")."</button>";
 				else
 					echo "<button class='btn btn-primary' type='submit' name='add' value='add'>".getLabel("action.add")."</button>";
-				echo "<button class='btn btn-default' style='margin-left: 10px;' type='button' name='back' value='back' onclick='location.href=\"index.php\"'>".getLabel("action.cancel")."</button>";
+				echo "<button class='btn btn-default' style='margin-left: 10px;' type='button' name='back' value='back' onclick='location.href=\"index.php\"'>".getLabel("action.close")."</button>";
 			?>
 		</div>
 	</form>

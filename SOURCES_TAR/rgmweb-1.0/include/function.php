@@ -681,6 +681,8 @@ function insert_user($user_name, $user_descr, $user_email, $user_group, $user_pa
 
 	global $database_eonweb;
 	global $database_lilac;
+	global $database_nagvis;
+
 	$user_id=null;
 
 	// Check if user exist
@@ -731,31 +733,23 @@ function insert_user($user_name, $user_descr, $user_email, $user_group, $user_pa
 			if($lilac_contactgroupid!="" and $lilac_contactid!="" and $user_limitation!="1")
 				sqlrequest("$database_lilac","INSERT INTO nagios_contact_group_member (contactgroup, contact) VALUES ('$lilac_contactgroupid', '$lilac_contactid')");
 
-			// Insert into nagvis
 			if($in_nagvis == "yes"){
-				$bdd = new PDO('sqlite:/srv/rgm/nagvis/etc/auth.db');
+				$req = mysqli_result(sqlrequest("$database_nagvis","SELECT count(*) FROM users WHERE name = '$user_name'"),0);
 
-				$req = $bdd->query("SELECT count(*) FROM users WHERE name = '$user_name'");
-				$nagvis_user_exist = $req->fetch();
-
-				if ($nagvis_user_exist["count(*)"] == 0){
+				if ($req=="0"){
 					// this is nagvis default salt for password encryption security
 					$nagvis_salt = '29d58ead6a65f5c00342ae03cdc6d26565e20954';
 					
 					// insert user in nagvis SQLite DB
-					$sql = "INSERT INTO users (name, password) VALUES ('$user_name', '".sha1($nagvis_salt.$user_password1)."')";
-					$bdd->exec($sql);
+					sqlrequest("$database_nagvis","INSERT INTO users (name, password) VALUES ('$user_name', '".sha1($nagvis_salt.$user_password1)."')");
 
 					// insert user's right as "Guest" by default
-					$sql = "SELECT userId FROM users WHERE name = '$user_name'";
-					$req = $bdd->query($sql);
-					$result = $req->fetch();
-					$nagvis_id = $result['userId'];
+					$nagvis_id = mysqli_result(sqlrequest("$database_nagvis","SELECT userId FROM users WHERE name = '$user_name'"),0,"userId");
+					sqlrequest("$database_nagvis","INSERT INTO users2roles (userId, roleId) VALUES ($nagvis_id, $nagvis_group)");
 
-					$sql = "INSERT INTO users2roles (userId, roleId) VALUES ($nagvis_id, $nagvis_group)";
-					$bdd->exec($sql);
 				}
 			}
+
 
 			// Messages
 			logging("admin_user","INSERT : $user_name $user_descr $user_limitation $user_group $user_type $user_location");
