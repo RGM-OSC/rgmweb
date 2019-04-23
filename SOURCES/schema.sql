@@ -152,44 +152,80 @@ DELIMITER $$
 DROP TRIGGER IF EXISTS `rgm_user_insert` $$
 CREATE TRIGGER rgm_user_insert AFTER INSERT on rgmweb.users FOR EACH ROW
 BEGIN
-	DECLARE is_admin BOOL;
-	SET is_admin = FALSE;
-	IF NEW.group_id = 1 THEN
-		SET is_admin = TRUE;
-	END IF;
-	INSERT INTO `grafana`.`user` SET
-		login = NEW.user_name,
+        DECLARE is_grpadmin BOOL;
+  DECLARE userid MEDIUMINT;
+        DECLARE createddate DATETIME;
+        DECLARE defrole varchar(20);
+
+        SET is_grpadmin = FALSE;
+        SET defrole = 'View';
+
+        IF NEW.group_id = 1 THEN
+                SET is_grpadmin = TRUE;
+                SET defrole = 'Editor';
+        END IF;
+
+        INSERT INTO `grafana`.`user` SET
+                login = NEW.user_name,
         email = NEW.user_email,
         name = NEW.user_descr,
         org_id = 1,
-        is_admin = is_admin,
+        is_admin = is_grpadmin,
         email_verified = TRUE,
         created = NOW();
+
+
+  SET userid = (SELECT id FROM `grafana`.`user` WHERE login = NEW.user_name);
+  SET createddate = (SELECT created FROM `grafana`.`user` WHERE login = NEW.user_name);
+  INSERT INTO grafana.org_user SET
+                org_id = 1,
+                user_id = userid,
+                role = defrole,
+    created = createddate,
+    updated = NOW();
 END;
+
 -- Trigger on UPDATE
 DROP TRIGGER IF EXISTS `rgm_user_update` $$
 CREATE TRIGGER rgm_user_update AFTER UPDATE on rgmweb.users FOR EACH ROW
 BEGIN
-	DECLARE is_admin BOOL;
-	SET is_admin = FALSE;
-	IF NEW.group_id = 1 THEN
-		SET is_admin = TRUE;
-	END IF;
-	UPDATE `grafana`.`user` SET
-		email = NEW.user_email,
+        DECLARE is_grpadmin BOOL;
+  DECLARE userid MEDIUMINT;
+        DECLARE defrole varchar(20);
+
+        SET is_grpadmin = FALSE;
+        SET defrole = 'View';
+
+        IF NEW.group_id = 1 THEN
+                SET is_grpadmin = TRUE;
+                SET defrole = 'Editor';
+        END IF;
+
+        UPDATE `grafana`.`user` SET
+                email = NEW.user_email,
         name = NEW.user_descr,
         org_id = 1,
-        is_admin = is_admin,
+        is_admin = is_grpadmin,
         email_verified = TRUE,
         updated = NOW()
         WHERE login = NEW.user_name;
+
+  SET userid = (SELECT id FROM `grafana`.`user` WHERE login = NEW.user_name);
+
+  UPDATE `grafana`.`org_user` SET
+                role = defrole,
+    updated = NOW()
+                WHERE user_id = userid;
 END;
+
 -- Trigger on DELETE
 DROP TRIGGER IF EXISTS `rgm_user_delete` $$
 CREATE TRIGGER rgm_user_delete AFTER DELETE on rgmweb.users FOR EACH ROW
 BEGIN
-	DELETE FROM `grafana`.`user` WHERE login = OLD.user_name;
+  DECLARE userid MEDIUMINT;
+  SET userid = (SELECT id FROM `grafana`.`user` WHERE login = OLD.user_name);
+        DELETE FROM `grafana`.`user` WHERE login = OLD.user_name;
+        DELETE FROM `grafana`.`org_user` WHERE user_id = userid;
 END;
 $$
-
 DELIMITER ;
