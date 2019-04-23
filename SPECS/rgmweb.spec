@@ -1,7 +1,7 @@
 Summary: RGM Web Interface 
 Name: rgmweb
 Version: 1.0
-Release: 12.rgm
+Release: 13.rgm
 Source: %{name}-%{version}.tar.gz
 Group: Applications/System
 License: GPL
@@ -17,6 +17,7 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
 
 Source1: schema.sql
 Source2: httpd-rgmweb.conf
+Source3: change_definer.php
 
 # appliance group and users
 # /srv/rgm/rgmweb-1.0
@@ -32,9 +33,7 @@ RGMWEB is the web frontend for the RGM appliance : %{rgm_web_site}
 %prep
 %setup -q
 
-
 %build
-
 
 %install
 install -d -o root -g %{rgm_group} -m 0755 %{buildroot}%{rgmdatadir}
@@ -46,6 +45,7 @@ install -d -m0755 %{buildroot}%{_sysconfdir}/httpd/conf.d
 cp -afv ./* %{buildroot}%{rgmdatadir}
 cp %{SOURCE1} %{buildroot}%{rgmlibdir}/sql/
 cp -afpv %{SOURCE2}  %{buildroot}%{_sysconfdir}/httpd/conf.d/%{name}.conf
+cp %{SOURCE3} %{buildroot}%{rgmlibdir}/sql/
 #/bin/chmod -R u=rwX,go=rX %{buildroot}%{rgmdatadir}
 #/bin/chmod -R g+w %{buildroot}%{rgmdatadir}/cache
 
@@ -64,10 +64,10 @@ echo "*/5 * * * * root /usr/bin/php %{rgmlinkdir}/include/purge.php > /dev/null 
 
 # execute SQL postinstall script
 /usr/share/rgm/manage_sql.sh -d %{rgm_db_rgmweb} -s %{rgmlibdir}/sql/schema.sql -u %{rgm_sql_internal_user} -p "%{rgm_sql_internal_pwd}"
+/usr/bin/php /var/lib/rgm/rgmweb/sql/change_definer.php
 
 %preun
 rm -f %{rgmlinkdir}
-
 
 %clean
 rm -rf %{buildroot}
@@ -85,7 +85,10 @@ rm -rf %{buildroot}
 
 
 %changelog
-* Wed Apr 23 2019 Michael Aubertin <maubertin@fr.scc.com> - 1.0-11.rgm
+* Wed Apr 23 2019 Michael Aubertin <maubertin@fr.scc.com> - 1.0-13.rgm
+- Fix user trigger credential issue.
+
+* Wed Apr 23 2019 Michael Aubertin <maubertin@fr.scc.com> - 1.0-12.rgm
 - Fix user creation issue.
 
 * Thu Apr 18 2019 Eric Belhomme <ebelhomme@fr.scc.com> - 1.0-11.rgm
