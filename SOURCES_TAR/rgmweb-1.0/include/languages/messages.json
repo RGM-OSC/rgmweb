@@ -5,6 +5,7 @@
 	"action.apply": "Apply",
 	"action.apply_conf": "Apply configuration",
 	"action.cancel": "Cancel",
+	"action.close": "Close",
 	"action.clear": "Clear",
 	"action.connect": "Connect",
 	"action.create": "Create",

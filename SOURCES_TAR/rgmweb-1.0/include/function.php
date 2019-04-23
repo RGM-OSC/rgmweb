@@ -2,9 +2,10 @@
 /*
 #########################################
 #
-# Copyright (C) 2019 RGM Team
-# VERSION : 1.0
-# APPLICATION : rgmweb for RGM project
+# Copyright (C) 2016 EyesOfNetwork Team
+# DEV NAME : Jean-Philippe LEVY
+# VERSION : 5.1
+# APPLICATION : eonweb for eyesofnetwork project
 #
 # LICENCE :
 # This program is free software; you can redistribute it and/or
@@ -707,10 +708,10 @@ function insert_user($user_name, $user_descr, $user_email, $user_group, $user_pa
 			$user_password = md5($user_password1);
 			
 			// Insert into eonweb
-			sqlrequest("$database_eonweb","INSERT INTO users (user_name,user_descr,user_email,group_id,user_passwd,user_type,"
+			$return_sql=sqlrequest("$database_eonweb","INSERT INTO users (user_name,user_descr,user_email,group_id,user_passwd,user_type,"
 				."user_location,user_limitation,user_language) VALUES "
 				."('$user_name', '$user_descr', '$user_email', '$user_group', '$user_password', '$user_type', '$user_location', '$user_limitation', '$user_language')");
-			$user_id=mysqli_result(sqlrequest("$database_eonweb","SELECT user_id FROM users WHERE user_name='$user_name'"),0,"user_id");
+  			$user_id=mysqli_result(sqlrequest("$database_eonweb","SELECT user_id FROM users WHERE user_name='$user_name'"),0,"user_id");
 			$group_name=mysqli_result(sqlrequest("$database_eonweb","SELECT group_name FROM groups WHERE group_id='$user_group'"),0,"group_name");
 
 			// Insert into lilac
@@ -766,11 +767,11 @@ function insert_user($user_name, $user_descr, $user_email, $user_group, $user_pa
 			if($lilac_contactid!="" and $lilac_contact_hcommand!="")
 				sqlrequest("$database_lilac","INSERT INTO nagios_contact_notification_command (contact_id,command,type) values ('$lilac_contactid','$lilac_contact_hcommand','host')");
 			elseif($lilac_contact_hcommand=="")
-				message(8," : Verify contact 'notifier_host_notifier' command in nagios configurator",'warning');
+				message(8," : Verify contact 'notify-by-email-host' command in nagios configurator",'warning');
 			if($lilac_contactid!="" and $lilac_contact_scommand!="")
 				sqlrequest("$database_lilac","INSERT INTO nagios_contact_notification_command (contact_id,command,type) values ('$lilac_contactid','$lilac_contact_scommand','service')");
 			elseif($lilac_contact_scommand=="")
-				message(8," : Verify contact 'notifier_service_notifier' command in nagios configurator",'warning');
+				message(8," : Verify contact 'notify-by-email-service' command in nagios configurator",'warning');
 		}
 		else
 			message(8," : Passwords do not match or are empty",'warning');
