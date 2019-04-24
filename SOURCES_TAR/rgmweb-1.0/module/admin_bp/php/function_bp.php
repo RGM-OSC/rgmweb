@@ -94,7 +94,7 @@ function delete_bp($bp,$bdd){
 
 function list_services($host_name){
 	
-		list_services_52($host_name);
+		list_services_51($host_name);
 
 }
 
