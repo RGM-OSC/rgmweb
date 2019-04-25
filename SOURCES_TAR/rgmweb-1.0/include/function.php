@@ -2,10 +2,10 @@
 /*
 #########################################
 #
-# Copyright (C) 2016 EyesOfNetwork Team
-# DEV NAME : Jean-Philippe LEVY
-# VERSION : 5.1
-# APPLICATION : eonweb for eyesofnetwork project
+# Copyright (C) 2019 RGM Team
+# VERSION : 1.0
+# APPLICATION : rgmweb for rgm project
+# Based of EON 5.1
 #
 # LICENCE :
 # This program is free software; you can redistribute it and/or
@@ -1186,6 +1186,29 @@ function slaBarChart($field, $search)
 	array_push($array_result, $array_year_more);
 	
 	return json_encode($array_result);
+}
+
+# Get eon config values
+function getRGMConfig($name,$type=false)
+{
+
+	global $database_eonweb;
+	global ${$name};
+	
+	// mysql request	
+	$sql = "SELECT value FROM configs WHERE name='".$name."'";
+	$value = sqlrequest($database_eonweb, $sql);
+	$result = mysqli_fetch_row($value);
+	
+	// return value if exists
+	if(count($result)==0) {
+		return ${$name};
+	} elseif($type=="array") {
+		return explode(",",$result[0]);
+	} else {
+		return $result[0];
+	}
+	
 }
 
 ?>

@@ -35,6 +35,7 @@ $database_username="rgminternal";
 $database_password="0rd0-c0m1735-b47h0n143";
 
 $database_eonweb="rgmweb";
+$database_rgmweb="rgmweb";
 $database_nagvis="nagvis";
 $database_ged="ged";
 $database_lilac="lilac";
