@@ -1,7 +1,7 @@
 Summary: RGM Web Interface 
 Name: rgmweb
 Version: 1.0
-Release: 14.rgm
+Release: 15.rgm
 Source: %{name}-%{version}.tar.gz
 Group: Applications/System
 License: GPL
@@ -85,6 +85,9 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Wed Apr 25 2019 Michael Aubertin <maubertin@fr.scc.com> - 1.0-15.rgm
+- Add function for API.
+
 * Wed Apr 24 2019 Michael Aubertin <maubertin@fr.scc.com> - 1.0-14.rgm
 - Fix favicon.
 
