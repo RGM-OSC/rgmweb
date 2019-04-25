@@ -126,6 +126,7 @@ include("../../side.php");
 				}
 			
 				// Update into lilac
+				/*
 				$lilac_userid=mysqli_result(sqlrequest("$database_lilac","SELECT id FROM nagios_contact WHERE name='$old_name'"),0,"id");
 				$lilac_groupid=mysqli_result(sqlrequest("$database_lilac","SELECT id FROM nagios_contact_group WHERE name='$eonweb_groupname'"),0,"id");
 				$lilac_oldgroupid=mysqli_result(sqlrequest("$database_lilac","SELECT id FROM nagios_contact_group WHERE name='$eonweb_oldgroupname'"),0,"id");
@@ -134,7 +135,8 @@ include("../../side.php");
 				sqlrequest("$database_lilac","DELETE from nagios_contact_group_member WHERE contact='$lilac_userid' and contactgroup='$lilac_oldgroupid'");
 				if($lilac_groupid!="" and $lilac_userid!="" and $user_limitation!="1")
 					sqlrequest("$database_lilac","INSERT into nagios_contact_group_member (contactgroup,contact) values('$lilac_groupid','$lilac_userid')");
-
+				*/
+				
 				// update user into nagvis
 				// this is nagvis default salt for password encryption security
 				$nagvis_salt = '29d58ead6a65f5c00342ae03cdc6d26565e20954';

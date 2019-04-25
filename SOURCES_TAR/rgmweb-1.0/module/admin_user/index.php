@@ -60,6 +60,7 @@ include("../../side.php");
 						sqlrequest("$database_eonweb","delete from users where user_id='$user_selected[$i]'");
 
 						// Delete user in lilac
+						/*
 						$lilac_contactid=mysqli_result(sqlrequest("$database_lilac","select id from nagios_contact where name='$user_name'"),0,"id");
 						sqlrequest("$database_lilac","delete from nagios_contact where name='$user_name'");
 						sqlrequest("$database_lilac","delete from nagios_contact_address where contact='$lilac_contactid'");
@@ -68,6 +69,7 @@ include("../../side.php");
 						sqlrequest("$database_lilac","delete from nagios_escalation_contact where contact='$lilac_contactid'");
 						sqlrequest("$database_lilac","delete from nagios_host_contact_member where contact='$lilac_contactid'");
 						sqlrequest("$database_lilac","delete from nagios_service_contact_member where contact='$lilac_contactid'");
+						*/
 
 						// Delete user files
 						$user_files_path="$path_eonweb/$dir_imgcache/$user_name";
