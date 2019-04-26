@@ -37,7 +37,7 @@ include("../../side.php");
 
 	<?php
 	global $database_eonweb;
-	global $database_lilac;
+	//global $database_lilac;
 	$action=retrieve_form_data("action",null);
 	$group_mgt_list=retrieve_form_data("group_mgt_list",null);
 	$group_selected=retrieve_form_data("group_selected",null);
@@ -69,12 +69,14 @@ include("../../side.php");
 							sqlrequest("$database_eonweb","delete from groupright where group_id='$group_selected[$i]'");
 							sqlrequest("$database_eonweb","delete from groups where group_id='$group_selected[$i]'");
 							// Delete in lilac
+							/*
 							$lilac_contactgroupid=mysqli_result(sqlrequest("$database_lilac","select id from nagios_contact_group where name='$group_name'"),0,"id");
 							sqlrequest("$database_lilac","delete from nagios_contact_group where name='$group_name'");
 							sqlrequest("$database_lilac","delete from nagios_contact_group_member where contactgroup='$lilac_contactgroupid'");
 							sqlrequest("$database_lilac","delete from nagios_escalation_contactgroup where contactgroup='$lilac_contactgroupid'");
 							sqlrequest("$database_lilac","delete from nagios_host_contactgroup where contactgroup='$lilac_contactgroupid'");
 							sqlrequest("$database_lilac","delete from nagios_service_contact_group_member where contact_group='$lilac_contactgroupid'");
+							*/
 							logging("admin_group","DELETE : $group_selected[$i]");
 							message(8," : Group $group_name removed",'ok');
 						}

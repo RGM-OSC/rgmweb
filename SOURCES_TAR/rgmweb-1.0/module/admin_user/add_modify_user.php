@@ -88,7 +88,7 @@ include("../../side.php");
 			global $database_password;
 
 			global $database_eonweb;
-			global $database_lilac;
+			// global $database_lilac;
 			global $database_nagvis;
 			global $path_eonweb;
 			global $dir_imgcache;
@@ -190,7 +190,7 @@ include("../../side.php");
 
 		// Global parameter
 		global $database_eonweb;
-		global $database_lilac;
+		//global $database_lilac;
 
 		// Get parameter
 		$user_change_passord = retrieve_form_data("user_change_passord",null);

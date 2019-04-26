@@ -114,7 +114,7 @@ function retrieve_group_info($group_id)
 function update_group($count_menu_item,$group_id,$group_name,$group_descr,$group_type,$ldap_group_name,$message,$old_group=false)
 {
 	global $database_eonweb;
-	global $database_lilac;
+//	global $database_lilac;
 
 	if(!$group_name)
 	{
@@ -154,7 +154,7 @@ function update_group($count_menu_item,$group_id,$group_name,$group_descr,$group
 		// Update into eonweb
 		sqlrequest("$database_eonweb","UPDATE groups set group_name='$group_name', group_descr='$group_descr', group_type='$group_type', group_dn='$group_dn' where group_id='$group_id'");
 		// Update into lilac
-		sqlrequest("$database_lilac", "UPDATE nagios_contact_group SET name='$group_name', alias='$group_descr' WHERE name='$old_group'");
+		//sqlrequest("$database_lilac", "UPDATE nagios_contact_group SET name='$group_name', alias='$group_descr' WHERE name='$old_group'");
 		logging("admin_group","UPDATE : $group_id $group_name $group_descr");
 		if($message){ message(8," : Group updated",'ok'); }
 	}
@@ -168,7 +168,7 @@ function update_group($count_menu_item,$group_id,$group_name,$group_descr,$group
 function insert_group($group_name,$group_descr,$group_type,$ldap_group_name)
 {
 	global $database_eonweb;
-	global $database_lilac;
+	//global $database_lilac;
 	$group_id=null;
 
 	// Check if group exist
@@ -199,7 +199,7 @@ function insert_group($group_name,$group_descr,$group_type,$ldap_group_name)
 		$group_id=mysqli_result(sqlrequest("$database_eonweb","SELECT group_id, group_descr FROM groups WHERE group_name='$group_name'"),0,"group_id");
 		sqlrequest("$database_eonweb","INSERT INTO groupright (group_id) VALUES('$group_id')");
 		// Insert into lilac
-		sqlrequest("$database_lilac", "INSERT INTO nagios_contact_group (id, name, alias) VALUES('', '$group_name', '$group_descr')");
+		//sqlrequest("$database_lilac", "INSERT INTO nagios_contact_group (id, name, alias) VALUES('', '$group_name', '$group_descr')");
 		logging("admin_group","INSERT : $group_id $group_name $group_descr $group_type");
 		message(8," : Group inserted",'ok');
 	}

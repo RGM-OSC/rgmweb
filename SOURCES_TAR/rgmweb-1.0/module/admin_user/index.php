@@ -35,7 +35,7 @@ include("../../side.php");
 
 	<?php
 	global $database_eonweb;
-	global $database_lilac;
+	//global $database_lilac;
 	$action=retrieve_form_data("action",null);
 	$user_mgt_list=retrieve_form_data("user_mgt_list",null);
 	$user_selected=retrieve_form_data("user_selected",null);

@@ -147,8 +147,7 @@ INSERT INTO `users` VALUES (1,1,'admin','21232f297a57a5a743894a0e4a801fc3','defa
 UNLOCK TABLES;
 
 DELIMITER $$
--- Triggers on users table to synchronize RGM users with Grafana users
--- Trigger on INSERT
+-- INSERT trigger on `users` table
 DROP TRIGGER IF EXISTS `rgm_user_insert` $$
 CREATE TRIGGER rgm_user_insert AFTER INSERT on rgmweb.users FOR EACH ROW
 BEGIN
@@ -192,7 +191,7 @@ BEGIN
 	CALL lilac.create_update_lilac_user_from_rgmweb(NEW.user_name, NEW.user_descr, NEW.user_email);
 END;
 
--- Trigger on UPDATE
+-- UPDATE trigger on `users` table
 DROP TRIGGER IF EXISTS `rgm_user_update` $$
 CREATE TRIGGER rgm_user_update AFTER UPDATE on rgmweb.users FOR EACH ROW
 BEGIN
@@ -233,7 +232,7 @@ BEGIN
 	CALL lilac.create_update_lilac_user_from_rgmweb(NEW.user_name, NEW.user_descr, NEW.user_email);
 END;
 
--- Trigger on DELETE
+-- DELETE trigger on `users` table
 DROP TRIGGER IF EXISTS `rgm_user_delete` $$
 CREATE TRIGGER rgm_user_delete AFTER DELETE on rgmweb.users FOR EACH ROW
 BEGIN
@@ -251,4 +250,29 @@ BEGIN
 	CALL lilac.delete_lilac_user_from_rgmweb(OLD.user_name);
 END;
 $$
+
+-- INSERT trigger on `groups` table
+DROP TRIGGER IF EXISTS `rgm_group_insert` $$
+CREATE TRIGGER rgm_group_insert AFTER INSERT on `rgmweb`.`groups` FOR EACH ROW
+BEGIN
+	CALL lilac.create_update_lilac_group_from_rgmweb(NEW.group_name, NEW.group_descr);
+END;
+$$
+
+-- UPDATE trigger on `groups` table
+DROP TRIGGER IF EXISTS `rgm_group_update` $$
+CREATE TRIGGER rgm_group_update AFTER UPDATE on `rgmweb`.`groups` FOR EACH ROW
+BEGIN
+	CALL lilac.create_update_lilac_group_from_rgmweb(NEW.group_name, NEW.group_descr);
+END;
+$$
+
+-- DELETE trigger on `groups` table
+DROP TRIGGER IF EXISTS `rgm_group_delete` $$
+CREATE TRIGGER rgm_group_delete AFTER DELETE on `rgmweb`.`groups` FOR EACH ROW
+BEGIN
+	CALL lilac.delete_lilac_group_from_rgmweb(OLD.group_name);
+END;
+$$
+
 DELIMITER ;
