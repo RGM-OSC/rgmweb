@@ -2,10 +2,10 @@
 /*
 #########################################
 #
-# Copyright (C) 2017 EyesOfNetwork Team
-# DEV NAME : Jean-Philippe LEVY
-# VERSION : 5.2
-# APPLICATION : eonweb for eyesofnetwork project
+# Copyright (C) 2019 RGM Team
+# Forked from EyesOfNetwork 5.1
+# VERSION : 1.0
+# APPLICATION : rgmweb for RGM project
 #
 # LICENCE :
 # This program is free software; you can redistribute it and/or
@@ -55,7 +55,7 @@ function checkHost($type, $address, $port, $path){
  */
 function getServicesStateNbr()
 {
-	$sockets = getEonConfig("sockets","array");
+	$sockets = getRGMConfig("sockets","array");
 
 	$result = array();
 	$nbr_services_pending = 0;
@@ -134,7 +134,7 @@ function getServicesStateNbr()
  */
 function getHostsStateNbr()
 {
-	$sockets = getEonConfig("sockets","array");
+	$sockets = getRGMConfig("sockets","array");
 
 	$result = array();
 	$nbr_hosts_pending = 0;
