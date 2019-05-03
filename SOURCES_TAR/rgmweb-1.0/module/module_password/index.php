@@ -80,7 +80,7 @@ include("../../side.php");
 			<div class="row">
 				<label class="col-md-3"><?php echo getLabel("label.monitoring_passwd.pwd"); ?></label>
 				<div class="col-md-9">
-					<input class="form-control" type='password' name='user_password1' value='<?php echo $user_password1?>'>
+					<input class="form-control" type='password' name='user_password1' value=''>
 				</div>
 			</div>
 		</div>
@@ -88,7 +88,7 @@ include("../../side.php");
 			<div class="row">
 				<label class="col-md-3"><?php echo getLabel("label.monitoring_passwd.pwd2"); ?></label>
 				<div class="col-md-9">
-					<input class="form-control" type='password' name='user_password2' value='<?php echo $user_password2?>'>
+					<input class="form-control" type='password' name='user_password2' value=''>
 				</div>
 			</div>
 		</div>
