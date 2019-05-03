@@ -1,7 +1,7 @@
 Summary: RGM Web Interface 
 Name: rgmweb
 Version: 1.0
-Release: 16.rgm
+Release: 17.rgm
 Source: %{name}-%{version}.tar.gz
 Group: Applications/System
 License: GPL
@@ -85,6 +85,9 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Fri May 03 2019 Michael Aubertin <maubertin@fr.scc.com> - 1.0-17.rgm
+- Fix menus and initial command issue.
+
 * Wed Apr 30 2019 Michael Aubertin <maubertin@fr.scc.com> - 1.0-16.rgm
 - Fix dashboard regression.
 

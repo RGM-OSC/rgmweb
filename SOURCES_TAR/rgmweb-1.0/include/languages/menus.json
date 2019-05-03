@@ -111,7 +111,7 @@
                         },
                         {
                             "name":"menu.link.grafana",
-                            "url":"/grafana/",
+                            "url":"/grafana/dashboards?kiosk",
                             "target":"frame"
                         }
                     ]
@@ -230,7 +230,12 @@
                     "name":"Kibana",
                     "url":"/kibana",
                     "target":"_blank"
-                }
+                },
+								{
+										"name":"Grafana",
+										"url":"/grafana/",
+										"target":"frame"
+								}
             ],
             "menusubtab":[
                 {
