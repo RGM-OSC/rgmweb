@@ -1,7 +1,7 @@
 Summary: RGM Web Interface 
 Name: rgmweb
 Version: 1.0
-Release: 17.rgm
+Release: 18.rgm
 Source: %{name}-%{version}.tar.gz
 Group: Applications/System
 License: GPL
@@ -85,6 +85,9 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Mon May 06 2019 Eric Belhomme <ebelhomme@fr.scc.com> - 1.0-18.rgm
+- add users group in default schema
+
 * Fri May 03 2019 Michael Aubertin <maubertin@fr.scc.com> - 1.0-17.rgm
 - Fix menus and initial command issue.
 

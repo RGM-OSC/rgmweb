@@ -37,7 +37,9 @@ CREATE TABLE `groupright` (
 ) ENGINE=INNODB DEFAULT CHARSET=utf8;
 
 LOCK TABLES `groupright` WRITE;
-INSERT INTO `groupright` VALUES (1,'1','1','1','1','1','1','1');
+INSERT INTO `groupright` VALUES
+	(1,'1','1','1','1','1','1','1'),
+	(2,'1','1','1','1','1','0','0');
 UNLOCK TABLES;
 
 --
@@ -55,7 +57,9 @@ CREATE TABLE `groups` (
 ) ENGINE=INNODB DEFAULT CHARSET=utf8;
 
 LOCK TABLES `groups` WRITE;
-INSERT INTO `groups` VALUES (1,'admins','Administrator group',NULL,NULL);
+INSERT INTO `groups` VALUES
+	(1,'admins','Administrator group',NULL,NULL),
+	(2,'users','Normal users group',NULL,NULL);
 UNLOCK TABLES;
 
 --
