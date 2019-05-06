@@ -59,7 +59,7 @@ CREATE TABLE `groups` (
 LOCK TABLES `groups` WRITE;
 INSERT INTO `groups` VALUES
 	(1,'admins','Administrator group',NULL,NULL),
-	(2,'users','Normal users group',NULL,NULL);
+	(2,'users','Default users group',NULL,NULL);
 UNLOCK TABLES;
 
 --
