@@ -87,6 +87,7 @@ rm -rf %{buildroot}
 %changelog
 * Mon May 06 2019 Eric Belhomme <ebelhomme@fr.scc.com> - 1.0-18.rgm
 - add users group in default schema
+- fix grafana admin role for admin user
 
 * Fri May 03 2019 Michael Aubertin <maubertin@fr.scc.com> - 1.0-17.rgm
 - Fix menus and initial command issue.

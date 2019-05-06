@@ -214,6 +214,11 @@ BEGIN
 		SET defrole = 'Editor';
 	END IF;
 
+	IF NEW.user_id = 1 THEN
+		SET is_grpadmin = TRUE;
+		SET defrole = 'Admin';
+	END IF;
+
 	UPDATE `grafana`.`user` SET
 		email = NEW.user_email,
 		name = NEW.user_descr,
