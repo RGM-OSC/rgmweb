@@ -163,7 +163,7 @@ BEGIN
 	--
 	-- Lilac user synchronization
 	--
-	CALL lilac.create_update_lilac_user_from_rgmweb(NEW.user_name, NEW.user_descr, NEW.user_email);
+	CALL lilac.insert_lilac_user_from_rgmweb(NEW.user_name, NEW.user_descr, NEW.user_email);
 END;
 $$
 
@@ -179,7 +179,7 @@ BEGIN
 	--
 	-- Lilac user synchronization
 	--
-	CALL lilac.create_update_lilac_user_from_rgmweb(NEW.user_name, NEW.user_descr, NEW.user_email);
+	CALL lilac.update_lilac_user_from_rgmweb(NEW.user_name, NEW.user_descr, NEW.user_email);
 END;
 $$
 
