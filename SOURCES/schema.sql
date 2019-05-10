@@ -158,7 +158,7 @@ BEGIN
 	--
 	-- Grafana user synchronization
 	--
-	CALL grafana.insert_grafana_user_from_rgmweb( NEW.user_name, NEW.user_descr, NEW.user_email, NEW.group_id);
+	CALL grafana.insert_grafana_user_from_rgmweb( NEW.user_name, NEW.user_descr, NEW.user_email, NEW.user_id, NEW.group_id);
 
 	--
 	-- Lilac user synchronization
