@@ -257,6 +257,8 @@ include("../../side.php");
 
 				// Retrieve Group Information from database
 				if($user_id){
+					print '<script type="text/javascript">window.location = "/module/admin_user/";</script>';
+					/*
 					$user_name_descr = retrieve_user_info($user_id);
 					$user_name=mysqli_result($user_name_descr,0,"user_name");
 					$user_email=mysqli_result($user_name_descr,0,"user_email");
@@ -268,6 +270,7 @@ include("../../side.php");
 					$user_location=mysqli_result($user_name_descr,0,"user_location");
 					$user_password1= "abcdefghijklmnopqrstuvwxyz";
 					$user_password2= "abcdefghijklmnopqrstuvwxyz";
+					*/
 				}
 			}
 			//------------------------------------------------------------------------------------------------
