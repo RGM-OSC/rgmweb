@@ -118,12 +118,15 @@ CREATE TABLE `logs` (
 
 --
 -- Table structure for table `sessions`
+-- session_type: 1 -> web, 2 -> API
 --
 
 DROP TABLE IF EXISTS `sessions`;
 CREATE TABLE `sessions` (
 	`session_id` int(11) NOT NULL,
 	`user_id` int(11) NOT NULL,
+	`session_type` tinyint(3) unsigned DEFAULT NULL,
+	`creation_epoch` bigint(20) unsigned DEFAULT NULL,
 	PRIMARY KEY (`session_id`)
 ) ENGINE=INNODB DEFAULT CHARSET=utf8;
 
