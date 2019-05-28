@@ -71,6 +71,9 @@ $cookie_domain="";
 $cookie_time=0;
 // 4 hour : $cookie_time=4*60*60;
 
+// RGM auth token Time To Live (in seconds)
+$rgmauth_ttl = 3600;
+
 // LDAP
 $ldap_search_begins=array('a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','1','2','3','4','5','6','7','8','9','0','\\28');
 

@@ -1215,4 +1215,18 @@ function getRGMConfig($name,$type=false)
 	
 }
 
+// ensure the sessionid is unique on database
+function genSessionId() {
+	global $database_eonweb;
+	$sessid = 0;
+	while (true) {
+		// limit to 31 bit lenght integer
+		$sessid = rand(1000, 2147483647);
+		$stmt = sqlrequest( $database_eonweb, "SELECT COUNT(*) AS count FROM sessions WHERE session_id = '" . $sessid . "';", false);
+		if ((int)(mysqli_fetch_row($stmt)[0]) == 0)
+			break;
+	}
+	return $sessid;
+}
+
 ?>
