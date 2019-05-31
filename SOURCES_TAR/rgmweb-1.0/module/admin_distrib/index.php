@@ -48,10 +48,10 @@ function admDist_displayItemDescription() {
 	$stmt = sqlrequest($database_rgmweb,"SELECT `filename`, `name` FROM ol_items WHERE id = '" . $id_item . "'");
 	$sql_raw = mysqli_fetch_array($stmt);
 	if ($sql_raw) {
-		if (file_exists($path_distrib . '/install/' . $sql_raw['filename'])) {
+		if (file_exists($path_distrib . '/markdown/' . $sql_raw['filename'])) {
 			// /srv/rgm/distrib/install/win_metricbeat.md
 			$md = new Parsedown();
-			echo $md->text(file_get_contents($path_distrib . '/install/'. $sql_raw['filename']));
+			echo $md->text(file_get_contents($path_distrib . '/markdown/'. $sql_raw['filename']));
 		} else {
 			echo '<p>no description available for ' . $sql_raw['name'] . "</p>\n"; 
 		}
