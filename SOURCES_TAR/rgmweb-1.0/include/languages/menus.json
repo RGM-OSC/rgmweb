@@ -231,11 +231,16 @@
                     "url":"/kibana",
                     "target":"_blank"
                 },
-								{
-										"name":"Grafana",
-										"url":"/grafana/",
-										"target":"frame"
-								}
+                {
+                        "name":"Grafana",
+                        "url":"/grafana/",
+                        "target":"frame"
+                },
+                {
+                    "name":"Asset deployment",
+                    "url":"/module/admin_distrib/",
+                    "target":"main"
+                }
             ],
             "menusubtab":[
                 {

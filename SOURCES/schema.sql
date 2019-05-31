@@ -154,6 +154,59 @@ LOCK TABLES `users` WRITE;
 INSERT INTO `users` VALUES (1,1,'admin','21232f297a57a5a743894a0e4a801fc3','default user',NULL,0,'',0,'0');
 UNLOCK TABLES;
 
+--
+-- Table structure for table `ol_items`
+-- RGM "one-liners" deployment scripts
+--
+CREATE TABLE `ol_items` (
+  `id` mediumint(9) NOT NULL AUTO_INCREMENT,
+  `name` varchar(128) NOT NULL,
+  `filename` varchar(255) NOT NULL,
+  `shell` varchar(128) DEFAULT NULL,
+  `command` varchar(4096) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name_UNIQUE` (`name`),
+  UNIQUE KEY `id_UNIQUE` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8
+
+--
+-- Table structure for table `ol_tags`
+-- tag filters for RGM "one-liners" scripts
+--
+CREATE TABLE `ol_tags` (
+  `id` mediumint(9) NOT NULL AUTO_INCREMENT,
+  `name` varchar(128) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name_UNIQUE` (`name`),
+  UNIQUE KEY `id_UNIQUE` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8
+LOCK TABLES `ol_tags` WRITE;
+INSERT INTO `ol_tags` VALUES
+	(1,'linux'),
+	(2,'windows'),
+	(3,'metricbeat'),
+	(4,'heartbeat'),
+	(5,'winlogbeat'),
+	(6,'filebeat'),
+	(7,'auditbeat'),
+	(8,'packetbeat');
+UNLOCK TABLES;
+
+--
+-- Table structure for table `ol_items_tags`
+-- jointure table for RGM "one-liners" scripts and tags
+--
+CREATE TABLE `ol_items_tags` (
+  `id_item` mediumint(9) NOT NULL,
+  `id_tags` mediumint(9) NOT NULL,
+  UNIQUE KEY `ctx_uq_item_tag` (`id_item`,`id_tags`),
+  KEY `idx_item` (`id_item`),
+  KEY `idx_tag` (`id_tags`),
+  CONSTRAINT `fq_idx_item` FOREIGN KEY (`id_item`) REFERENCES `ol_items` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `fq_idx_tag` FOREIGN KEY (`id_tags`) REFERENCES `ol_tags` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8
+
+
 DELIMITER $$
 -- INSERT trigger on `users` table
 DROP TRIGGER IF EXISTS `rgm_user_insert` $$

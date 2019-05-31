@@ -3,10 +3,12 @@
 #########################################
 #
 # Copyright (C) 2016 EyesOfNetwork Team
-# DEV NAME : Jean-Philippe LEVY
-# VERSION : 5.1
-# APPLICATION : eonweb for eyesofnetwork project
+# original author: Jean-Philippe LEVY
+# APPLICATION: eonweb for eyesofnetwork project
 #
+# Copyright (C) 2019 RGM Team
+# contributor: Eric Belhomme
+
 # LICENCE :
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -65,6 +67,7 @@ class Translator
 	/**
 	 * Get File
 	 */
+	/*
 	public function getFile($file,$file_custom)
 	{
 		$lang=$GLOBALS['langformat'];
@@ -80,31 +83,38 @@ class Translator
 
 		return $file;
 	}
-	
+	*/
 	/**
 	 * Init File
+	 * Merge JSON language files by superseding default (english) language with
+	 * locale language.
 	 */
-	public function initFile($file,$file_custom)
+	public function initFile($file, $file_custom)
 	{				
 		global $path_messages_custom;
 		$lang=$GLOBALS['langformat'];
+		$messages = array();
 		
 		// Get file to use
-		$file_final = $this->getFile($file,$file_custom);	
-	
-		// If language file do merge
-		if(preg_match("#$path_messages_custom#", $file_final)) {
-			if(preg_match("#".$path_messages_custom."-".$lang."#", $file_final)){
-				$file=$file."-".$lang;
-			}
-			$messages_custom=json_decode(file_get_contents($file_final),true);
-			$messages=json_decode(file_get_contents($file.".json"),true);
-			$messages_all=array_merge($messages,$messages_custom);
-			$this->dictionnary_content = json_encode($messages_all);
+		if (file_exists($file.".json")) {
+			$message = json_decode(file_get_contents($file.".json"),true);
 		}
-		else {
-			$this->dictionnary_content = file_get_contents($file_final);
+		if (file_exists($file_custom.".json")) {
+			$tmp = json_decode(file_get_contents($file_custom.".json"),true);
+			if (count($tmp) > 0)
+				$message = array_merge($message, $tmp);
 		}
+		if (file_exists($file."-$lang.json")) {
+			$tmp = json_decode(file_get_contents($file."-$lang.json"),true);
+			if (count($tmp) > 0)
+				$message = array_merge($message, $tmp);
+		}
+		if (file_exists($file_custom."-$lang.json")) {
+			$tmp = json_decode(file_get_contents($file_custom."-$lang.json"),true);
+			if (count($tmp) > 0)
+				$message = array_merge($message, $tmp);
+		}
+		$this->dictionnary_content = json_encode($message);
 		
 		return $this->dictionnary_content;
 	}
@@ -127,7 +137,5 @@ class Translator
 		echo "var dictionnary = ".$this->dictionnary_content;
 		echo "</script>\n";
 	}
-	
 }
-
 ?>

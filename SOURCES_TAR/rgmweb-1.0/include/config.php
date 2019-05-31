@@ -93,6 +93,7 @@ $max_dup = 9999;
 // # Define All Path
 $path_eon="/srv/rgm";
 $path_eonweb="$path_eon/rgmweb";
+$path_distrib="$path_eon/distrib";
 $path_frame="/module/module_frame/index.php?url=";
 $dir_imgcache="cache";
 $path_images="/images";
