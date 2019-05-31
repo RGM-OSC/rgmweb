@@ -121,6 +121,7 @@ CREATE TABLE `logs` (
 -- session_type: 1 -> web, 2 -> API
 --
 
+DROP TABLE IF EXISTS `sessions`;
 CREATE TABLE `sessions` (
   `session_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
@@ -128,7 +129,7 @@ CREATE TABLE `sessions` (
   `creation_epoch` bigint(20) unsigned DEFAULT NULL,
   `session_token` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`session_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 --
