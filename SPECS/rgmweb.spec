@@ -1,7 +1,7 @@
 Summary: RGM Web Interface 
 Name: rgmweb
 Version: 1.0
-Release: 18.rgm
+Release: 19.rgm
 Source: %{name}-%{version}.tar.gz
 Group: Applications/System
 License: GPL
@@ -85,6 +85,9 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Fri May 31 2019 Eric Belhomme <ebelhomme@fr.scc.com> - 1.0-19.rgm
+- introduce admin_distrib module
+
 * Mon May 06 2019 Eric Belhomme <ebelhomme@fr.scc.com> - 1.0-18.rgm
 - add users group in default schema
 - fix grafana admin role for admin user

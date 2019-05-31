@@ -158,6 +158,7 @@ UNLOCK TABLES;
 -- Table structure for table `ol_items`
 -- RGM "one-liners" deployment scripts
 --
+DROP TABLE IF EXISTS `ol_items`;
 CREATE TABLE `ol_items` (
   `id` mediumint(9) NOT NULL AUTO_INCREMENT,
   `name` varchar(128) NOT NULL,
@@ -167,19 +168,20 @@ CREATE TABLE `ol_items` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `name_UNIQUE` (`name`),
   UNIQUE KEY `id_UNIQUE` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Table structure for table `ol_tags`
 -- tag filters for RGM "one-liners" scripts
 --
+DROP TABLE IF EXISTS `ol_tags`;
 CREATE TABLE `ol_tags` (
   `id` mediumint(9) NOT NULL AUTO_INCREMENT,
   `name` varchar(128) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name_UNIQUE` (`name`),
   UNIQUE KEY `id_UNIQUE` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 LOCK TABLES `ol_tags` WRITE;
 INSERT INTO `ol_tags` VALUES
 	(1,'linux'),
@@ -196,6 +198,7 @@ UNLOCK TABLES;
 -- Table structure for table `ol_items_tags`
 -- jointure table for RGM "one-liners" scripts and tags
 --
+DROP TABLE IF EXISTS `ol_items_tags`;
 CREATE TABLE `ol_items_tags` (
   `id_item` mediumint(9) NOT NULL,
   `id_tags` mediumint(9) NOT NULL,
@@ -204,7 +207,7 @@ CREATE TABLE `ol_items_tags` (
   KEY `idx_tag` (`id_tags`),
   CONSTRAINT `fq_idx_item` FOREIGN KEY (`id_item`) REFERENCES `ol_items` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `fq_idx_tag` FOREIGN KEY (`id_tags`) REFERENCES `ol_tags` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 DELIMITER $$
