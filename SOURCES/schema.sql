@@ -162,7 +162,8 @@ DROP TABLE IF EXISTS `ol_items`;
 CREATE TABLE `ol_items` (
   `id` mediumint(9) NOT NULL AUTO_INCREMENT,
   `name` varchar(128) NOT NULL,
-  `filename` varchar(255) NOT NULL,
+  `instruction_file` varchar(255) NOT NULL,
+  `help_file` varchar(255) DEFAULT NULL,
   `shell` varchar(128) DEFAULT NULL,
   `command` varchar(4096) DEFAULT NULL,
   PRIMARY KEY (`id`),

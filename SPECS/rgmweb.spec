@@ -1,7 +1,7 @@
 Summary: RGM Web Interface 
 Name: rgmweb
 Version: 1.0
-Release: 19.rgm
+Release: 20.rgm
 Source: %{name}-%{version}.tar.gz
 Group: Applications/System
 License: GPL
@@ -85,6 +85,9 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Thu Jun 13 2019 Eric Belhomme <ebelhomme@fr.scc.com> - 1.0-20.rgm
+- SQL schema upgrade on ol_items table
+
 * Fri May 31 2019 Eric Belhomme <ebelhomme@fr.scc.com> - 1.0-19.rgm
 - introduce admin_distrib module
 
