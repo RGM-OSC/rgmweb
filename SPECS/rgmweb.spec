@@ -1,7 +1,7 @@
 Summary: RGM Web Interface 
 Name: rgmweb
 Version: 1.0
-Release: 20.rgm
+Release: 21.rgm
 Source: %{name}-%{version}.tar.gz
 Group: Applications/System
 License: GPL
@@ -85,6 +85,9 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Thu Aug 13 2019 Eric Belhomme <ebelhomme@fr.scc.com> - 1.0-21.rgm
+- remove backward compatibility for admin_bp with EON 5.1
+
 * Thu Jun 13 2019 Eric Belhomme <ebelhomme@fr.scc.com> - 1.0-20.rgm
 - SQL schema upgrade on ol_items table
 
