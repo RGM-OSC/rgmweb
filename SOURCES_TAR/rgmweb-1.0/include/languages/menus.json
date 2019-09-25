@@ -24,6 +24,11 @@
                     "name":"menu.link.nagvis",
                     "url":"/nagvis/frontend/nagvis-js/index.php",
                     "target":"frame"
+                },
+                {
+                    "name":"menu.link.grafana",
+                    "url":"/grafana/dashboards?kiosk",
+                    "target":"frame"
                 }
             ]
         },
@@ -108,11 +113,6 @@
                             "name":"menu.link.per_equipment",
                             "url":"/module/capacity_per_device/",
                             "target":"main"
-                        },
-                        {
-                            "name":"menu.link.grafana",
-                            "url":"/grafana/dashboards?kiosk",
-                            "target":"frame"
                         }
                     ]
                 }

@@ -371,7 +371,7 @@
 	"menu.link.apply_conf": "Appliquer la configuration",
 	"menu.link.auth": "Authentification",
 	"menu.link.availabilities": "Disponibilités",
-	"menu.link.grafana": "Tableau de bord",
+	"menu.link.grafana": "Performances",
 	"menu.link.centos": "Centos",
 	"menu.link.client": "Client",
 	"menu.link.conf": "Configuration",

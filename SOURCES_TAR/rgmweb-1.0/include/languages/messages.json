@@ -380,7 +380,7 @@
 	"menu.link.apply_conf": "Apply configuration",
 	"menu.link.auth": "Authentification",
 	"menu.link.availabilities": "Availabilities",
-	"menu.link.grafana": "Dashboard",
+	"menu.link.grafana": "Performances",
 	"menu.link.centos": "Centos",
 	"menu.link.client": "Client",
 	"menu.link.conf": "Configuration",
