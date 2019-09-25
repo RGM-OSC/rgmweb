@@ -223,35 +223,6 @@ function cut($string, $width, $padding = "..."){
     return (strlen($string) > $width ? substr($string, 0, $width-strlen($padding)).$padding : $string);
 } 
 
-// Display TOOL list
-function get_tool_listbox(){
-	// Get the global table
-	global $array_tools;
-	
-	echo "<label>".getLabel("label.tool_all.tool")."</label>";	
-
-	// Get the first array key
-	reset($array_tools);
-
-	// Display the list of tool
-	echo "<SELECT id='tool_list' name='tool_list' class='form-control'>";
- 	while (list($tool_name, $tool_url) = each($array_tools)) 
-	{
-		echo "<OPTION value='$tool_url'>$tool_name</OPTION>";
-	}
-	echo "</SELECT>";
-}
-
-// Display min and max port value for show port tool
-function get_toolport_ports(){
-	global $default_minport;
-	global $default_maxport;
-	
-	echo "<label>Port min - Port max</label>";
-	echo "<div class='row'><div class='col-md-4'><input id='min_port' class='form-control' type=text name='min_port' value=$default_minport size=8></div>";
-	echo "<div class='col-md-4'><input id='max_port' class='form-control' type=text name='max_port' value=$default_maxport size=8></div></div>";
-}
-
 // Display User list
 function get_user_listbox(){
 	echo "<h2>Select user : </h2>";

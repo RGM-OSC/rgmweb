@@ -132,11 +132,6 @@
                     "name":"menu.link.recurring_planned_downtime",
                     "url":"/thruk/cgi-bin/extinfo.cgi?type=6&recurring",
                     "target":"frame"
-                },
-                {
-                    "name":"menu.link.tools",
-                    "url":"/module/tool_all/",
-                    "target":"main"
                 }
             ],
             "menusubtab":[
