@@ -133,23 +133,6 @@
                     "url":"/thruk/cgi-bin/extinfo.cgi?type=6&recurring",
                     "target":"frame"
                 }
-            ],
-            "menusubtab":[
-                {
-                    "name":"menu.subtab.configuration",
-                    "link":[
-                        {
-                            "name":"menu.link.park_management",
-                            "url":"/module/index.php?module=glpi&link=/glpi/index.php",
-                            "target":"_blank"
-                        },
-                        {
-                            "name":"menu.link.inventory",
-                            "url":"/module/index.php?module=ocsinventory-reports&link=/ocsreports",
-                            "target":"_blank"
-                        }
-                    ]
-                }
             ]
         },
         {
