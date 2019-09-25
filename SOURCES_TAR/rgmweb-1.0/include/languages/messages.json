@@ -265,6 +265,7 @@
 	"label.home_about.product13.url": "http://fusioninventory.org",
 	"label.home_about.product.number": "13",
 	"label.home_about.title": "About Rigby Group Monitoring",
+	"label.tools":"Tools",
 	"label.host": "Host",
 	"label.host_alias": "Host alias",
 	"label.hostgroups": "Hostgroups",
