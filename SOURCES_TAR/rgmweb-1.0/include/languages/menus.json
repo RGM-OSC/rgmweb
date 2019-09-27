@@ -200,24 +200,34 @@
                     "target":"main"
                 },
                 {
+                    "name":"menu.link.liner_deployment",
+                    "url":"/module/admin_distrib/",
+                    "target":"main"
+                },
+                {                    
+                    "name":"menu.link.csv_deployment",
+                    "url":"/module/admin_import_device/",
+                    "target":"main"
+                },
+                {
+                    "name":"menu.link.notif",
+                    "url":"/module/admin_notifier/",
+                    "target":"main"
+                },
+                {
+                    "name":"menu.link.nagios_reports",
+                    "url":"/module/admin_conf/",
+                    "target":"main"
+                },
+                {
+                    "name":"menu.link.execution",
+                    "url":"/thruk/cgi-bin/extinfo.cgi?type=4",
+                    "target":"frame"
+                },                
+                {
                     "name":"menu.link.apply_conf",
                     "url":"/lilac/export.php",
                     "target":"frame"
-                },
-                {
-                    "name":"Kibana",
-                    "url":"/kibana",
-                    "target":"_blank"
-                },
-                {
-                        "name":"Grafana",
-                        "url":"/grafana/",
-                        "target":"frame"
-                },
-                {
-                    "name":"Asset deployment",
-                    "url":"/module/admin_distrib/",
-                    "target":"main"
                 }
             ],
             "menusubtab":[
@@ -252,37 +262,22 @@
                     ]
                 },
                 {
-                    "name":"menu.subtab.nagios",
-                    "link":[
-                        {
-                            "name":"menu.link.csv_deployment",
-                            "url":"/module/admin_import_device/",
-                            "target":"main"
-                        },
-                        {
-                            "name":"menu.link.notif",
-                            "url":"/module/admin_notifier/",
-                            "target":"main"
-                        },
-                        {
-                            "name":"menu.link.nagios_reports",
-                            "url":"/module/admin_conf/",
-                            "target":"main"
-                        },
-                        {
-                            "name":"menu.link.execution",
-                            "url":"/thruk/cgi-bin/extinfo.cgi?type=4",
-                            "target":"frame"
-                        }
-                    ]
-                },
-                {
                     "name":"menu.subtab.maps",
                     "link":[
                         {
                             "name":"menu.link.nagvis",
                             "url":"/nagvis",
                             "target":"frame"
+                        },
+                        {
+                            "name":"Kibana",
+                            "url":"/kibana",
+                            "target":"_blank"
+                        },
+                        {
+                                "name":"Grafana",
+                                "url":"/grafana/",
+                                "target":"frame"
                         }
                     ]
                 }
