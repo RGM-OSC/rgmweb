@@ -2,10 +2,10 @@
 /*
 #########################################
 #
-# Copyright (C) 2016 EyesOfNetwork Team
-# DEV NAME : Jean-Philippe LEVY
-# VERSION : 5.1
-# APPLICATION : eonweb for eyesofnetwork project
+# Copyright (C) 2019 RGM Team
+# Based on : Eyesofnetwork 5.1 fork
+# VERSION : 1.0
+# APPLICATION : rgm for RGM project
 #
 # LICENCE :
 # This program is free software; you can redistribute it and/or

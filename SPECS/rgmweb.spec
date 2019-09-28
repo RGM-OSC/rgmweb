@@ -1,7 +1,7 @@
 Summary: RGM Web Interface 
 Name: rgmweb
 Version: 1.0
-Release: 22.rgm
+Release: 23.rgm
 Source: %{name}-%{version}.tar.gz
 Group: Applications/System
 License: GPL
@@ -85,6 +85,9 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Sat Sep 28 2019 Michael Aubertin <maubertin@fr.scc.com> - 1.0-23.rgm
+- Add license file
+
 * Fri Sep 27 2019 Michael Aubertin <maubertin@fr.scc.com> - 1.0-22.rgm
 - New menu organisation
 
