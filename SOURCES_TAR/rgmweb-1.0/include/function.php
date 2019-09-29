@@ -199,7 +199,7 @@ function get_host_listbox_from_nagios(){
 	global $database_lilac;
 	
 	// create input autocomplete with all nagios host values
-	echo "<label>Host</label>";
+	echo "<label></label>";
 	$result=sqlrequest($database_lilac,"SELECT DISTINCT name FROM nagios_host UNION ALL SELECT DISTINCT address FROM nagios_host");
 	$input = "<input id='host_list' class='form-control' type='text' name='host_list' onFocus='$(this).autocomplete({source: [";
 	while ($line = mysqli_fetch_array($result))
@@ -209,13 +209,34 @@ function get_host_listbox_from_nagios(){
 	$input = rtrim($input, ",");
 	$input .= "]})'>";
 	
+
+	$timer = '<div class="btn-group btn-group-toggle" data-toggle="buttons">
+				<label class="btn btn-secondary active"> <input type="radio" name="period" id="period" value="1h" autocomplete="off" checked> 1h </label>
+    		  	<label class="btn btn-secondary"> <input type="radio" name="period" id="period" value="4h" autocomplete="off"> 4h </label>
+    		  	<label class="btn btn-secondary"> <input type="radio" name="period" id="period" value="12h" autocomplete="off"> 12h </label>
+    		  	<label class="btn btn-secondary"> <input type="radio" name="period" id="period" value="1d" autocomplete="off"> 1d </label>
+    		  	<label class="btn btn-secondary"> <input type="radio" name="period" id="period" value="2d" autocomplete="off"> 2d </label>
+    		  	<label class="btn btn-secondary"> <input type="radio" name="period" id="period" value="1w" autocomplete="off"> 1w </label>
+    		  	<label class="btn btn-secondary"> <input type="radio" name="period" id="period" value="1M" autocomplete="off"> 1m </label>
+    		  	<label class="btn btn-secondary"> <input type="radio" name="period" id="period" value="1y" autocomplete="off"> 1y </label>
+    		  	<label class="btn btn-secondary"> <input type="radio" name="period" id="period" value="3y" autocomplete="off"> 3y </label>
+    		  </div>';
+
 	echo '<div class="input-group">';
 	echo 	$input;
 	echo 	'<span class="input-group-btn">
-				<input class="btn btn-primary" type="submit" name="run" value="'.getLabel("action.run").'" >
+				<input class="btn btn-primary" type="submit" name="run" value="'.getLabel("action.display").'" >
 			</span>
 			';
 	echo '</div>';
+
+	echo '<div class="input-group">';
+	echo 	'<span class="input-group-btn">';
+		echo $timer;
+	echo 	'</span>
+			';
+	echo '</div>';
+
 }
 
 // system function : CUT

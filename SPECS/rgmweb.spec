@@ -1,7 +1,7 @@
 Summary: RGM Web Interface 
 Name: rgmweb
 Version: 1.0
-Release: 23.rgm
+Release: 24.rgm
 Source: %{name}-%{version}.tar.gz
 Group: Applications/System
 License: GPL
@@ -85,6 +85,9 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Sun Sep 29 2019 Michael Aubertin <maubertin@fr.scc.com> - 1.0-24.rgm
+- Change Capacity to handle influx
+
 * Sat Sep 28 2019 Michael Aubertin <maubertin@fr.scc.com> - 1.0-23.rgm
 - Add license file
 
