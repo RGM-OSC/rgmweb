@@ -2,10 +2,9 @@
 /*
 #########################################
 #
-# Copyright (C) 2016 EyesOfNetwork Team
-# DEV NAME : Quentin HOARAU
-# VERSION : 5.1
-# APPLICATION : eonweb for eyesofnetwork project
+# Copyright (C) 2019 RGM Team
+# VERSION : 1.0
+# APPLICATION : Fork from eonweb 5.1 project
 #
 # LICENCE :
 # This program is free software; you can redistribute it and/or
@@ -47,8 +46,8 @@ include("../../side.php");
 		if(isset($_GET['period'])){
 			$graphlocal_period = $_GET['period'];
 		}else{
-			//message(0," : ".getLabel("message.no_host_value"),"critical");
-			//$error = true;
+			message(0," : ".getLabel("message.no_host_value"),"critical");
+			$error = true;
 		}		
 	}
 	?>
@@ -67,13 +66,6 @@ include("../../side.php");
 		{
 			if(isset($graphlocal_host)){
 				# --- Print the graph
-				
-				echo "<iframe frameborder=\"0\" scrolling=\"no\" style=\"height: 600px; width: 100%; display: inline-block;\" src=\"/grafana/dashboard/script/histou.js?host=$graphlocal_host&refresh=30s&height=250&kiosk\" ></iframe>";
-
-				//for service in "select distinct("service") FROM (select "service","value" from metrics where "host" = 'localhost.localdomain');"
-				//for grach in "select distinct("performanceLabel") FROM (select "performanceLabel","service","value" from metrics where "host" = 'localhost.localdomain' and "service" = 'load');"
-
-				//curl -G 'http://localhost:8086/query?pretty=true' --data-urlencode "db=nagflux" --data-urlencode "q=select distinct(\"performanceLabel\") FROM (select \"performanceLabel\",\"service\",\"value\" from metrics where \"host\" = 'localhost.localdomain' and \"service\" = 'load')"
 
 				// DETERMINE SERVICES
 				$influx_query_service = urlencode("select distinct(\"service\") FROM (select \"service\",\"value\" from metrics where \"host\" = '".$graphlocal_host."')");
@@ -93,7 +85,7 @@ include("../../side.php");
 				foreach ($list_service as &$service_influx) {
     					//echo "Service:".$service_influx."</br>";
 
-    					$graph_height=285;
+    					$graph_height=287;
 
     					// DETERMINE NUMBER OF GRAPH
 						$influx_query_graph = urlencode("select distinct(\"performanceLabel\") FROM (select \"performanceLabel\",\"service\",\"value\" from metrics where \"host\" = '".$graphlocal_host."' and \"service\" = '".$service_influx."')");
@@ -110,8 +102,7 @@ include("../../side.php");
 						}
 
 						$graph_height = sizeof($list_graph) * $graph_height;
-						echo "<iframe frameborder=\"0\" scrolling=\"no\" style=\"height: ".$graph_height."px; width: 100%; display: inline-block;\" src=\"/grafana/dashboard/script/histou.js?host=$graphlocal_host&service=".$service_influx."&refresh=30s&height=250&kiosk\" ></iframe>";
-
+						echo "<iframe frameborder=\"0\" scrolling=\"no\" style=\"height: ".$graph_height."px; width: 100%; display: inline-block;\" src=\"/grafana/dashboard/script/histou.js?host=$graphlocal_host&service=".$service_influx."&refresh=30s&height=250&from=now-".$graphlocal_period."&to=now&kiosk\" ></iframe>";
 				}
 
 			}
