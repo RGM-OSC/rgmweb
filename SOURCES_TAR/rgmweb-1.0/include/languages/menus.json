@@ -11,11 +11,6 @@
                     "target":"main"
                 },
                 {
-                    "name":"menu.link.panorama",
-                    "url":"/thruk/cgi-bin/panorama.cgi",
-                    "target":"_blank"
-                },
-                {
                     "name":"menu.link.thruk",
                     "url":"/thruk/cgi-bin/statusmap.cgi",
                     "target":"frame"
