@@ -199,7 +199,7 @@ function get_host_listbox_from_nagios(){
 	global $database_lilac;
 	
 	// create input autocomplete with all nagios host values
-	echo "<label>Host</label>";
+	echo "<label></label>";
 	$result=sqlrequest($database_lilac,"SELECT DISTINCT name FROM nagios_host UNION ALL SELECT DISTINCT address FROM nagios_host");
 	$input = "<input id='host_list' class='form-control' type='text' name='host_list' onFocus='$(this).autocomplete({source: [";
 	while ($line = mysqli_fetch_array($result))
@@ -209,48 +209,40 @@ function get_host_listbox_from_nagios(){
 	$input = rtrim($input, ",");
 	$input .= "]})'>";
 	
+
+	$timer = '<div class="btn-group btn-group-toggle" data-toggle="buttons">
+				<label class="btn btn-secondary active"> <input type="radio" name="period" id="period" value="1h" autocomplete="off" checked> 1h </label>
+    		  	<label class="btn btn-secondary"> <input type="radio" name="period" id="period" value="4h" autocomplete="off"> 4h </label>
+    		  	<label class="btn btn-secondary"> <input type="radio" name="period" id="period" value="12h" autocomplete="off"> 12h </label>
+    		  	<label class="btn btn-secondary"> <input type="radio" name="period" id="period" value="1d" autocomplete="off"> 1d </label>
+    		  	<label class="btn btn-secondary"> <input type="radio" name="period" id="period" value="2d" autocomplete="off"> 2d </label>
+    		  	<label class="btn btn-secondary"> <input type="radio" name="period" id="period" value="1w" autocomplete="off"> 1w </label>
+    		  	<label class="btn btn-secondary"> <input type="radio" name="period" id="period" value="1M" autocomplete="off"> 1m </label>
+    		  	<label class="btn btn-secondary"> <input type="radio" name="period" id="period" value="1y" autocomplete="off"> 1y </label>
+    		  	<label class="btn btn-secondary"> <input type="radio" name="period" id="period" value="3y" autocomplete="off"> 3y </label>
+    		  </div>';
+
 	echo '<div class="input-group">';
 	echo 	$input;
 	echo 	'<span class="input-group-btn">
-				<input class="btn btn-primary" type="submit" name="run" value="'.getLabel("action.run").'" >
+				<input class="btn btn-primary" type="submit" name="run" value="'.getLabel("action.display").'" >
 			</span>
 			';
 	echo '</div>';
+
+	echo '<div class="input-group">';
+	echo 	'<span class="input-group-btn">';
+		echo $timer;
+	echo 	'</span>
+			';
+	echo '</div>';
+
 }
 
 // system function : CUT
 function cut($string, $width, $padding = "..."){
     return (strlen($string) > $width ? substr($string, 0, $width-strlen($padding)).$padding : $string);
 } 
-
-// Display TOOL list
-function get_tool_listbox(){
-	// Get the global table
-	global $array_tools;
-	
-	echo "<label>".getLabel("label.tool_all.tool")."</label>";	
-
-	// Get the first array key
-	reset($array_tools);
-
-	// Display the list of tool
-	echo "<SELECT id='tool_list' name='tool_list' class='form-control'>";
- 	while (list($tool_name, $tool_url) = each($array_tools)) 
-	{
-		echo "<OPTION value='$tool_url'>$tool_name</OPTION>";
-	}
-	echo "</SELECT>";
-}
-
-// Display min and max port value for show port tool
-function get_toolport_ports(){
-	global $default_minport;
-	global $default_maxport;
-	
-	echo "<label>Port min - Port max</label>";
-	echo "<div class='row'><div class='col-md-4'><input id='min_port' class='form-control' type=text name='min_port' value=$default_minport size=8></div>";
-	echo "<div class='col-md-4'><input id='max_port' class='form-control' type=text name='max_port' value=$default_maxport size=8></div></div>";
-}
 
 // Display User list
 function get_user_listbox(){

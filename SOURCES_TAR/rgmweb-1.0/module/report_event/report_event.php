@@ -2,10 +2,10 @@
 /*
 #########################################
 #
-# Copyright (C) 2016 EyesOfNetwork Team
-# DEV NAME : Quentin HOARAU
-# VERSION : 5.1
-# APPLICATION : eonweb for eyesofnetwork project
+# Copyright (C) 2019 RGM Team
+# Initial DEV NAME : Quentin HOARAU
+# VERSION : 1.0
+# APPLICATION : Based on eonweb
 #
 # LICENCE :
 # This program is free software; you can redistribute it and/or
@@ -22,4 +22,5 @@
 ?>
 
 <!-- Highcharts -->
-<script src="/bower_components/highcharts/highcharts.js"></script>
+<script src="/js/highcharts.js"></script>
+<script src="/js/highcharts-3d.js"></script>

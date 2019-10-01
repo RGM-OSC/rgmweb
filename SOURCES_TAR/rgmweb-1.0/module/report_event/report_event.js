@@ -198,7 +198,16 @@ function drawSlaPieChart(div_id, datas)
 			backgroundColor: 'rgba(255, 255, 255, 0.01)',
 			plotShadow: false,
 			renderto: 'container',
-			margin: '40'
+			margin: '40',
+			type: 'pie',
+			options3d: {
+            	enabled: true,
+            	alpha: 7
+        	},
+        	style: {
+            	fontFamily: 'Fira Sans',
+            	color: "#337ab7"
+        	}
 		},
 		exporting: {
 			enabled: false

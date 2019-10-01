@@ -11,11 +11,6 @@
                     "target":"main"
                 },
                 {
-                    "name":"menu.link.panorama",
-                    "url":"/thruk/cgi-bin/panorama.cgi",
-                    "target":"_blank"
-                },
-                {
                     "name":"menu.link.thruk",
                     "url":"/thruk/cgi-bin/statusmap.cgi",
                     "target":"frame"
@@ -23,6 +18,11 @@
                 {
                     "name":"menu.link.nagvis",
                     "url":"/nagvis/frontend/nagvis-js/index.php",
+                    "target":"frame"
+                },
+                {
+                    "name":"menu.link.grafana",
+                    "url":"/grafana/dashboards?kiosk",
                     "target":"frame"
                 }
             ]
@@ -108,11 +108,6 @@
                             "name":"menu.link.per_equipment",
                             "url":"/module/capacity_per_device/",
                             "target":"main"
-                        },
-                        {
-                            "name":"menu.link.grafana",
-                            "url":"/grafana/dashboards?kiosk",
-                            "target":"frame"
                         }
                     ]
                 }
@@ -132,28 +127,6 @@
                     "name":"menu.link.recurring_planned_downtime",
                     "url":"/thruk/cgi-bin/extinfo.cgi?type=6&recurring",
                     "target":"frame"
-                },
-                {
-                    "name":"menu.link.tools",
-                    "url":"/module/tool_all/",
-                    "target":"main"
-                }
-            ],
-            "menusubtab":[
-                {
-                    "name":"menu.subtab.configuration",
-                    "link":[
-                        {
-                            "name":"menu.link.park_management",
-                            "url":"/module/index.php?module=glpi&link=/glpi/index.php",
-                            "target":"_blank"
-                        },
-                        {
-                            "name":"menu.link.inventory",
-                            "url":"/module/index.php?module=ocsinventory-reports&link=/ocsreports",
-                            "target":"_blank"
-                        }
-                    ]
                 }
             ]
         },
@@ -222,24 +195,34 @@
                     "target":"main"
                 },
                 {
+                    "name":"menu.link.liner_deployment",
+                    "url":"/module/admin_distrib/",
+                    "target":"main"
+                },
+                {                    
+                    "name":"menu.link.csv_deployment",
+                    "url":"/module/admin_import_device/",
+                    "target":"main"
+                },
+                {
+                    "name":"menu.link.notif",
+                    "url":"/module/admin_notifier/",
+                    "target":"main"
+                },
+                {
+                    "name":"menu.link.nagios_reports",
+                    "url":"/module/admin_conf/",
+                    "target":"main"
+                },
+                {
+                    "name":"menu.link.execution",
+                    "url":"/thruk/cgi-bin/extinfo.cgi?type=4",
+                    "target":"frame"
+                },                
+                {
                     "name":"menu.link.apply_conf",
                     "url":"/lilac/export.php",
                     "target":"frame"
-                },
-                {
-                    "name":"Kibana",
-                    "url":"/kibana",
-                    "target":"_blank"
-                },
-                {
-                        "name":"Grafana",
-                        "url":"/grafana/",
-                        "target":"frame"
-                },
-                {
-                    "name":"Asset deployment",
-                    "url":"/module/admin_distrib/",
-                    "target":"main"
                 }
             ],
             "menusubtab":[
@@ -274,37 +257,22 @@
                     ]
                 },
                 {
-                    "name":"menu.subtab.nagios",
-                    "link":[
-                        {
-                            "name":"menu.link.csv_deployment",
-                            "url":"/module/admin_import_device/",
-                            "target":"main"
-                        },
-                        {
-                            "name":"menu.link.notif",
-                            "url":"/module/admin_notifier/",
-                            "target":"main"
-                        },
-                        {
-                            "name":"menu.link.nagios_reports",
-                            "url":"/module/admin_conf/",
-                            "target":"main"
-                        },
-                        {
-                            "name":"menu.link.execution",
-                            "url":"/thruk/cgi-bin/extinfo.cgi?type=4",
-                            "target":"frame"
-                        }
-                    ]
-                },
-                {
                     "name":"menu.subtab.maps",
                     "link":[
                         {
                             "name":"menu.link.nagvis",
                             "url":"/nagvis",
                             "target":"frame"
+                        },
+                        {
+                            "name":"Kibana",
+                            "url":"/kibana",
+                            "target":"_blank"
+                        },
+                        {
+                                "name":"Grafana",
+                                "url":"/grafana/",
+                                "target":"frame"
                         }
                     ]
                 }
