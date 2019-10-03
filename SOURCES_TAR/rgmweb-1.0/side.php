@@ -34,12 +34,13 @@ $menus = $m->createPHPDictionnary();
 $navbar_menus = false;
 if( strpos($_SERVER["PHP_SELF"], "/module/module_frame") !== false ){
 	if(isset($_GET["url"])){
+		
 		// define module name
 		$ref_url = urldecode($_GET["url"]);
 		$ref_url = trim($ref_url, "/");
 		$ref_url_parts = explode("/", $ref_url);
 		$test_url = $ref_url_parts[0];
-		
+				
 		// we test the module name in lower case (that is easier)
 		if(file_exists($path_menus."-".$test_url.".json")){
 			if($m->initFile($path_menus."-".$test_url,$path_menus_custom."-".$test_url)){
@@ -47,6 +48,15 @@ if( strpos($_SERVER["PHP_SELF"], "/module/module_frame") !== false ){
 			}
 		}
 		
+	}
+} else {
+	// custom navbar
+	$module_path=basename(dirname($_SERVER["PHP_SELF"]));
+	if(file_exists($path_menus."-".$module_path.".json") or file_exists($path_menus_custom."-".$module_path.".json")){
+		$prefix_url = "";
+		if($m->initFile($path_menus."-".$module_path,$path_menus_custom."-".$module_path)){
+			$navbar_menus = $m->createPHPDictionnary();
+		}
 	}
 }
 
