@@ -1,7 +1,7 @@
 Summary: RGM Web Interface 
 Name: rgmweb
 Version: 1.0
-Release: 25.rgm
+Release: 26.rgm
 Source: %{name}-%{version}.tar.gz
 Group: Applications/System
 License: GPL
@@ -85,6 +85,9 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Tue Oct 08 2019 Michael Aubertin <maubertin@fr.scc.com> - 1.0-26.rgm
+- Fix security issue. Thanks to: https://rioru.github.io/pentest/web/2017/03/28/from-unauthenticated-to-root-supervision.html
+
 * Tue Oct 01 2019 Michael Aubertin <maubertin@fr.scc.com> - 1.0-25.rgm
 - Remove Panorama from menu
 

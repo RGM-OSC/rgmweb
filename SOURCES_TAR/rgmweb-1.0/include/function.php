@@ -1212,6 +1212,10 @@ function genSessionId() {
 	global $database_eonweb;
 	$sessid = 0;
 	while (true) {
+		srand(abs(((double) microtime() * 1000000) / pi() * 3));
+    	$seed = rand(1000000,9999999);
+	    srand((double)microtime()*$seed);
+
 		// limit to 31 bit lenght integer
 		$sessid = rand(1000, 2147483647);
 		$stmt = sqlrequest( $database_eonweb, "SELECT COUNT(*) AS count FROM sessions WHERE session_id = '" . $sessid . "';", false);
