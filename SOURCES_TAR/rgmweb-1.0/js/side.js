@@ -97,15 +97,13 @@ function my_ajax_search()
 $("#sideMenuSearch").change("submit", function(event){
 	// cancel form's submition
 	event.preventDefault();
-	
-	// load the <iframe>
+
 	onSelect();
 });
 
 function onSelect() {
 	// cancel form's submition
 	event.preventDefault();
-	console.log("Value:" + document.getElementById("s0_value").value);
 	
 	// create the url to fill the <iframe>
 	var target_url = $("#sideMenuSearch").attr("action");
@@ -130,5 +128,13 @@ function check_reload() {
 }
 
 if($("#sideMenuSearch").length > 0){
+	$('#sideMenuSearch').keypress(function (e) {
+		 var key = e.which;
+		 if(key == 13)  // the enter key code
+		  {
+		    onSelect();
+		  }
+		}); 
+
 	check_reload();
 }
