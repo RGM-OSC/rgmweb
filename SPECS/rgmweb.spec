@@ -1,7 +1,7 @@
 Summary: RGM Web Interface 
 Name: rgmweb
 Version: 1.0
-Release: 26.rgm
+Release: 27.rgm
 Source: %{name}-%{version}.tar.gz
 Group: Applications/System
 License: GPL
@@ -85,6 +85,9 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Tue Oct 31 2019 Michael Aubertin <maubertin@fr.scc.com> - 1.0-27.rgm
+- Fix searchbar issue.
+
 * Tue Oct 08 2019 Michael Aubertin <maubertin@fr.scc.com> - 1.0-26.rgm
 - Fix security issue. Thanks to: https://rioru.github.io/pentest/web/2017/03/28/from-unauthenticated-to-root-supervision.html
 
