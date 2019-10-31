@@ -2,9 +2,9 @@
 /*
 #########################################
 #
-# Copyright (C) 2016 EyesOfNetwork Team
-# DEV NAME : Jean-Philippe LEVY
-# VERSION : 5.1
+# Copyright (C) 2019 RGM Team
+# Forked from EyesOfNetwork
+# VERSION : 1.0
 # APPLICATION : eonweb for eyesofnetwork project
 #
 # LICENCE :

@@ -1,9 +1,9 @@
 /*
 #########################################
 #
-# Copyright (C) 2016 EyesOfNetwork Team
-# DEV NAME : Jean-Philippe LEVY
-# VERSION : 5.1
+# Copyright (C) 2019 RGM Team
+# Forked from EyesOfNetwork
+# VERSION : 1.0
 # APPLICATION : eonweb for eyesofnetwork project
 #
 # LICENCE :
@@ -72,26 +72,40 @@ function my_ajax_search()
 		success : function(response){
 			var str = '$(this).catcomplete({delay: 0, source: [';
 			$.each(response, function(i, item){
-				if(i < response.length - 1){
 					$.each(response[i].data, function(j, item){
-						str += '{label : "'+response[i].data[j]+'", category : "'+response[i].name+'"},';
+						if(response[i].name == "services"){
+							str += '{label : "'+response[i].data[j]+'", category : "'+response[i].name+'"},';
+						} else {
+							str += '{label : "'+response[i].data[j].name+'", category : "'+response[i].name+'"},';
+						}
 					});
-				}
 			});
 			str = str.substring(0, str.length-1);
 			str += '], select: function(event, ui) { $("#sideMenuSearch").submit();} })';
-				
+
 			$("#s0_value").attr('onFocus', str);
+			//console.log("s0_val:" + $("#s0_value").attr('onFocus') );
 		}
 	});
 }
 
+
 /**
  * Redirect search to frame
  */
-$("#sideMenuSearch").on("submit", function(event){
+
+$("#sideMenuSearch").change("submit", function(event){
 	// cancel form's submition
 	event.preventDefault();
+	
+	// load the <iframe>
+	onSelect();
+});
+
+function onSelect() {
+	// cancel form's submition
+	event.preventDefault();
+	console.log("Value:" + document.getElementById("s0_value").value);
 	
 	// create the url to fill the <iframe>
 	var target_url = $("#sideMenuSearch").attr("action");
@@ -100,7 +114,7 @@ $("#sideMenuSearch").on("submit", function(event){
 	
 	// load the <iframe>
 	window.location = target_url;
-});
+}
 
 /**
  * Reload thruk
@@ -118,4 +132,3 @@ function check_reload() {
 if($("#sideMenuSearch").length > 0){
 	check_reload();
 }
-
