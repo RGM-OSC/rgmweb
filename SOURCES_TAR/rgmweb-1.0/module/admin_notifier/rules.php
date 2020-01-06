@@ -89,6 +89,11 @@ function get_field($field1, $base=false, $field2=false) {
 		}
 	}
 	
+	$rule_track=0;
+	if(isset($_POST['rule_track'])){
+		$rule_track=$_POST['rule_track'];
+	}
+
 	// Hosts
 	$rule_host="-";
 	if(!empty($_POST['host'])){
@@ -166,6 +171,8 @@ function get_field($field1, $base=false, $field2=false) {
 		
 	// ADD or UPDATE
 	if(isset($_POST["add"]) || isset($_POST["update"])) {
+		//DEBUG
+		echo "ajout<br>";
 	
 		if($rule_timeperiod && $rule_timeperiod!=""){
 			$sql=sqlrequest($database_notifier,"SELECT count(id) as count,id from timeperiods WHERE name='".$rule_timeperiod."'");
@@ -173,16 +180,22 @@ function get_field($field1, $base=false, $field2=false) {
 				$rule_timeperiod_id=mysqli_result($sql,0,"id");
 			}
 		}
-	
+		//DEBUG
+		echo "Time Period OK<br>";
+
 		if($rule_name){
 			$sql_test = "SELECT count(name) FROM rules WHERE name='".$rule_name."'";
 			$rule_exist = sqlrequest($database_notifier,$sql_test);
 			$ajout=mysqli_result($rule_exist,0); 
 		}
+		//DEBUG
+		echo "Rule name OK<br>";
 		
 		if(!$rule_notification || $rule_notification=="") {
 			$rule_notification="-";
 		}
+		//DEBUG
+		echo "Notification rule:".$rule_notification."<br>";
 		
 		if(!$rule_name || $rule_name==""){
 			message(7," : Your rule need a name",'warning');
@@ -199,20 +212,29 @@ function get_field($field1, $base=false, $field2=false) {
 		elseif((isset($_POST["add"]) && $ajout!=0) || (isset($_POST["update"]) && $ajout!=0 && $rule_name != $rule_name_old)) {
 			message(7," : This rule name already exist",'warning');
 		}elseif(isset($_POST["add"])){
+			//DEBUG
+			echo "Enter ADDING<br>";
 			$sql_sort_key = sqlrequest($database_notifier,"select max(sort_key+1) as sort_key from rules where type='".$rule_type."'");
 			$rule_sort_key = mysqli_result($sql_sort_key,0,"sort_key");
+			//DEBUG
+			echo "rule_sort_key : ".$rule_sort_key."<br>";
 			$sql_add = "INSERT INTO rules VALUES('','".$rule_name."','".$rule_type."','".$rule_debug."','".$rule_contact."',
-			'".$rule_host."','".$rule_service."','".$rule_state."','".$rule_notification."','".$rule_timeperiod_id."','".$rule_sort_key."')";
+			'".$rule_host."','".$rule_service."','".$rule_state."','".$rule_notification."','".$rule_timeperiod_id."','".$rule_track."','".$rule_sort_key."')";
+			echo "SQL_ADD : ".$sql_add."<br>";
 			$rule_id = sqlrequest($database_notifier,$sql_add,true);
+			echo "Rule_id : ".$rule_id."<br>";
 			$methodze=explode(",",$rule_method_ids);
 			foreach($methodze as $selected){
 				sqlrequest($database_notifier,"INSERT INTO rule_method VALUES('".$rule_id."', '".$selected."')",true);
+				echo "INSERT INTO rule_method VALUES('".$rule_id."', '".$selected."')<br>";
 			}
 			message(6," : Rule have been added",'ok');
 			$rule_name_old=$rule_name;
 		}elseif(isset($_POST["update"])){
+			//DEBUG
+			echo "Enter Update<br>";
 			$sql_add = "UPDATE rules SET name='".$rule_name."', type='".$rule_type."', debug='".$rule_debug."', contact='".$rule_contact."',
-			host='".$rule_host."', service='".$rule_service."', state='".$rule_state."', notificationnumber='".$rule_notification."',timeperiod_id='".$rule_timeperiod_id."'
+			host='".$rule_host."', service='".$rule_service."', state='".$rule_state."', notificationnumber='".$rule_notification."',timeperiod_id='".$rule_timeperiod_id."', tracking='".$rule_track."'
 			WHERE id='".$rule_id."'";
 			sqlrequest($database_notifier,$sql_add);
 			sqlrequest($database_notifier,"DELETE FROM rule_method WHERE rule_id='".$rule_id."'",true);
@@ -254,6 +276,7 @@ function get_field($field1, $base=false, $field2=false) {
 				$rule_timeperiod=mysqli_result($rule_sql,0,"timeperiod");
 				$rule_timeperiod_id=mysqli_result($rule_sql,0,"timeperiod_id");
 				$rule_method_names=mysqli_result($rule_sql,0,"methods");
+				$rule_track=mysqli_result($rule_sql,0,"tracking");
 			} else {
 				message(7," : Rule does not exist",'warning');
 			}
@@ -448,6 +471,15 @@ function get_field($field1, $base=false, $field2=false) {
 			</div>
 		</div>
 		
+		<div class="row form-group">
+			<label class="col-md-3"><?php echo getLabel("label.admin_notifier.rules.track") ?></label>
+			<div class="col-md-9">
+				<div class="checkbox">
+					<label><input class="checkbox" type="checkbox" <?php if(isset($rule_track) && $rule_track==1){ echo "checked"; } ?> value=1 name="rule_track"></label>
+				</div>
+			</div>
+		</div>
+
 		<div class="form-group">
 			<?php
 				if (isset($rule_id) && $rule_id != null) {
@@ -457,7 +489,7 @@ function get_field($field1, $base=false, $field2=false) {
 					echo "<input class='btn btn-primary' type='submit' name='add' value=".getLabel('action.add').">";
 				}
 			?>
-			<input class="btn btn-default" type="button" name="back" value="<?php echo getLabel("action.cancel"); ?>" onclick="location.href='index.php'">
+			<input class="btn btn-default" type="button" name="back" value="<?php echo getLabel("action.close"); ?>" onclick="location.href='index.php'">
 		</div>
 	</form>
 </div>
