@@ -1,7 +1,7 @@
 Summary: RGM Web Interface 
 Name: rgmweb
 Version: 1.0
-Release: 27.rgm
+Release: 28.rgm
 Source: %{name}-%{version}.tar.gz
 Group: Applications/System
 License: GPL
@@ -85,6 +85,9 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Tue Jan 07 2020 Michael Aubertin <maubertin@fr.scc.com> - 1.0-28.rgm
+- Fix notifier issue.
+
 * Tue Oct 31 2019 Michael Aubertin <maubertin@fr.scc.com> - 1.0-27.rgm
 - Fix searchbar issue.
 
