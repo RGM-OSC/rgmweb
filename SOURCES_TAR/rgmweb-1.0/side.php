@@ -34,15 +34,15 @@ $menus = $m->createPHPDictionnary();
 $navbar_menus = false;
 if( strpos($_SERVER["PHP_SELF"], "/module/module_frame") !== false ){
 	if(isset($_GET["url"])){
-		
 		// define module name
 		$ref_url = urldecode($_GET["url"]);
 		$ref_url = trim($ref_url, "/");
 		$ref_url_parts = explode("/", $ref_url);
 		$test_url = $ref_url_parts[0];
-				
+		
 		// we test the module name in lower case (that is easier)
-		if(file_exists($path_menus."-".$test_url.".json")){
+		if(file_exists($path_menus."-".$test_url.".json") or file_exists($path_menus_custom."-".$test_url.".json")){
+			$prefix_url = "/module/module_frame/index.php?url=";
 			if($m->initFile($path_menus."-".$test_url,$path_menus_custom."-".$test_url)){
 				$navbar_menus = $m->createPHPDictionnary();
 			}
@@ -59,7 +59,7 @@ if( strpos($_SERVER["PHP_SELF"], "/module/module_frame") !== false ){
 		}
 	}
 }
-
+		
 ?>
 
 <!-- Nav menu -->
@@ -88,8 +88,11 @@ if( strpos($_SERVER["PHP_SELF"], "/module/module_frame") !== false ){
 		// create the top navbar menu
 		if(isset($navbar_menus["navbarlink"])){
 			foreach ($navbar_menus["navbarlink"] as $navbarlink) {
+				if(!empty($prefix_url)) {
+					$navbarlink["url"]=urlencode($navbarlink["url"]);
+				}
 		?>
-				<li><a href="/module/module_frame/index.php?url=<?php echo urlencode($navbarlink["url"]); ?>"><?php echo getLabel($navbarlink["name"]); ?></a></li>
+				<li><a href="<?php echo $prefix_url.$navbarlink["url"]; ?>"><?php echo getLabel($navbarlink["name"]); ?></a></li>
 		<?php
 			}
 		}
@@ -102,9 +105,12 @@ if( strpos($_SERVER["PHP_SELF"], "/module/module_frame") !== false ){
 		<?php
 					if(isset($navbarsubtab["link"])){
 						foreach ($navbarsubtab["link"] as $link) {
+							if(!empty($prefix_url)) {
+								$link["url"]=urlencode($link["url"]);
+							}
 		?>
 							<li>
-								<a href="/module/module_frame/index.php?url=<?php echo $link["url"]; ?>">
+								<a href="<?php echo $prefix_url.$link["url"]; ?>">
 									<?php echo getLabel($link["name"]); ?>
 								</a>
 							</li>
@@ -153,7 +159,7 @@ if( strpos($_SERVER["PHP_SELF"], "/module/module_frame") !== false ){
 								<input name="s0_value" id="s0_value" class="form-control" type="text" placeholder="<?php echo getLabel("label.input.placeholder.search"); ?>" autocomplete="off" onFocus="my_ajax_search();">
 								<span class="input-group-btn">
 									<button class="btn btn-default" type="submit">
-										<i class="fa fa-search" style="padding: 3px 0;"></i>
+										<i class="fa fa-search"></i>
 									</button>
 								</span>
 							</div>

@@ -85,6 +85,9 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Mon Jan 13 2020 Michael Aubertin <maubertin@fr.scc.com> - 1.0-29.rgm
+- Fix side.php frame handler issue (backport fix).
+
 * Tue Jan 07 2020 Michael Aubertin <maubertin@fr.scc.com> - 1.0-28.rgm
 - Fix notifier issue.
 
