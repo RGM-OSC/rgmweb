@@ -1,7 +1,7 @@
 Summary: RGM Web Interface 
 Name: rgmweb
 Version: 1.0
-Release: 28.rgm
+Release: 29.rgm
 Source: %{name}-%{version}.tar.gz
 Group: Applications/System
 License: GPL
