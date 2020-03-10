@@ -1,7 +1,7 @@
 Summary: RGM Web Interface 
 Name: rgmweb
 Version: 1.0
-Release: 29.rgm
+Release: 30.rgm
 Source: %{name}-%{version}.tar.gz
 Group: Applications/System
 License: GPL
@@ -85,6 +85,9 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Tue Mar 10 2020 Michael Aubertin <maubertin@fr.scc.com> - 1.0-30.rgm
+- Fix search issue.
+
 * Mon Jan 13 2020 Michael Aubertin <maubertin@fr.scc.com> - 1.0-29.rgm
 - Fix side.php frame handler issue (backport fix).
 
