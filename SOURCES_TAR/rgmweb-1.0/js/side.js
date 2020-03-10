@@ -84,7 +84,6 @@ function my_ajax_search()
 			str += '], select: function(event, ui) { $("#sideMenuSearch").submit();} })';
 
 			$("#s0_value").attr('onFocus', str);
-			//console.log("s0_val:" + $("#s0_value").attr('onFocus') );
 		}
 	});
 }
@@ -94,25 +93,19 @@ function my_ajax_search()
  * Redirect search to frame
  */
 
-$("#sideMenuSearch").change("submit", function(event){
+$("#sideMenuSearch").on("submit", function(event){
 	// cancel form's submition
 	event.preventDefault();
 
-	onSelect();
-});
-
-function onSelect() {
-	// cancel form's submition
-	event.preventDefault();
-	
 	// create the url to fill the <iframe>
 	var target_url = $("#sideMenuSearch").attr("action");
 	var param = $("#s0_value").val();
 	target_url += encodeURIComponent(path_nagios_status+"?s0_op=~&s0_type=search&s0_value="+param);
-	
+
 	// load the <iframe>
 	window.location = target_url;
-}
+
+});
 
 /**
  * Reload thruk
@@ -128,13 +121,5 @@ function check_reload() {
 }
 
 if($("#sideMenuSearch").length > 0){
-	$('#sideMenuSearch').keypress(function (e) {
-		 var key = e.which;
-		 if(key == 13)  // the enter key code
-		  {
-		    onSelect();
-		  }
-		}); 
-
 	check_reload();
 }
