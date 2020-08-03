@@ -1,7 +1,7 @@
 Summary: RGM Web Interface 
 Name: rgmweb
 Version: 1.0
-Release: 30.rgm
+Release: 32.rgm
 Source: %{name}-%{version}.tar.gz
 Group: Applications/System
 License: GPL
@@ -85,6 +85,9 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Tue Mar 10 2020 Michael Aubertin <maubertin@fr.scc.com> - 1.0-30.rgm
+- Fix notifier export missing file path variables
+
 * Tue Mar 10 2020 Michael Aubertin <maubertin@fr.scc.com> - 1.0-30.rgm
 - Fix search issue.
 
