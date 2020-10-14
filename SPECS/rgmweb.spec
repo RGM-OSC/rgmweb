@@ -85,6 +85,9 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Thu Jul 02 2020 Vincent Fricou <vincent@fricouv.eu> - 1.0-31.rgm
+- Fix notifier tracking field export
+
 * Tue Mar 10 2020 Michael Aubertin <maubertin@fr.scc.com> - 1.0-30.rgm
 - Fix notifier export missing file path variables
 
