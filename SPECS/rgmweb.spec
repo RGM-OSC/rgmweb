@@ -1,7 +1,7 @@
 Summary: RGM Web Interface 
 Name: rgmweb
 Version: 1.0
-Release: 32.rgm
+Release: 33.rgm
 Source: %{name}-%{version}.tar.gz
 Group: Applications/System
 License: GPL
@@ -85,6 +85,12 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Wed Oct 14 2020 Michael Aubertin <maubertin@fr.scc.com> - 1.0-33.rgm
+- Fix asset deployment one-liners
+
+* Thu Jul 02 2020 Vincent Fricou <vincent@fricouv.eu> - 1.0-32.rgm
+- Fix notifier tracking
+
 * Thu Jul 02 2020 Vincent Fricou <vincent@fricouv.eu> - 1.0-31.rgm
 - Fix notifier tracking field export
 

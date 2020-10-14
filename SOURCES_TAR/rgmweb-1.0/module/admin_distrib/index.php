@@ -45,13 +45,15 @@ function admDist_displayItemDescription() {
 	global $id_item;
 	global $database_rgmweb;
 	global $path_distrib;
-	$stmt = sqlrequest($database_rgmweb,"SELECT `filename`, `name` FROM ol_items WHERE id = '" . $id_item . "'");
+	$request="SELECT instruction_file, name FROM ol_items WHERE id = '" . $id_item . "'";
+	$stmt = sqlrequest($database_rgmweb,$request);
 	$sql_raw = mysqli_fetch_array($stmt);
 	if ($sql_raw) {
-		if (file_exists($path_distrib . '/markdown/' . $sql_raw['filename'])) {
-			// /srv/rgm/distrib/install/win_metricbeat.md
+		if (file_exists($path_distrib . '/markdown/' . $sql_raw['instruction_file'])) {
+			
 			$md = new Parsedown();
-			echo $md->text(file_get_contents($path_distrib . '/markdown/'. $sql_raw['filename']));
+
+			echo $md->text(file_get_contents($path_distrib . '/markdown/'. $sql_raw['instruction_file']));
 		} else {
 			echo '<p>no description available for ' . $sql_raw['name'] . "</p>\n"; 
 		}
@@ -61,15 +63,18 @@ function admDist_displayItemDescription() {
 function admDist_displayItemCommand() {
 	global $id_item;
 	global $database_rgmweb;
-	$stmt = sqlrequest($database_rgmweb,"SELECT `command`, `shell` FROM ol_items WHERE id = '" . $id_item . "'");
+	global $path_distrib;
+	$request="SELECT help_file, name FROM ol_items WHERE id = '" . $id_item . "'";
+	$stmt = sqlrequest($database_rgmweb,$request);
 	$sql_raw = mysqli_fetch_array($stmt);
 	if ($sql_raw) {
-		echo '<div class="row"><div class="col-md-1">' . getLabel('label.admin_distrib.command.shell') . '</div><div class="col-md">';
-		if ($sql_raw['shell'] != '') {
-			echo $sql_raw['shell'];
+		if (file_exists($path_distrib . '/markdown/' . $sql_raw['help_file'])) {
+			
+			$md = new Parsedown();
+			echo $md->text(file_get_contents($path_distrib . '/markdown/'. $sql_raw['help_file']));
+		} else {
+			echo '<p>no description available for ' . $sql_raw['name'] . "</p>\n"; 
 		}
-		echo '</div></div>' . "\n" . '<div class="row"><div class="col-md-1">' . getLabel('label.admin_distrib.command.command') . '</div><div class="col-md">';
-		echo "\n<code>" . $sql_raw['command'] . "</code>\n" . '</div></div>' . "\n";
 	}
 }
 
@@ -92,13 +97,12 @@ function admDist_displayItemCommand() {
 				<?php admDist_displayItems(); ?>
 			</div>
 		</div>	
-		<div class="col-md-8" style="height: 600px; overflow-y:scroll">
+		<div class="col-md-8" style="height: 400px; overflow-y:scroll">
 			<h4><?php echo getLabel('label.admin_distrib.title.item_description'); ?></h4>
 			<?php admDist_displayItemDescription(); ?>
 		</div>	
 	</div>	
 	<div class="row">
-		<h4><?php echo getLabel('label.admin_distrib.title.item_command'); ?></h4>
 		<?php admDist_displayItemCommand(); ?>
 	</div>
 </div>
