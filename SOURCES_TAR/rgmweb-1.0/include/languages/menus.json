@@ -270,9 +270,14 @@
                             "target":"_blank"
                         },
                         {
-                                "name":"Grafana",
-                                "url":"/grafana/",
-                                "target":"frame"
+                            "name":"Grafana",
+                            "url":"/grafana/",
+                            "target":"frame"
+                        },
+                        {
+                            "name":"Prometheus",
+                            "url":"/prometheus/",
+                            "target":"frame"
                         }
                     ]
                 }
