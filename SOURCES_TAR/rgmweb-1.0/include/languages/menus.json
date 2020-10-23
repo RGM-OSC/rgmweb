@@ -22,7 +22,7 @@
                 },
                 {
                     "name":"menu.link.grafana",
-                    "url":"/grafana/dashboards?kiosk",
+                    "url":"/grafana/",
                     "target":"frame"
                 }
             ]
